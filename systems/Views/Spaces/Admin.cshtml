@@ -1,0 +1,43 @@
+﻿@using systems.Models
+@{
+    ViewBag.Title = "Admin";
+}
+
+<h2>ESF Spaces Administration</h2>
+@{
+    if (@ViewBag.SystemMessage != "" && @ViewBag.SystemMessage != null)
+    {
+        <div id='box' class="right w100 bggreen callout"><h4 align="center">@ViewBag.SystemMessage</h4></div>
+    }
+    if (@ViewBag.Approver == true)
+    {
+        <div id="box" class="right w40 bggreen border callout">
+            <h3>Pending Reservations</h3>
+            <ul>
+                <li>@Html.ActionLink("View Full List","ApproveList")</li>
+            </ul>
+        @{
+            List<ReservableSpace> roomlist = systems.Helpers.fns.SpaceGroups(@ViewBag.RmGroup);
+            foreach (var @rm in @roomlist) {
+                <p><strong>@rm.RmName</strong></p>
+                HtmlString thelist = new HtmlString(systems.Helpers.fns.SpacePending(@rm.RmCode));
+                @thelist
+            }
+        }
+        </div>
+        
+    }
+    <ul>
+        @if(@ViewBag.Approver == true)
+        {
+            <li>@Html.ActionLink("Pending Approval List","ApproveList")</li>
+            <li>@Html.ActionLink("Administratively Reserve a Space","AdminReserveList")</li>
+        }
+        @if(@ViewBag.Viewer == true)
+        {
+            <li>@Html.ActionLink("View Reservations for a Space","AdminCalendarList")</li>
+            <li>@Html.ActionLink("Overview Calendar","OverviewCalendar")</li>
+        }
+            
+    </ul>
+}

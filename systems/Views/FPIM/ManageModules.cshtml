@@ -1,0 +1,61 @@
+﻿@model systems.Models.FacultyProfile
+@using systems.Helpers;
+@{
+    ViewBag.Title = "ManageModules";
+}
+@Html.Partial("WelcomeBox", Model) 
+<h2>Manage Modules</h2>
+   <p>This table lists your current modules.</p>
+   <p>Use the 'Edit' Option to rename, rearrange or update the data.</p>
+   <p>  Use the 'Delete' option to delete the module from all pages.</p>
+   <p>  Use the 'Add a Module' button to add a new module.</p>
+<p></p>
+<p></p>
+<p>
+
+  @Html.ActionLink("Add a Module","ChooseModuleTypePartial", "FPIM", new { profileId = @Model.ProfileId}, new {@class="create-module-choose ui-widget-header ui-corner-all", data_profileID=@Model.ProfileId})
+  @Html.ActionLink("Done", "Index", "FPIM", new { profileId = @Model.ProfileId}, new {@class="ui-widget-header ui-corner-all"})
+</p>
+<p></p>
+<p></p>
+    <!-- Table containing modules -->
+    <table id="tblModule">
+        <tr>
+            <th>Options</th>
+            <th>Title</th>
+            <th>Module Type</th>
+            <th>Module Data</th>
+        </tr>
+        @foreach (var item in Model.FacultyProfileModules.Where(m => m.FacultyPageId == -1))
+        {
+          //var html = new HtmlString("");
+
+          string modData = item.ModuleData;
+          <tr>
+          <td> 
+             @Html.ActionLink("Edit","EditFacultyModule", "FPIM", new { profileId = @Model.ProfileId, moduleId = @item.FacultyProfileModuleId}, new {@class="edit-module-button btnStyleOne", data_moduleid=@item.FacultyProfileModuleId})
+             @Html.ActionLink("Del","DeleteModulePartial", "FPIM", new { profileId = @Model.ProfileId, moduleId = @item.FacultyProfileModuleId}, new {@class="delete-module-button btnStyleOne", data_moduleid=@item.FacultyProfileModuleId})
+          </td>
+          <td id="modTitle">
+             <strong>@Html.DisplayFor(m => item.ModuleTitle)</strong>
+          </td>
+          <td id="modType">
+              @Html.DisplayFor(m => item.ModuleType)
+          </td>
+          <td id="modData">
+              @Html.Raw(modData)
+          </td>
+          </tr>
+  }
+  </table>
+  <div id="create-module"></div>
+  <div id="delete-module"></div>
+
+@section Style {
+    @Styles.Render("~/Content/themes/base/css")
+    @Styles.Render("~/Content/manageModules")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/manageModules")
+}

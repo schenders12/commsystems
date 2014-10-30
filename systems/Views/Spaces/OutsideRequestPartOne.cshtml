@@ -1,0 +1,206 @@
+﻿@model systems.Models.BasicReservation
+@using systems.Helpers
+
+@{
+    ViewBag.Title = "OutsideRequestPartOne";
+}
+
+<script>
+  var pickers = jQuery.noConflict();
+  pickers(function() {
+    pickers("#EventDate").datepicker();
+	pickers("#StartTime").timePicker({
+	  show24Hours: false,
+	  separator: ':',
+	  step: 5});
+	pickers("#EndTime").timePicker({
+	  show24Hours: false,
+	  separator: ':',
+	  step: 5});
+  });
+</script>
+
+<style>
+    p {
+        padding-bottom:5px;
+    }
+</style>
+<h2>Request Reservation</h2>
+	<link rel="stylesheet" href="http://www.esf.edu/css/validationEngine.jquery.css" type="text/css"/>
+@{
+    System.Data.Objects.ObjectResult<systems.Models.spFetchSpaceByRmCode_Result> space = ViewBag.Details;
+    foreach (var item in space) // only one actual result.
+    {
+        
+        <h3>Reserving: @item.RmName</h3>
+        <p><strong class="red">Reservations are not confirmed until they have been approved by the @item.ContactOffc (315-470-@item.ContactPhone; @item.ContactEmail)</strong></p>
+        if (item.RmNotes != "None")
+        {
+            HtmlString notes = new HtmlString(item.RmNotes);
+            <p>If you have problems with this form, contact Aaron Knight in Information Systems at 315-470-6648. @notes</p>
+        }
+        else
+        {
+            <p>If you have problems with this form, contact Aaron Knight in Information Systems at 315-470-6648. </p>
+        }
+        <p>Room capacity: @item.Capacity</p>
+   		<p><strong>Make sure entries are complete and correct</strong>. Double-check dates, times, and spelling.</p>
+		<p><strong>Do not</strong> abbreviate.</p>
+		<hr class="clearer" />
+
+    }
+}
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+        <input type="hidden" value="@ViewBag.RmCode" id="RmCode" name="RmCode" />
+        <h3>Basic Reservation Information</h3>
+		<p><div id="labels" class="twelve">
+                <label FOR="EventName"><strong>Event Name</strong><br />
+               	 @{
+                     string lab = "If your event is affiliated with a class, please include the full class ID (e.g. APM 104).";
+               		@lab
+                 }
+                </label>
+		   </div>
+           <input name="EventName" id="EventName" type="text" size="60" maxlength="50" class="twelve" />
+            @Html.ValidationMessageFor(model => model.EventName)
+		</p>
+
+    	<p><div id="labels" class="twelve">
+                <label FOR="EventDesc"><strong>Describe Your Event</strong><br />
+               	@if (ViewBag.RmCode != "EvCtrGW")
+               	{    
+               		string desc1 = "Please be as detailed as you can in order to expedite processing.";
+               		@desc1
+                }
+                else
+                {
+                	HtmlString desc2 = new HtmlString("Please include pertinent details about your event – e.g., &ldquo;Small, full-day conference on Emerald Ash Borer beetles for researchers and students on campus. Will include plenary-style presentations throughout the day, and a lunch break with food served.&rdquo;");
+                	@desc2
+                }</label>
+		   </div>
+                <textarea name="EventDesc" id="EventDesc" cols="70" rows="4" ></textarea>
+            @Html.ValidationMessageFor(model => model.EventDesc)
+		</p>
+		<h3>Reservation Date &amp; Time</h3>
+    	<p><div id="labels" class="twelve">
+                <label FOR="EventDate"><strong>Event Date</strong><br />
+                    If your reservation recurs (daily or weekly), enter the <strong>first</strong> date needed.</label>
+		   </div>
+            <input type="text" name="EventDate" id="EventDate" class="twelve" />
+             @Html.ValidationMessageFor(model => model.EventDate)
+        </p>
+    	<p><div id="labels" class="twelve">
+                <label FOR="DoesRecur"><strong>Does your reservation recur?</strong><br />
+                    If your reservation recurs (daily or weekly), select Yes. (You'll provide details later)</label>
+		   </div>
+            <select name="DoesRecur" id="DoesRecur" class="twelve">
+                <option selected="selected" value="No">No</option>
+                <option value="Yes" onselect="this.document.getElementById('submitBtn').Value='Proceed to Step Two';">Yes</option>
+            </select>
+        </p>
+   		<p><div id="labels" class="twelve">
+                <label FOR="StartTime"><strong>Start Time</strong><br />
+                    This is the <strong>start time</strong> of your reservation. <strong>Include any set-up time you need</strong> before the event.</label>
+		   </div>
+            <input type="text" name="StartTime" id="StartTime" class="twelve" />
+             @Html.ValidationMessageFor(model => model.StartTime)
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="EndTime"><strong>End Time</strong><br />
+            This is the <strong>end time</strong> of your reservation. <strong>Include any take down time you need</strong> at the end of the event.</label>
+		   </div>
+            <input type="text" name="EndTime" id="EndTime" class="twelve" />
+             @Html.ValidationMessageFor(model => model.EndTime)
+        </p>
+        <h3>Contact Information</h3>
+                    <p>From the details below, please indicate if your event emanates from an ESF or non-ESF entity.</p>
+			   		<p><div id="labels" class="twelve">
+			            <label FOR="SponsOrg"><strong>ESF Events</strong><br />
+			            An ESF event is one that emanates from one of the following individuals/departments:<br />
+			            &nbsp;&bull;&nbsp;Academic Department Chair<br />
+			            &nbsp;&bull;&nbsp;Dean of Student Affairs<br />
+			            &nbsp;&bull;&nbsp;Associate Provost/Dean of Graduate School<br />
+			            &nbsp;&bull;&nbsp;Associate Provost for Outreach<br />
+			            &nbsp;&bull;&nbsp;Vice Provost of Research<br />
+			            &nbsp;&bull;&nbsp;Provost/Vice President of Academic Affairs<br />
+			            &nbsp;&bull;&nbsp;Vice President of Enrollment Management<br />
+			            &nbsp;&bull;&nbsp;Vice President of Administration<br />
+			            &nbsp;&bull;&nbsp;College President
+					   </div>
+			            <strong>Please indicate which individual from the list on the left, or from which ESF campus department this event emanates from:</strong><br />
+			            <input name="SponsOrg" id="SponsOrg" type="text" size="60" maxlength="50" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.SponsOrg)
+   			            <br /><strong></p>
+			   		<p><div id="labels" class="twelve">
+			            <label FOR="SponsOrgAdv">
+			                <strong>Non-ESF Events</strong><br />
+			                A non-ESF event is an ESF mission-allied event that emanates from a non-ESF organization. Please indicate the <strong>organization that is holding the event</strong>.</label>
+					   </div>
+                        <span style="font-weight:normal;">For all non-ESF organizations, a <strong>Revocable Permit</strong> must be submitted to the Outreach office for approval at least two months prior to the event. Please refer to the <a href="http://www.esf.edu/au/documents/PolicyforServingAlcoholicBeveragesatCampusEvents-2.pdf" target="_blank">ESF policy for Occasional Use of Campus Facilities by Non-Commercial Organizations</a> for more information.</span><br />
+			            <input name="SponsOrgAdv" id="SponsOrgAdv" type="text" size="60" maxlength="50" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.SponsOrgAdv)
+			        </p>
+			   		<p><div id="labels" class="twelve" style="min-height:130px;">
+			            <strong>On-Site Contact Information</strong><br />
+			            
+			            <strong><em>Give us the contact information of the <span class="red">person who will be responsible on the day of the event.</span></em></strong>
+					   </div>
+			            <label for="ReqName"><strong>Name: </strong></label><input type="text" name="ReqName" id="ReqName" size="60" maxlength="50" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.ReqName)<br />
+			            <label for="ReqTitle"><strong>Title: </strong></label><input type="text" name="ReqTitle" id="ReqTitle" size="60" maxlength="50" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.ReqTitle)<br />
+			            <label for="ReqOrg"><strong>Organization: </strong></label><input type="text" name="ReqOrg" id="ReqOrg" size="60" maxlength="50" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.ReqOrg)<br />
+			            <label for="ReqDept"><strong>Department/Office: </strong></label><input type="text" name="ReqDept" id="ReqDept" size="60" maxlength="50" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.ReqDept)<br />
+			            <label for="ReqEmail"><strong>Email: </strong></label><input type="text" name="ReqEmail" id="ReqEmail" size="60" maxlength="50" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.ReqEmail)<br />
+			            <label for="ReqPhone"><strong>Phone: </strong></label><input type="text" name="ReqPhone" id="ReqPhone" size="60" maxlength="50" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.ReqPhone)<br />
+						</p>
+               	        <h3>Attendance</h3>
+   		<p><div id="labels" class="twelve">
+            <label FOR="ReqGuests"><strong>Expected Number of Attendees</strong><br />
+            If you have an estimated number of attendees, please indicate that here.
+		   </div>
+            <input type="text" name="ReqGuests" id="ReqGuests" class="twelve" />
+             @Html.ValidationMessageFor(model => model.ReqGuests)
+        </p>
+        <h3>University Police Services</h3>
+        <p><strong>It is your responsibility to confirm any requests in advance. Contact University Police directly at 315-470-6667.</strong></p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="ReqUPD"><!-- <strong>Requests for University Police</strong><br /> -->
+            <strong>Note any requests for University Police here such as after hours room/building openings or police presence. <span class="red">DO NOT assume that buildings and rooms are open during your room reservation.</span></strong>
+		   </div>
+            <textarea name="ReqUPD" id="ReqUPD" rows="3" cols="70"> </textarea><br />
+               
+               @{
+                string pkplus = "<strong><span class='red'>On-campus parking is always restricted, and permits are always necessary.</span></strong><br /> Parking details will be provided on the next page.";
+               	HtmlString parking = new HtmlString(pkplus);
+               	@parking
+               }
+        </p>
+        <h3>Notes</h3>
+   		<p><div id="labels" class="twelve">
+            <label FOR="ResNotes"><strong>Reservation Notes</strong><br />
+            If there is anything else you need to tell us about the information on this page, do so here.
+		   </div>
+            @Html.TextAreaFor(model => model.ResNotes, new { style = "width:600px; height:80px;" })
+            
+        </p>  
+        <input type="hidden" value="@DateTime.Now" name="Recorded" id="Recorded" />
+        <input type="hidden" value="0" name="RecurInit" id="RecurInit" />
+        <input type="hidden" value="pending" name="Status" id="Status" />
+        <input type="hidden" value="outside-res" name="UserId" id="UserId" /><!-- mark as unauth outside res -->
+
+        <p align="center">
+            <input type="submit" id="submitBtn" value="Continue to Page Two" class="twelve" />
+        </p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

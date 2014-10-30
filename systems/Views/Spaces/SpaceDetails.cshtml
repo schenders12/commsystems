@@ -1,0 +1,40 @@
+﻿@model System.Data.Objects.ObjectResult<systems.Models.spFetchSpaceByRmCode_Result>
+
+@{
+    ViewBag.Title = "SpaceDetails";
+}
+<p>@Html.ActionLink("<< Back to Spaces","Index","Spaces")</p>
+
+@foreach( var item in Model)
+{
+    <h1>@item.RmName</h1>
+    if (@item.Restrictions != null)
+    {
+        <div id="box" class="right w40 bgorange border">
+            <h2>Reservation Restrictions</h2>
+            @Html.Raw(@item.Restrictions)
+        </div>
+    }
+    <p><strong>Location: </strong> @item.RoomNum @item.Building</p>
+    <p><strong>Capacity: </strong> @item.Capacity</p>
+    <p><strong>Audio/Visual Equipment:</strong></p>
+    <p>@item.RmAV</p>
+    <p><strong>Reservation Notes:</strong></p>
+    <p>@Html.Raw(@item.RmNotes)</p>
+    <p><strong>Online Reservations Available? </strong> @(@item.Online == true ? "Yes":"No")</p>
+    <p><strong>Room Calendar</strong></p>
+    <ul>
+        <li>@Html.ActionLink("View reservation calendar for this space.","Calendar",new {id = item.RmCode, monthStart = DateTime.Now.ToShortDateString()})</li>
+        @if(@item.Online){
+            <li>@Html.ActionLink("Request a Reservation","RequestReservation", new { id = item.RmCode })</li>
+        }
+    </ul>
+    <p><strong>Reservation Contact:</strong></p>
+    <ul>
+        <li><strong>@item.ContactOffc</strong><br />
+            @item.ContactName<br />
+            <a href="mailto:@item.ContactEmail" >@item.ContactEmail</a><br />
+            (315) 470-@item.ContactPhone
+        </li>
+    </ul>
+}

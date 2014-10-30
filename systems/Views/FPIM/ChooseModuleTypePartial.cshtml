@@ -1,0 +1,54 @@
+﻿<h2>Choose a Module type</h2>
+@using (Html.BeginForm()) {
+    <input type="hidden" name="profileID" id="profileID" value="@ViewBag.profileID" />
+    @Html.Hidden("modType", "HTML")
+				<table>
+					<tr>
+						<th style="width:10%;text-align:center;vertical-align:middle;" scope="row">
+							<input type="radio" class="twelve" name="ModuleType" id="ModuleType" value="HTML" />
+						</th>
+						<td>
+							<h4>HTML</h4>
+							<p>Add a block of formatted text with a heading to your page.</p>
+						</td>
+					</tr>
+					<!--<tr>
+						<th style="width:10%;text-align:center;vertical-align:middle;" scope="row">
+							<input type="radio" class="twelve" name="ModuleType" value="FileInclude" />
+						</th>
+						<td>
+							<h4>File Include</h4>
+							<p>Directly imports a code snippet from somewhere else on the ESF web server and inserts the contents of the referenced file on your profile page. <strong>Not for linking documents!</strong></p>
+						</td>
+					</tr> -->
+					<tr>
+						<th style="width:10%;text-align:center;vertical-align:middle;" scope="row">
+							<input type="radio" class="twelve" name="ModuleType" value="GradModule" />
+						</th>
+						<td>
+							<h4>Graduate Student Module</h4>
+							<p>Adds a standard graduate student module to your page. Up to one of this module type per page. This module is recommended for all faculty who advise graduate students.</p>
+						</td>
+					</tr>
+					<!--<tr>
+						<th style="width:10%;text-align:center;vertical-align:middle;" scope="row">
+							<input type="radio" class="twelve" name="ModuleType" value="Publications" />
+						</th>
+						<td>
+							<h4>Publications List</h4>
+							<p>This module is available for automatically date-sorted publications, in one bulleted list. If you wish to separate your publications by type or manually sort them, use the HTML option. Only one of this module type is available on a page. <strong>Publications must be entered one-by-one.</strong> To batch copy publications, use an HTML module.</p>
+						</td>
+					</tr> -->
+					<tr>
+						<th style="width:10%;text-align:center;vertical-align:middle;" scope="row">
+							<input type="radio" class="twelve" name="ModuleType" value="Catalog" />
+						</th>
+						<td>
+							<h4>Catalog module</h4>
+							<p><strong>TBD - this module will show current taught courses and allow syllabus upload</strong></p>
+						</td>
+					</tr> 
+				</table>
+				<p align="center" class="fourteen"><input type="submit" id="choose-module-submit" data-profileid = "@ViewBag.ProfileId" value="Continue" /></p>
+}
+<script src="~/Scripts/appjs/create.partialview.js"></script>

@@ -1,0 +1,984 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PeopleModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="PeopleModelStoreContainer">
+          <EntitySet Name="CodesAOS" EntityType="PeopleModel.Store.CodesAOS" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="CommEmpDegrees" EntityType="PeopleModel.Store.CommEmpDegrees" store:Type="Tables" store:Schema="dbo" store:Name="CommEmpDegrees" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+      [CommEmpDegrees].[RecId] AS [RecId], 
+      [CommEmpDegrees].[DgrYr] AS [DgrYr], 
+      [CommEmpDegrees].[DgrCd] AS [DgrCd], 
+      [CommEmpDegrees].[DgrSchNam] AS [DgrSchNam]
+      FROM [dbo].[CommEmpDegrees] AS [CommEmpDegrees]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CommEmployees" EntityType="PeopleModel.Store.CommEmployees" store:Type="Tables" store:Schema="dbo" store:Name="CommEmployees" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+      [CommEmployees].[RecId] AS [RecId], 
+      [CommEmployees].[UserId] AS [UserId], 
+      [CommEmployees].[LastName] AS [LastName], 
+      [CommEmployees].[FirstName] AS [FirstName], 
+      [CommEmployees].[MiddleName] AS [MiddleName], 
+      [CommEmployees].[Suffix] AS [Suffix], 
+      [CommEmployees].[OffcBldg] AS [OffcBldg], 
+      [CommEmployees].[OffcRoom] AS [OffcRoom], 
+      [CommEmployees].[OffcPhone] AS [OffcPhone], 
+      [CommEmployees].[SpeedDialExt] AS [SpeedDialExt], 
+      [CommEmployees].[MailAddrBldg] AS [MailAddrBldg], 
+      [CommEmployees].[MailAddrRoom] AS [MailAddrRoom], 
+      [CommEmployees].[AltOffcPhone] AS [AltOffcPhone], 
+      [CommEmployees].[EmailId] AS [EmailId], 
+      [CommEmployees].[CampusTitle] AS [CampusTitle], 
+      [CommEmployees].[WorkLoc] AS [WorkLoc], 
+      [CommEmployees].[FacStaff] AS [FacStaff], 
+      [CommEmployees].[CivilServiceTitle] AS [CivilServiceTitle], 
+      [CommEmployees].[ProfName] AS [ProfName], 
+      [CommEmployees].[EmpCmpSrvDt] AS [EmpCmpSrvDt], 
+      [CommEmployees].[TitleCatCd] AS [TitleCatCd]
+      FROM [dbo].[CommEmployees] AS [CommEmployees]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="DeptHeading" EntityType="PeopleModel.Store.DeptHeading" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FacultyAOSAssoc" EntityType="PeopleModel.Store.FacultyAOSAssoc" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FacultyDeptAssoc" EntityType="PeopleModel.Store.FacultyDeptAssoc" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FacultyPage" EntityType="PeopleModel.Store.FacultyPage" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FacultyProfile" EntityType="PeopleModel.Store.FacultyProfile" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="FacultyProfileModule" EntityType="PeopleModel.Store.FacultyProfileModule" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <AssociationSet Name="fk_assocaos_pid" Association="PeopleModel.Store.fk_assocaos_pid">
+            <End Role="FacultyProfile" EntitySet="FacultyProfile" />
+            <End Role="FacultyAOSAssoc" EntitySet="FacultyAOSAssoc" />
+          </AssociationSet>
+          <AssociationSet Name="fk_facultydeptAssoc_pid" Association="PeopleModel.Store.fk_facultydeptAssoc_pid">
+            <End Role="FacultyProfile" EntitySet="FacultyProfile" />
+            <End Role="FacultyDeptAssoc" EntitySet="FacultyDeptAssoc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacultyPage_FacultyProfile" Association="PeopleModel.Store.FK_FacultyPage_FacultyProfile">
+            <End Role="FacultyProfile" EntitySet="FacultyProfile" />
+            <End Role="FacultyPage" EntitySet="FacultyPage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacultyProfileModule_FacultyProfile" Association="PeopleModel.Store.FK_FacultyProfileModule_FacultyProfile">
+            <End Role="FacultyProfile" EntitySet="FacultyProfile" />
+            <End Role="FacultyProfileModule" EntitySet="FacultyProfileModule" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CodesAOS">
+          <Key>
+            <PropertyRef Name="Short" />
+          </Key>
+          <Property Name="Short" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="AreaOfStudy" Type="varchar" Nullable="false" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'People.dbo.CommEmpDegrees' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="CommEmpDegrees">
+          <Key>
+            <PropertyRef Name="RecId" />
+            <PropertyRef Name="DgrYr" />
+            <PropertyRef Name="DgrCd" />
+            <PropertyRef Name="DgrSchNam" />
+          </Key>
+          <Property Name="RecId" Type="int" Nullable="false" />
+          <Property Name="DgrYr" Type="smallint" Nullable="false" />
+          <Property Name="DgrCd" Type="varchar" Nullable="false" MaxLength="5" />
+          <Property Name="DgrSchNam" Type="varchar" Nullable="false" MaxLength="37" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'People.dbo.CommEmployees' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="CommEmployees">
+          <Key>
+            <PropertyRef Name="RecId" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="MiddleName" />
+            <PropertyRef Name="Suffix" />
+            <PropertyRef Name="OffcBldg" />
+            <PropertyRef Name="OffcRoom" />
+            <PropertyRef Name="OffcPhone" />
+            <PropertyRef Name="SpeedDialExt" />
+            <PropertyRef Name="MailAddrBldg" />
+            <PropertyRef Name="MailAddrRoom" />
+            <PropertyRef Name="AltOffcPhone" />
+            <PropertyRef Name="EmailId" />
+            <PropertyRef Name="CampusTitle" />
+            <PropertyRef Name="WorkLoc" />
+            <PropertyRef Name="FacStaff" />
+            <PropertyRef Name="CivilServiceTitle" />
+            <PropertyRef Name="ProfName" />
+            <PropertyRef Name="EmpCmpSrvDt" />
+          </Key>
+          <Property Name="RecId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="LastName" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="FirstName" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="MiddleName" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="Suffix" Type="varchar" Nullable="false" MaxLength="4" />
+          <Property Name="OffcBldg" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="OffcRoom" Type="varchar" Nullable="false" MaxLength="5" />
+          <Property Name="OffcPhone" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="SpeedDialExt" Type="varchar" Nullable="false" MaxLength="4" />
+          <Property Name="MailAddrBldg" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="MailAddrRoom" Type="varchar" Nullable="false" MaxLength="5" />
+          <Property Name="AltOffcPhone" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="EmailId" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="CampusTitle" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="WorkLoc" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="FacStaff" Type="varchar" Nullable="false" MaxLength="1" />
+          <Property Name="CivilServiceTitle" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="ProfName" Type="varchar" Nullable="false" MaxLength="12" />
+          <Property Name="EmpCmpSrvDt" Type="smalldatetime" Nullable="false" />
+          <Property Name="TitleCatCd" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="DeptHeading">
+          <Key>
+            <PropertyRef Name="RefId" />
+          </Key>
+          <Property Name="RefId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="varchar" MaxLength="20" />
+          <Property Name="SUAD" Type="varchar" MaxLength="15" />
+          <Property Name="ESFAD" Type="varchar" MaxLength="15" />
+          <Property Name="DeptHeading" Type="varchar" MaxLength="40" />
+          <Property Name="Short" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="FacultyAOSAssoc">
+          <Key>
+            <PropertyRef Name="AssocAOSId" />
+          </Key>
+          <Property Name="AssocAOSId" Type="int" Nullable="false" />
+          <Property Name="ProfileId" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="AOSCode" Type="varchar" MaxLength="10" />
+          <Property Name="InterestAreas" Type="varchar" MaxLength="600" />
+          <Property Name="ParticipatingAreas" Type="varchar" MaxLength="600" />
+          <Property Name="Dept" Type="varchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="FacultyDeptAssoc">
+          <Key>
+            <PropertyRef Name="DeptAssocId" />
+          </Key>
+          <Property Name="DeptAssocId" Type="int" Nullable="false" />
+          <Property Name="ProfileId" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Dept" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FacultyPage">
+          <Key>
+            <PropertyRef Name="FacultyPageId" />
+          </Key>
+          <Property Name="FacultyPageId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProfileId" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="PageTitle" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="LinkURL" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="FacultyProfile">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="RecId" Type="int" />
+          <Property Name="UserId" Type="varchar" MaxLength="20" />
+          <Property Name="SUAD" Type="varchar" MaxLength="20" />
+          <Property Name="ESFAD" Type="varchar" MaxLength="20" />
+          <Property Name="PhoneExtn" Type="int" />
+          <Property Name="PreferredName" Type="varchar" MaxLength="60" />
+          <Property Name="Department" Type="varchar" MaxLength="50" />
+          <Property Name="ReconciledAreas" Type="varchar" MaxLength="600" />
+        </EntityType>
+        <EntityType Name="FacultyProfileModule">
+          <Key>
+            <PropertyRef Name="FacultyProfileModuleId" />
+          </Key>
+          <Property Name="FacultyProfileModuleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProfileId" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="FacultyPageId" Type="int" Nullable="false" />
+          <Property Name="ModuleType" Type="varchar" MaxLength="50" />
+          <Property Name="ModuleTitle" Type="varchar" MaxLength="50" />
+          <Property Name="ModuleData" Type="varchar(max)" />
+          <Property Name="DisplayOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_assocaos_pid">
+          <End Role="FacultyProfile" Type="PeopleModel.Store.FacultyProfile" Multiplicity="1" />
+          <End Role="FacultyAOSAssoc" Type="PeopleModel.Store.FacultyAOSAssoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyProfile">
+              <PropertyRef Name="ProfileId" />
+            </Principal>
+            <Dependent Role="FacultyAOSAssoc">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_facultydeptAssoc_pid">
+          <End Role="FacultyProfile" Type="PeopleModel.Store.FacultyProfile" Multiplicity="1" />
+          <End Role="FacultyDeptAssoc" Type="PeopleModel.Store.FacultyDeptAssoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyProfile">
+              <PropertyRef Name="ProfileId" />
+            </Principal>
+            <Dependent Role="FacultyDeptAssoc">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacultyPage_FacultyProfile">
+          <End Role="FacultyProfile" Type="PeopleModel.Store.FacultyProfile" Multiplicity="1" />
+          <End Role="FacultyPage" Type="PeopleModel.Store.FacultyPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyProfile">
+              <PropertyRef Name="ProfileId" />
+            </Principal>
+            <Dependent Role="FacultyPage">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacultyProfileModule_FacultyProfile">
+          <End Role="FacultyProfile" Type="PeopleModel.Store.FacultyProfile" Multiplicity="1" />
+          <End Role="FacultyProfileModule" Type="PeopleModel.Store.FacultyProfileModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyProfile">
+              <PropertyRef Name="ProfileId" />
+            </Principal>
+            <Dependent Role="FacultyProfileModule">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spAdviseesPublic" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Prof" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spAssocFac" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+          <Parameter Name="ESFAD" Type="varchar" Mode="In" />
+          <Parameter Name="SUAD" Type="varchar" Mode="In" />
+          <Parameter Name="Dept" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spCurrViewFields" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NetID" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFacultyHeading" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="varchar" Mode="In" />
+          <Parameter Name="fname" Type="varchar" Mode="In" />
+          <Parameter Name="lname" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFacultyList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Dept" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchFacultyAOSList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="varchar" Mode="In" />
+          <Parameter Name="ESFAD" Type="varchar" Mode="In" />
+          <Parameter Name="SUAD" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchFacultyAssocList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="varchar" Mode="In" />
+          <Parameter Name="ESFAD" Type="varchar" Mode="In" />
+          <Parameter Name="SUAD" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spRemoveFDs" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+          <Parameter Name="ESFAD" Type="varchar" Mode="In" />
+          <Parameter Name="SUAD" Type="varchar" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="systems" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="PeopleEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="CommEmpDegrees" EntityType="systems.CommEmpDegree" />
+          <EntitySet Name="CommEmployees" EntityType="systems.CommEmployee" />
+          <EntitySet Name="FacultyProfiles" EntityType="systems.FacultyProfile" />
+          <EntitySet Name="FacultyPages" EntityType="systems.FacultyPage" />
+          <EntitySet Name="FacultyProfileModules" EntityType="systems.FacultyProfileModule" />
+          <AssociationSet Name="FK_FacultyPage_FacultyProfile" Association="systems.FK_FacultyPage_FacultyProfile">
+            <End Role="FacultyProfile" EntitySet="FacultyProfiles" />
+            <End Role="FacultyPage" EntitySet="FacultyPages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacultyProfileModule_FacultyPage" Association="systems.FK_FacultyProfileModule_FacultyPage">
+            <End Role="FacultyPage" EntitySet="FacultyPages" />
+            <End Role="FacultyProfileModule" EntitySet="FacultyProfileModules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacultyProfileModule_FacultyProfile" Association="systems.FK_FacultyProfileModule_FacultyProfile">
+            <End Role="FacultyProfile" EntitySet="FacultyProfiles" />
+            <End Role="FacultyProfileModule" EntitySet="FacultyProfileModules" />
+          </AssociationSet>
+          <FunctionImport Name="spAdviseesPublic" ReturnType="Collection(systems.spAdviseesPublic_Result)">
+          <Parameter Name="Prof" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spCurrViewFields" ReturnType="Collection(systems.spCurrViewFields_Result)">
+          <Parameter Name="NetID" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFacultyHeading" ReturnType="Collection(systems.spFacultyHeading_Result)">
+            <Parameter Name="id" Mode="In" Type="String" />
+            <Parameter Name="fname" Mode="In" Type="String" />
+            <Parameter Name="lname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFacultyList" ReturnType="Collection(systems.spFacultyList_Result)">
+          <Parameter Name="Dept" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchFacultyAssocList" ReturnType="Collection(systems.spFetchFacultyAssocList_Result)">
+            <Parameter Name="UserID" Mode="In" Type="String" />
+            <Parameter Name="ESFAD" Mode="In" Type="String" />
+            <Parameter Name="SUAD" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchFacultyAOSAssocList" ReturnType="Collection(systems.spFetchFacultyAOSAssocList_Result)">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="ESFAD" Mode="In" Type="Int32" />
+            <Parameter Name="SUAD" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spRemoveFDs">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="ESFAD" Mode="In" Type="String" />
+            <Parameter Name="SUAD" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spAssocFac">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="ESFAD" Mode="In" Type="String" />
+            <Parameter Name="SUAD" Mode="In" Type="String" />
+            <Parameter Name="Dept" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchFacultyAOSList" ReturnType="Collection(systems.spFetchFacultyAOSList_Result)">
+            <Parameter Name="UserID" Mode="In" Type="String" />
+            <Parameter Name="ESFAD" Mode="In" Type="String" />
+            <Parameter Name="SUAD" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="FacultyAOSAssocs" EntityType="systems.FacultyAOSAssoc" />
+          <EntitySet Name="FacultyDeptAssocs" EntityType="systems.FacultyDeptAssoc" />
+          <AssociationSet Name="fk_assocaos_pid1" Association="systems.fk_assocaos_pid1">
+            <End Role="FacultyProfile" EntitySet="FacultyProfiles" />
+            <End Role="FacultyAOSAssoc" EntitySet="FacultyAOSAssocs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_facultydeptAssoc_pid" Association="systems.fk_facultydeptAssoc_pid">
+            <End Role="FacultyProfile" EntitySet="FacultyProfiles" />
+            <End Role="FacultyDeptAssoc" EntitySet="FacultyDeptAssocs" />
+          </AssociationSet>
+          <EntitySet Name="CodesAOSs" EntityType="systems.CodesAOS" />
+          <EntitySet Name="DeptHeadings" EntityType="systems.DeptHeading" />
+        </EntityContainer>
+        <EntityType Name="CommEmpDegree">
+          <Key>
+            <PropertyRef Name="RecId" />
+            <PropertyRef Name="DgrYr" />
+            <PropertyRef Name="DgrCd" />
+            <PropertyRef Name="DgrSchNam" />
+          </Key>
+          <Property Name="RecId" Type="Int32" Nullable="false" />
+          <Property Name="DgrYr" Type="Int16" Nullable="false" />
+          <Property Name="DgrCd" Type="String" Nullable="false" MaxLength="5" Unicode="false" FixedLength="false" />
+          <Property Name="DgrSchNam" Type="String" Nullable="false" MaxLength="37" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="CommEmployee">
+          <Key>
+            <PropertyRef Name="RecId" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="MiddleName" />
+            <PropertyRef Name="Suffix" />
+            <PropertyRef Name="OffcBldg" />
+            <PropertyRef Name="OffcRoom" />
+            <PropertyRef Name="OffcPhone" />
+            <PropertyRef Name="SpeedDialExt" />
+            <PropertyRef Name="MailAddrBldg" />
+            <PropertyRef Name="MailAddrRoom" />
+            <PropertyRef Name="AltOffcPhone" />
+            <PropertyRef Name="EmailId" />
+            <PropertyRef Name="CampusTitle" />
+            <PropertyRef Name="WorkLoc" />
+            <PropertyRef Name="FacStaff" />
+            <PropertyRef Name="CivilServiceTitle" />
+            <PropertyRef Name="ProfName" />
+            <PropertyRef Name="EmpCmpSrvDt" />
+          </Key>
+          <Property Name="RecId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="MiddleName" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="Suffix" Type="String" Nullable="false" MaxLength="4" Unicode="false" FixedLength="false" />
+          <Property Name="OffcBldg" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="OffcRoom" Type="String" Nullable="false" MaxLength="5" Unicode="false" FixedLength="false" />
+          <Property Name="OffcPhone" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="SpeedDialExt" Type="String" Nullable="false" MaxLength="4" Unicode="false" FixedLength="false" />
+          <Property Name="MailAddrBldg" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="MailAddrRoom" Type="String" Nullable="false" MaxLength="5" Unicode="false" FixedLength="false" />
+          <Property Name="AltOffcPhone" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="EmailId" Type="String" Nullable="false" MaxLength="30" Unicode="false" FixedLength="false" />
+          <Property Name="CampusTitle" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="WorkLoc" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="FacStaff" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="false" />
+          <Property Name="CivilServiceTitle" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="ProfName" Type="String" Nullable="false" MaxLength="12" Unicode="false" FixedLength="false" />
+          <Property Name="EmpCmpSrvDt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Type="String" Name="TitleCatCd" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FacultyProfile">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Type="String" Name="ProfileId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="RecId" />
+          <Property Type="String" Name="UserId" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SUAD" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ESFAD" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FacultyPages" Relationship="systems.FK_FacultyPage_FacultyProfile" FromRole="FacultyProfile" ToRole="FacultyPage" />
+          <NavigationProperty Name="FacultyProfileModules" Relationship="systems.FK_FacultyProfileModule_FacultyProfile" FromRole="FacultyProfile" ToRole="FacultyProfileModule" />
+          <Property Type="Int32" Name="PhoneExtn" />
+          <Property Type="String" Name="PreferredName" MaxLength="60" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Department" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReconciledAreas" MaxLength="600" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FacultyAOSAssocs" Relationship="systems.fk_assocaos_pid1" FromRole="FacultyProfile" ToRole="FacultyAOSAssoc" />
+          <NavigationProperty Name="FacultyDeptAssocs" Relationship="systems.fk_facultydeptAssoc_pid" FromRole="FacultyProfile" ToRole="FacultyDeptAssoc" />
+        </EntityType>
+        <EntityType Name="FacultyPage">
+          <Key>
+            <PropertyRef Name="FacultyPageId" />
+          </Key>
+          <Property Type="Int32" Name="FacultyPageId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="ProfileId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="PageTitle" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FacultyProfile" Relationship="systems.FK_FacultyPage_FacultyProfile" FromRole="FacultyPage" ToRole="FacultyProfile" />
+          <NavigationProperty Name="FacultyProfileModules" Relationship="systems.FK_FacultyProfileModule_FacultyPage" FromRole="FacultyPage" ToRole="FacultyProfileModule" />
+          <Property Type="String" Name="LinkURL" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FacultyProfileModule">
+          <Key>
+            <PropertyRef Name="FacultyProfileModuleId" />
+          </Key>
+          <Property Type="Int32" Name="FacultyProfileModuleId" Nullable="false" />
+          <Property Type="String" Name="ProfileId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="FacultyPageId" Nullable="false" />
+          <Property Type="String" Name="ModuleType" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModuleTitle" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ModuleData" MaxLength="Max" FixedLength="false" Unicode="false" a:GetterAccess="Public" annotation:StoreGeneratedPattern="None" Nullable="true" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="Int32" Name="DisplayOrder" Nullable="false" />
+          <NavigationProperty Name="FacultyPage" Relationship="systems.FK_FacultyProfileModule_FacultyPage" FromRole="FacultyProfileModule" ToRole="FacultyPage" />
+          <NavigationProperty Name="FacultyProfile" Relationship="systems.FK_FacultyProfileModule_FacultyProfile" FromRole="FacultyProfileModule" ToRole="FacultyProfile" />
+        </EntityType>
+        <Association Name="FK_FacultyPage_FacultyProfile">
+          <End Type="systems.FacultyProfile" Role="FacultyProfile" Multiplicity="1" />
+          <End Type="systems.FacultyPage" Role="FacultyPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyProfile">
+              <PropertyRef Name="ProfileId" />
+            </Principal>
+            <Dependent Role="FacultyPage">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacultyProfileModule_FacultyPage">
+          <End Type="systems.FacultyPage" Role="FacultyPage" Multiplicity="1">
+          </End>
+          <End Type="systems.FacultyProfileModule" Role="FacultyProfileModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyPage">
+              <PropertyRef Name="FacultyPageId" />
+            </Principal>
+            <Dependent Role="FacultyProfileModule">
+              <PropertyRef Name="FacultyPageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacultyProfileModule_FacultyProfile">
+          <End Type="systems.FacultyProfile" Role="FacultyProfile" Multiplicity="1" />
+          <End Type="systems.FacultyProfileModule" Role="FacultyProfileModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyProfile">
+              <PropertyRef Name="ProfileId" />
+            </Principal>
+            <Dependent Role="FacultyProfileModule">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spAdviseesPublic_Result">
+          <Property Type="Int32" Name="RecID" Nullable="false" />
+          <Property Type="String" Name="Semester" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="UserId" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="LastNm" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="FirstNm" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="MiddleInt" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="Suffix" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="EmailId" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DegProg" Nullable="false" MaxLength="7" />
+          <Property Type="String" Name="ProgDept" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="ProgStudy" Nullable="false" MaxLength="75" />
+          <Property Type="String" Name="AreaOfStudy" Nullable="false" MaxLength="75" />
+          <Property Type="String" Name="MajorProf" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="CoMajorProf" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="BaccDegCollNm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="BaccDegCurr" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="BaccDegRec" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="GradDegCollNm" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="GradDegCurr" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="GradDegRec" Nullable="false" MaxLength="3" />
+          <Property Type="DateTime" Name="ProcessDt" Nullable="false" Precision="23" />
+          <Property Type="Boolean" Name="SLastNm" Nullable="true" />
+          <Property Type="Boolean" Name="SFirstNm" Nullable="true" />
+          <Property Type="Boolean" Name="SMiddleInt" Nullable="true" />
+          <Property Type="Boolean" Name="SSuffix" Nullable="true" />
+          <Property Type="Boolean" Name="SEmailID" Nullable="false" />
+          <Property Type="Boolean" Name="SDegProg" Nullable="false" />
+          <Property Type="Boolean" Name="SProgDept" Nullable="true" />
+          <Property Type="Boolean" Name="SProgStudy" Nullable="true" />
+          <Property Type="Boolean" Name="SAreaOfStudy" Nullable="false" />
+          <Property Type="Boolean" Name="SMajorProf" Nullable="false" />
+          <Property Type="Boolean" Name="SCoMajorProf" Nullable="true" />
+          <Property Type="Boolean" Name="SBaccDegCollNm" Nullable="false" />
+          <Property Type="Boolean" Name="SGradDegCollNm" Nullable="false" />
+          <Property Type="Boolean" Name="SBaccDegCurr" Nullable="true" />
+          <Property Type="Boolean" Name="SGradDegCurr" Nullable="true" />
+          <Property Type="String" Name="CorrectAOS" Nullable="true" MaxLength="75" />
+          <Property Type="String" Name="CorrectGradInst" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CorrectGradMajor" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MPMajor" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="MPWebURL" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="MPDept" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CPProf" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="CPURL" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="CPDept" Nullable="true" MaxLength="10" />
+        </ComplexType>
+        <ComplexType Name="spCurrViewFields_Result">
+          <Property Type="Int32" Name="fKey" Nullable="false" />
+          <Property Type="String" Name="UserId" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="ModDt" Nullable="false" Precision="23" />
+          <Property Type="String" Name="FieldName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="FieldContents" Nullable="false" MaxLength="Max" />
+          <Property Type="Boolean" Name="FieldDisplay" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="spFacultyHeading_Result">
+          <Property Type="Int32" Name="RecId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="MiddleName" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="EmailId" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="WorkLoc" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="OffcBldg" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="OffcRoom" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="MailAddrBldg" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="MailAddrRoom" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="OffcPhone" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="AltOffcPhone" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CampusTitle" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CivilServiceTitle" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FacStaff" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ProfName" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="PrefName" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ProfileId" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="PhoneExtn" Nullable="true" />
+          <Property Type="String" Name="PreferredName" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="Department" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="spFacultyList_Result">
+          <Property Type="Int32" Name="RecId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="MiddleName" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="EmailId" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="WorkLoc" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="OffcBldg" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="OffcRoom" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="MailAddrBldg" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="MailAddrRoom" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="OffcPhone" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="AltOffcPhone" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CampusTitle" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="CivilServiceTitle" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="FacStaff" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="ProfName" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="PrefName" Nullable="true" MaxLength="60" />
+          <Property Type="String" Name="ProfileId" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="PhoneExtn" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spFetchFacultyAssocList_Result">
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+          <Property Type="Int32" Name="DeptId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Dept" Nullable="true" MaxLength="40" />
+          <Property Type="Boolean" Name="ForceTop" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spFetchFacultyAOSAssocList_Result">
+          <Property Type="Int32" Name="AssocId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="AOSCode" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="InterestAreas" Nullable="true" MaxLength="600" />
+          <Property Type="String" Name="ParticipatingAreas" Nullable="true" MaxLength="600" />
+        </ComplexType>
+        <ComplexType Name="spFetchFacultyAOSList_Result">
+          <Property Type="Int32" Name="AssocId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="AOSCode" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="InterestAreas" Nullable="true" MaxLength="600" />
+          <Property Type="String" Name="ParticipatingAreas" Nullable="true" MaxLength="600" />
+        </ComplexType>
+        <EntityType Name="FacultyAOSAssoc">
+          <Key>
+            <PropertyRef Name="AssocAOSId" />
+          </Key>
+          <Property Type="Int32" Name="AssocAOSId" Nullable="false" />
+          <Property Type="String" Name="ProfileId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AOSCode" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="InterestAreas" MaxLength="600" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ParticipatingAreas" MaxLength="600" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Dept" MaxLength="40" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FacultyProfile" Relationship="systems.fk_assocaos_pid1" FromRole="FacultyAOSAssoc" ToRole="FacultyProfile" />
+        </EntityType>
+        <EntityType Name="FacultyDeptAssoc">
+          <Key>
+            <PropertyRef Name="DeptAssocId" />
+          </Key>
+          <Property Type="Int32" Name="DeptAssocId" Nullable="false" />
+          <Property Type="String" Name="ProfileId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Dept" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FacultyProfile" Relationship="systems.fk_facultydeptAssoc_pid" FromRole="FacultyDeptAssoc" ToRole="FacultyProfile" />
+        </EntityType>
+        <Association Name="fk_assocaos_pid1">
+          <End Type="systems.FacultyProfile" Role="FacultyProfile" Multiplicity="1" />
+          <End Type="systems.FacultyAOSAssoc" Role="FacultyAOSAssoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyProfile">
+              <PropertyRef Name="ProfileId" />
+            </Principal>
+            <Dependent Role="FacultyAOSAssoc">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_facultydeptAssoc_pid">
+          <End Type="systems.FacultyProfile" Role="FacultyProfile" Multiplicity="1" />
+          <End Type="systems.FacultyDeptAssoc" Role="FacultyDeptAssoc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FacultyProfile">
+              <PropertyRef Name="ProfileId" />
+            </Principal>
+            <Dependent Role="FacultyDeptAssoc">
+              <PropertyRef Name="ProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CodesAOS">
+          <Key>
+            <PropertyRef Name="Short" />
+          </Key>
+          <Property Type="String" Name="Short" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AreaOfStudy" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DeptHeading">
+          <Key>
+            <PropertyRef Name="RefId" />
+          </Key>
+          <Property Type="Int32" Name="RefId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="UserId" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SUAD" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ESFAD" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DeptHeading1" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Short" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PeopleModelStoreContainer" CdmEntityContainer="PeopleEntities">
+          <EntitySetMapping Name="CommEmpDegrees">
+            <EntityTypeMapping TypeName="systems.CommEmpDegree">
+              <MappingFragment StoreEntitySet="CommEmpDegrees">
+                <ScalarProperty Name="RecId" ColumnName="RecId" />
+                <ScalarProperty Name="DgrYr" ColumnName="DgrYr" />
+                <ScalarProperty Name="DgrCd" ColumnName="DgrCd" />
+                <ScalarProperty Name="DgrSchNam" ColumnName="DgrSchNam" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommEmployees">
+            <EntityTypeMapping TypeName="systems.CommEmployee">
+              <MappingFragment StoreEntitySet="CommEmployees">
+                <ScalarProperty Name="TitleCatCd" ColumnName="TitleCatCd" />
+                <ScalarProperty Name="RecId" ColumnName="RecId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="OffcBldg" ColumnName="OffcBldg" />
+                <ScalarProperty Name="OffcRoom" ColumnName="OffcRoom" />
+                <ScalarProperty Name="OffcPhone" ColumnName="OffcPhone" />
+                <ScalarProperty Name="SpeedDialExt" ColumnName="SpeedDialExt" />
+                <ScalarProperty Name="MailAddrBldg" ColumnName="MailAddrBldg" />
+                <ScalarProperty Name="MailAddrRoom" ColumnName="MailAddrRoom" />
+                <ScalarProperty Name="AltOffcPhone" ColumnName="AltOffcPhone" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="CampusTitle" ColumnName="CampusTitle" />
+                <ScalarProperty Name="WorkLoc" ColumnName="WorkLoc" />
+                <ScalarProperty Name="FacStaff" ColumnName="FacStaff" />
+                <ScalarProperty Name="CivilServiceTitle" ColumnName="CivilServiceTitle" />
+                <ScalarProperty Name="ProfName" ColumnName="ProfName" />
+                <ScalarProperty Name="EmpCmpSrvDt" ColumnName="EmpCmpSrvDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacultyProfiles">
+            <EntityTypeMapping TypeName="systems.FacultyProfile">
+              <MappingFragment StoreEntitySet="FacultyProfile">
+                <ScalarProperty Name="ReconciledAreas" ColumnName="ReconciledAreas" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="PreferredName" ColumnName="PreferredName" />
+                <ScalarProperty Name="PhoneExtn" ColumnName="PhoneExtn" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RecId" ColumnName="RecId" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacultyPages">
+            <EntityTypeMapping TypeName="systems.FacultyPage">
+              <MappingFragment StoreEntitySet="FacultyPage">
+                <ScalarProperty Name="LinkURL" ColumnName="LinkURL" />
+                <ScalarProperty Name="PageTitle" ColumnName="PageTitle" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="FacultyPageId" ColumnName="FacultyPageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacultyProfileModules">
+            <EntityTypeMapping TypeName="systems.FacultyProfileModule">
+              <MappingFragment StoreEntitySet="FacultyProfileModule">
+                <ScalarProperty Name="DisplayOrder" ColumnName="DisplayOrder" />
+                <ScalarProperty Name="ModuleData" ColumnName="ModuleData" />
+                <ScalarProperty Name="ModuleTitle" ColumnName="ModuleTitle" />
+                <ScalarProperty Name="ModuleType" ColumnName="ModuleType" />
+                <ScalarProperty Name="FacultyPageId" ColumnName="FacultyPageId" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="FacultyProfileModuleId" ColumnName="FacultyProfileModuleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spAdviseesPublic" FunctionName="PeopleModel.Store.spAdviseesPublic">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="systems.spAdviseesPublic_Result">
+                <ScalarProperty Name="RecID" ColumnName="RecID" />
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LastNm" ColumnName="LastNm" />
+                <ScalarProperty Name="FirstNm" ColumnName="FirstNm" />
+                <ScalarProperty Name="MiddleInt" ColumnName="MiddleInt" />
+                <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="DegProg" ColumnName="DegProg" />
+                <ScalarProperty Name="ProgDept" ColumnName="ProgDept" />
+                <ScalarProperty Name="ProgStudy" ColumnName="ProgStudy" />
+                <ScalarProperty Name="AreaOfStudy" ColumnName="AreaOfStudy" />
+                <ScalarProperty Name="MajorProf" ColumnName="MajorProf" />
+                <ScalarProperty Name="CoMajorProf" ColumnName="CoMajorProf" />
+                <ScalarProperty Name="BaccDegCollNm" ColumnName="BaccDegCollNm" />
+                <ScalarProperty Name="BaccDegCurr" ColumnName="BaccDegCurr" />
+                <ScalarProperty Name="BaccDegRec" ColumnName="BaccDegRec" />
+                <ScalarProperty Name="GradDegCollNm" ColumnName="GradDegCollNm" />
+                <ScalarProperty Name="GradDegCurr" ColumnName="GradDegCurr" />
+                <ScalarProperty Name="GradDegRec" ColumnName="GradDegRec" />
+                <ScalarProperty Name="ProcessDt" ColumnName="ProcessDt" />
+                <ScalarProperty Name="SLastNm" ColumnName="SLastNm" />
+                <ScalarProperty Name="SFirstNm" ColumnName="SFirstNm" />
+                <ScalarProperty Name="SMiddleInt" ColumnName="SMiddleInt" />
+                <ScalarProperty Name="SSuffix" ColumnName="SSuffix" />
+                <ScalarProperty Name="SEmailID" ColumnName="SEmailID" />
+                <ScalarProperty Name="SDegProg" ColumnName="SDegProg" />
+                <ScalarProperty Name="SProgDept" ColumnName="SProgDept" />
+                <ScalarProperty Name="SProgStudy" ColumnName="SProgStudy" />
+                <ScalarProperty Name="SAreaOfStudy" ColumnName="SAreaOfStudy" />
+                <ScalarProperty Name="SMajorProf" ColumnName="SMajorProf" />
+                <ScalarProperty Name="SCoMajorProf" ColumnName="SCoMajorProf" />
+                <ScalarProperty Name="SBaccDegCollNm" ColumnName="SBaccDegCollNm" />
+                <ScalarProperty Name="SGradDegCollNm" ColumnName="SGradDegCollNm" />
+                <ScalarProperty Name="SBaccDegCurr" ColumnName="SBaccDegCurr" />
+                <ScalarProperty Name="SGradDegCurr" ColumnName="SGradDegCurr" />
+                <ScalarProperty Name="CorrectAOS" ColumnName="CorrectAOS" />
+                <ScalarProperty Name="CorrectGradInst" ColumnName="CorrectGradInst" />
+                <ScalarProperty Name="CorrectGradMajor" ColumnName="CorrectGradMajor" />
+                <ScalarProperty Name="MPMajor" ColumnName="MPMajor" />
+                <ScalarProperty Name="MPWebURL" ColumnName="MPWebURL" />
+                <ScalarProperty Name="MPDept" ColumnName="MPDept" />
+                <ScalarProperty Name="CPProf" ColumnName="CPProf" />
+                <ScalarProperty Name="CPURL" ColumnName="CPURL" />
+                <ScalarProperty Name="CPDept" ColumnName="CPDept" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spCurrViewFields" FunctionName="PeopleModel.Store.spCurrViewFields">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="systems.spCurrViewFields_Result">
+                <ScalarProperty Name="fKey" ColumnName="fKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ModDt" ColumnName="ModDt" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="FieldContents" ColumnName="FieldContents" />
+                <ScalarProperty Name="FieldDisplay" ColumnName="FieldDisplay" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFacultyHeading" FunctionName="PeopleModel.Store.spFacultyHeading">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="systems.spFacultyHeading_Result">
+                <ScalarProperty Name="RecId" ColumnName="RecId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="WorkLoc" ColumnName="WorkLoc" />
+                <ScalarProperty Name="OffcBldg" ColumnName="OffcBldg" />
+                <ScalarProperty Name="OffcRoom" ColumnName="OffcRoom" />
+                <ScalarProperty Name="MailAddrBldg" ColumnName="MailAddrBldg" />
+                <ScalarProperty Name="MailAddrRoom" ColumnName="MailAddrRoom" />
+                <ScalarProperty Name="OffcPhone" ColumnName="OffcPhone" />
+                <ScalarProperty Name="AltOffcPhone" ColumnName="AltOffcPhone" />
+                <ScalarProperty Name="CampusTitle" ColumnName="CampusTitle" />
+                <ScalarProperty Name="CivilServiceTitle" ColumnName="CivilServiceTitle" />
+                <ScalarProperty Name="FacStaff" ColumnName="FacStaff" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="ProfName" ColumnName="ProfName" />
+                <ScalarProperty Name="PrefName" ColumnName="PrefName" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="PhoneExtn" ColumnName="PhoneExtn" />
+                <ScalarProperty Name="PreferredName" ColumnName="PreferredName" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFacultyList" FunctionName="PeopleModel.Store.spFacultyList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="systems.spFacultyList_Result">
+                <ScalarProperty Name="RecId" ColumnName="RecId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="WorkLoc" ColumnName="WorkLoc" />
+                <ScalarProperty Name="OffcBldg" ColumnName="OffcBldg" />
+                <ScalarProperty Name="OffcRoom" ColumnName="OffcRoom" />
+                <ScalarProperty Name="MailAddrBldg" ColumnName="MailAddrBldg" />
+                <ScalarProperty Name="MailAddrRoom" ColumnName="MailAddrRoom" />
+                <ScalarProperty Name="OffcPhone" ColumnName="OffcPhone" />
+                <ScalarProperty Name="AltOffcPhone" ColumnName="AltOffcPhone" />
+                <ScalarProperty Name="CampusTitle" ColumnName="CampusTitle" />
+                <ScalarProperty Name="CivilServiceTitle" ColumnName="CivilServiceTitle" />
+                <ScalarProperty Name="FacStaff" ColumnName="FacStaff" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="ProfName" ColumnName="ProfName" />
+                <ScalarProperty Name="PrefName" ColumnName="PrefName" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="PhoneExtn" ColumnName="PhoneExtn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchFacultyAssocList" FunctionName="PeopleModel.Store.spFetchFacultyAssocList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="systems.spFetchFacultyAssocList_Result">
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="ForceTop" ColumnName="ForceTop" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spRemoveFDs" FunctionName="PeopleModel.Store.spRemoveFDs" />
+          <FunctionImportMapping FunctionImportName="spAssocFac" FunctionName="PeopleModel.Store.spAssocFac" />
+          <FunctionImportMapping FunctionImportName="spFetchFacultyAOSList" FunctionName="PeopleModel.Store.spFetchFacultyAOSList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="systems.spFetchFacultyAOSList_Result">
+                <ScalarProperty Name="AssocId" ColumnName="AssocId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="AOSCode" ColumnName="AOSCode" />
+                <ScalarProperty Name="InterestAreas" ColumnName="InterestAreas" />
+                <ScalarProperty Name="ParticipatingAreas" ColumnName="ParticipatingAreas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="FacultyAOSAssocs">
+            <EntityTypeMapping TypeName="systems.FacultyAOSAssoc">
+              <MappingFragment StoreEntitySet="FacultyAOSAssoc">
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="ParticipatingAreas" ColumnName="ParticipatingAreas" />
+                <ScalarProperty Name="InterestAreas" ColumnName="InterestAreas" />
+                <ScalarProperty Name="AOSCode" ColumnName="AOSCode" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="AssocAOSId" ColumnName="AssocAOSId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacultyDeptAssocs">
+            <EntityTypeMapping TypeName="systems.FacultyDeptAssoc">
+              <MappingFragment StoreEntitySet="FacultyDeptAssoc">
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="DeptAssocId" ColumnName="DeptAssocId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CodesAOSs">
+            <EntityTypeMapping TypeName="systems.CodesAOS">
+              <MappingFragment StoreEntitySet="CodesAOS">
+                <ScalarProperty Name="AreaOfStudy" ColumnName="AreaOfStudy" />
+                <ScalarProperty Name="Short" ColumnName="Short" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeptHeadings">
+            <EntityTypeMapping TypeName="systems.DeptHeading">
+              <MappingFragment StoreEntitySet="DeptHeading">
+                <ScalarProperty Name="Short" ColumnName="Short" />
+                <ScalarProperty Name="DeptHeading1" ColumnName="DeptHeading" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RefId" ColumnName="RefId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams />
+  </Designer>
+</edmx:Edmx>

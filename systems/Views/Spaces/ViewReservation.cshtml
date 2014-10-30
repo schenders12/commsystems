@@ -1,0 +1,197 @@
+﻿@model systems.Models.BasicReservation
+
+@{
+    ViewBag.Title = "ViewReservation";
+}
+<style>
+table,th,td
+{
+border:1px solid black;
+}
+</style>
+@if (Model.ResId == 0)
+{
+    <h3>An Error has Occurred</h3>
+    <p>The Reservation which you have selected is not available.</p>
+}
+else
+{
+    HtmlString append;
+
+    <h2>View Reservation</h2>
+    if (@ViewBag.Approver)
+    {
+        <div id="box" class="right bgyellow border callout w45">
+            <h3>Potential Conflicts</h3>
+            <p>Potential conflicts with this event:</p>
+            @systems.Helpers.fns.ConflictCatcher(Model.EventDate.ToString(),Model.RmCode,Model.ResId)
+        </div>
+    }
+
+    <h2>Basic Information</h2>
+    <p><strong>Event Name: </strong>@Model.EventName</p>
+    <p><strong>Event Purpose: </strong>@Model.EventDesc</p>
+    <p><strong>Space Reserved: </strong>@systems.Helpers.fns.SpaceName(@Model.RmCode)</p>
+    <p><strong>Requested by:</strong></p>
+    <p>Name: @Model.ReqName <br />
+        Email: @Model.ReqEmail <br />
+        Phone: @Model.ReqPhone</p>
+    <p><strong>Sponsoring Organization Information</strong></p>
+    <p>Organization: @Model.SponsOrg 
+    if (Model.SponsOrgAdv != "" && Model.SponsOrgAdv != null)
+    {
+        
+        <br />@Model.SponsOrgAdv
+    }
+    </p>
+    <p><strong>Date of Reservation: </strong>@Model.EventDate.ToShortDateString()</p>
+    <p><strong>Reservation Time: </strong>@Model.StartTime.ToShortTimeString() - @Model.EndTime.ToShortTimeString()</p>
+    <p><strong>Reservation placed on: </strong>@Model.Recorded</p>
+    <p><strong>Expected Attendance: </strong>@Model.ReqGuests</p>
+    <h3>Requests for University Police</h3>
+    <p>@Model.ReqUPD</p>
+    if (@Model.ExtendedReservation != null)
+    {
+        <h3>Facilities Requirements</h3>
+        <p>@Model.ExtendedReservation.FacilityReqs</p>
+        <h3>Admission, Food and Alcohol</h3>
+        <p><strong>Event Admission</strong></p>
+        switch (@Model.ExtendedReservation.EventAdm)
+        {
+            case "genpublic":
+                <p>Event is open to the general public.</p>
+                break;
+            case "college":
+               <p>Event is open to the campus community</p>
+                break;
+            case "restricted":
+                <p>Event admission is restricted</p>
+                break;
+            default:
+                <p>Unknown</p>
+                break;
+        }
+        <p><strong>Food and Alcohol</strong></p>
+        if (@Model.ExtendedReservation.FoodServed)
+        {
+            <p>Food will be served.</p>
+        }    
+        else 
+        {
+            <p>Food will not be served.</p>
+        }
+        if (@Model.ExtendedReservation.AlcoholServed)
+        {
+            <p>Alcohol will be served.</p>
+        }    
+        else 
+        {
+            <p>Alcohol will not be served.</p>
+        }
+        if (@Model.RmCode == "EvCtrGW")
+        {
+            <h3>Events Center Sections</h3>
+            if ((bool)@Model.ExtendedReservation.GatewayA)
+            {
+                <p><strong>A:</strong> Yes</p>
+            }
+            else
+            {
+                <p><strong>A:</strong> No</p>
+            }
+            if ((bool)@Model.ExtendedReservation.GatewayB)
+            {
+                <p><strong>B:</strong> Yes</p>
+            }
+            else
+            {
+                <p><strong>B:</strong> No</p>
+            }
+            if ((bool)@Model.ExtendedReservation.GatewayC)
+            {
+                <p><strong>C:</strong> Yes</p>
+            }
+            else
+            {
+                <p><strong>C:</strong> No</p>
+            }
+        }
+        <h3>Current Status</h3>
+            HtmlString stat;
+            switch(@Model.Status)
+            {
+                case "pending":
+                    stat = new HtmlString("<strong>Pending approval</strong>");
+                    break;
+                case "approved":
+                    stat = new HtmlString("<strong>Approved.</strong><br />Approved on " + @Model.ApprovedOn + " by " + @Model.ApprovedBy);
+                    break;
+                case "cancelled":
+                    stat = new HtmlString("<strong>Cancelled.</strong><br />Cancelled on " + @Model.ApprovedOn + " by " + @Model.ApprovedBy);
+                    break;
+                case "denied":
+                    stat = new HtmlString("<strong>Denied.</strong><br />Denied on " + @Model.ApprovedOn + " by " + @Model.ApprovedBy);
+                    break;
+                default:
+                    stat = new HtmlString("<strong>Pending approval</strong>");
+                    break;
+            }
+            @stat
+            if (ViewBag.Viewer) // must at least have view permissions
+            {
+                <table>
+                    <tr>
+                        <td colspan="2" style="text-align:center;" class="bgorange" >
+                            <span class="fourteen" style="font-weight:bold;">Actions</span>
+                        </td>
+                    </tr>
+                if (Model.Status == "pending")
+                {
+                    <tr>
+                        <td align="center" style="width:50%;">
+                            <span class="twelve"><strong>@Html.ActionLink("Approve","ApproveReservation", new {id = Model.ResId })</strong></span>
+                        </td>
+                        <td align="center" style="width:50%;">
+                            <span class="twelve"><strong>@Html.ActionLink("Deny","DenyReservation", new {id = Model.ResId })</strong></span>
+                        </td>
+                    </tr>
+                }
+        <tr>
+            <td align="center" style="width:50%;">
+                <span class="twelve"><strong>@Html.ActionLink("Cancel","CancelReservation", new {id = Model.ResId })</strong></span>
+            </td>
+            <td align="center" style="width:50%;">
+                <span class="twelve"><strong>@Html.ActionLink("Edit","EditReservation", new {id = Model.ResId })</strong></span>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" style="width:50%;">
+                <span class="twelve"><strong>@Html.ActionLink("Back to List","ApproveList")</strong>
+            </td>
+            <td align="center" style="width:50%;">
+                <span class="twelve"><strong><a href="mailto:@Model.ReqEmail">Contact</a></strong></span>
+            </td>
+        </tr>
+    </table>
+    }
+    else
+    {
+        // if no permissions, show user controls.
+        <table>
+            <tr>
+                <td colspan="2" style="text-align:center;" class="bgorange" >
+                    <span class="fourteen" style="font-weight:bold;">Actions</span>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="width:50%;">
+                    <span class="twelve"><strong>@Html.ActionLink("Cancel","UserCancelReservation", new {id = Model.ResId })</strong></span>
+                </td>
+                <td align="center" style="width:50%;">
+                    <span class="twelve"><strong>@Html.ActionLink("Edit","EditReservation", new {id = Model.ResId })</strong></span>
+                </td>
+            </tr>
+        </table>
+    }
+}
+}

@@ -1,0 +1,44 @@
+﻿@model systems.Models.FacultyProfileModule
+
+<h2>@Model.ModuleTitle</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.FacultyProfileModuleId)
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.FacultyPageId)
+    @Html.HiddenFor(model => model.ModuleType)
+    @Html.HiddenFor(model => model.DisplayOrder)
+    
+    <fieldset>
+        <legend>@Model.ModuleTitle</legend>
+
+<p><strong>HTML Contents</strong></p>
+<p>HTML modules allow you full design control. They are comprised of a Title (a heading which will appear ahead of the module) and a HTML block for design and formatting. Use the WYSIWYG editor or use the source view for tight control.</p>
+        <h3>Title:</h3>
+        <p class="ten">This heading will appear above your HTML block of content.</p>
+        <input name="ModuleTitle" id="edit-module-title" type="text" maxlength="150" size="50" class="twelve"value="@Model.ModuleTitle" />
+        <textarea id="@Model.FacultyProfileModuleId" class="ckeditor" name="ModuleData">@Model.ModuleData</textarea>
+        <script>
+            if (CKEDITOR.instances['ModuleData']) {
+                delete CKEDITOR.instances['ModuleData']
+            };
+            if (CKEDITOR.instances[@Model.FacultyProfileModuleId]) {
+                delete CKEDITOR.instances[@Model.FacultyProfileModuleId]
+            };
+            CKEDITOR.replace('ModuleData',
+            {
+                customConfig: 'http://www.esf.edu/js/ckeditor/fpim_config.js',
+                width: 900,
+                height: 250,
+                toolbar: 'Full'
+            });
+        </script>
+        <p>
+            <input type="submit" id="edit-module-save" value="Save" />
+        </p>
+    </fieldset>
+}
+<script src="~/Scripts/appjs/edit.partialview.js"></script>

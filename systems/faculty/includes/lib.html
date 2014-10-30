@@ -1,0 +1,31 @@
+	<title><% response.write(fname & " " & mname & " " & lname) %> - Moon Library</title>
+	<!-- #include virtual="/includes/common/ch.html" -->
+	<script src="/js/tabdrop.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="total" class="tot960">
+	<div id="topbar960">
+		<div> 
+			<!--#include virtual="/includes/topbar.html" --> 
+		</div>
+	</div>
+	<div id="secondbar960">
+		<div> 
+			<!--#include virtual="/includes/secondbar.html" --> 
+		</div>
+	</div>
+	<div id="header">
+		<div>
+      <div> <img src="/moonlib/images/banner.jpg" alt="Moon Library" width="960" height="125" /> </div>
+		</div>
+	</div>
+	<div id="newtab">
+		<div>
+			<!-- #INCLUDE virtual="/moonlib/includes/tabbar.html" --> 
+		</div>
+	</div>
+	<div id="container960">
+		<div id="content960">
+			<div id="crumb">
+				<% response.write(bc) %>
+			</div>

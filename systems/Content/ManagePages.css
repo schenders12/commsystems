@@ -1,0 +1,19 @@
+﻿a.edit-page-button
+{
+     background: url("./images/edit-icon.jpg") no-repeat top left;
+     display: block;
+     width: 40px;
+     height: 40px;
+     text-indent: -9999px; /* hides the link text */
+}
+a.delete-page-button
+{
+     background: url("./images/delete-icon.jpg") no-repeat top left;
+     display: block;
+     width: 40px;
+     height: 40px;
+     text-indent: -9999px; /* hides the link text */
+}
+  #tblPages td {
+    vertical-align: middle;
+}

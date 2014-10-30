@@ -1,0 +1,22 @@
+﻿@using systems.Models
+@{
+    ViewBag.Title = "ApproveList";
+}
+
+<h2>ApproveList</h2>
+
+@{
+    if (@ViewBag.Approver == true)
+    {
+        List<ReservableSpace> roomlist = systems.Helpers.fns.SpaceGroups(@ViewBag.RmGroup);
+
+        foreach (var @rm in @roomlist) {
+            <p><strong>@rm.RmName</strong></p>
+            HtmlString thelist = new HtmlString(systems.Helpers.fns.SpacePendingAll(@rm.RmCode));
+            @thelist
+        }
+    }
+}
+
+
+

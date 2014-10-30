@@ -1,0 +1,71 @@
+﻿@model systems.Models.FacultyProfileModule
+
+@{
+    ViewBag.Title = "AddHTMLModule";
+}
+
+<h3>Add HTML Module</h3>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.FacultyPageId)
+    @Html.HiddenFor(model => model.ModuleType)
+    @Html.HiddenFor(model => model.DisplayOrder)
+    
+    <fieldset>
+
+    <h4>HTML Modules</h4>
+    <p>HTML modules allow you full design control. They are comprised of a Title (a heading which will appear ahead of the module) and a HTML block for design and formatting. Use the WYSIWYG editor or use the source view for tight control. <strong style="color:red;">All fields are required.</strong></p>
+    <table>
+        <tr>
+            <th scope="row">
+                <h3>Title:</h3>
+                <p class="ten">This heading will appear above your HTML block of content.</p>
+                 @Html.TextBoxFor(m=>m.ModuleTitle)
+                 @Html.ValidationMessageFor(model => model.ModuleTitle)
+             <!--   <input name="ModuleTitle" id="create-module-title" type="text" maxlength="150" size="50" class="twelve validate[required]"value="@Model.ModuleTitle" /> -->
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                <h3>HTML Contents</h3>
+                 @Html.ValidationMessageFor(model => model.ModuleData)
+                <p class="ten">Raw HTML can be seen by clicking the <strong>Source</strong> button.</p>
+                <p class="ten"><strong>If the content you are using is coming from a Microsoft Office product</strong> (Word, Excel, PowerPoint), you'll have best results by using the Paste from Word toolbar button (clipboard with a W Word icon)</p>
+            </th>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <textarea id="@Model.FacultyProfileModuleId" class="ckeditor" name="ModuleData">@Model.ModuleData</textarea>
+                <script>
+                    var profileId = '@(Model.ProfileId)';
+                    var filebrowserBrowseUrl = ROOT + 'faculty/admin/LinkToFile/' + profileId;
+                    CKEDITOR.replace('ModuleData',
+                    {
+                        customConfig: 'http://www.esf.edu/js/ckeditor/fpim_config.js',
+                        width: 900,
+                        height: 250,
+                        toolbar: 'Full',
+                        filebrowserBrowseUrl: filebrowserBrowseUrl,
+                        filebrowserWindowWidth: 800,
+                        filebrowserWindowHeight: 500
+                    });
+                </script>
+            </td>
+        </tr>
+    </table>
+    <p align="center" class="fourteen"><input type="submit" id="create-module-submit" value="Submit Changes" class="fourteen" /></p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Cancel", "ManageModules", "FPIM", new { profileId = Model.ProfileId}, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/createModule")
+}

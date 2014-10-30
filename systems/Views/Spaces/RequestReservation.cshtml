@@ -1,0 +1,165 @@
+﻿@model systems.Models.BasicReservation
+@using systems.Helpers
+
+@{
+    ViewBag.Title = "RequestReservation";
+}
+<style>
+    p {
+        padding-bottom:5px;
+    }
+</style>
+<h2>Request Reservation</h2>
+	<link rel="stylesheet" href="http://www.esf.edu/css/validationEngine.jquery.css" type="text/css"/>
+@{
+    System.Data.Objects.ObjectResult<systems.Models.spFetchSpaceByRmCode_Result> space = ViewBag.Details;
+    foreach (var item in space) // only one actual result.
+    {
+        
+        <h3>Reserving: @item.RmName</h3>
+        <p><strong class="red">Reservations are not confirmed until they have been approved by the @item.ContactOffc (315-470-@item.ContactPhone; @item.ContactEmail)</strong></p>
+        if (item.RmNotes != "None")
+        {
+            HtmlString notes = new HtmlString(item.RmNotes);
+            <p>If you have problems with this form, contact Aaron Knight in the Office of Communications at 315-470-6648. @notes</p>
+        }
+        else
+        {
+            <p>If you have problems with this form, contact Aaron Knight in the Office of Communications at 315-470-6648. </p>
+        }
+        <p>Room capacity: @item.Capacity</p>
+   		<p><strong>Make sure entries are complete and correct</strong>. Double-check dates, times, and spelling.</p>
+		<p><strong>Do not</strong> abbreviate.</p>
+		<hr class="clearer" />
+
+    }
+}
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+        <input type="hidden" value="@ViewBag.RmCode" id="RmCode" name="RmCode" />
+		<p><div id="labels" class="twelve">
+                <label FOR="EventName"><strong>Event Name</strong><br />
+                    If your event is affiliated with a class, please include the full class ID (e.g. APM 104).</label>
+		   </div>
+           <input name="EventName" id="EventName" type="text" size="60" maxlength="50" class="twelve" />
+            @Html.ValidationMessageFor(model => model.EventName)
+		</p>
+
+    	<p><div id="labels" class="twelve">
+                <label FOR="EventDesc"><strong>Describe Your Event</strong><br />
+                    Please be as detailed as you can in order to expedite processing.</label>
+		   </div>
+                <textarea name="EventDesc" id="EventDesc" cols="70" rows="4" ></textarea>
+            @Html.ValidationMessageFor(model => model.EventDesc)
+		</p>
+    	<p><div id="labels" class="twelve">
+                <label FOR="EventDate"><strong>Event Date</strong><br />
+                    If your reservation recurs (daily or weekly), enter the <strong>first</strong> date needed.</label>
+		   </div>
+            <input type="date" name="EventDate" id="EventDate" class="twelve" />
+             @Html.ValidationMessageFor(model => model.EventDate)
+        </p>
+    	<p><div id="labels" class="twelve">
+                <label FOR="DoesRecur"><strong>Does your reservation recur?</strong><br />
+                    If your reservation recurs (daily or weekly), select Yes. (You'll provide details later)</label>
+		   </div>
+            <select name="DoesRecur" id="DoesRecur" class="twelve">
+                <option selected="selected" value="No">No</option>
+                <option value="Yes" onselect="this.document.getElementById('submitBtn').Value='Proceed to Step Two';">Yes</option>
+            </select>
+        </p>
+   		<p><div id="labels" class="twelve">
+                <label FOR="StartTime"><strong>Start Time</strong><br />
+                    This is the <strong>start time</strong> of your reservation. <strong>Include any set-up time you need</strong> before the event.</label>
+		   </div>
+            <input type="time" name="StartTime" id="StartTime" class="twelve" />
+             @Html.ValidationMessageFor(model => model.StartTime)
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="EndTime"><strong>End Time</strong><br />
+            This is the <strong>end time</strong> of your reservation. <strong>Include any take down time you need</strong> at the end of the event.</label>
+		   </div>
+            <input type="time" name="EndTime" id="EndTime" class="twelve" />
+             @Html.ValidationMessageFor(model => model.EndTime)
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="SponsOrg"><strong>Sponsoring ESF Organization</strong><br />
+            If an organization is organizing or affiliated with this reservation request, enter that here.</label>
+            <br />Please Note: If your organization is not affiliated with ESF, you must get approval through the Vice President for Administration before placing a reservation.
+		   </div>
+            <input name="SponsOrg" id="SponsOrg" type="text" size="60" maxlength="50" class="twelve" />
+             @Html.ValidationMessageFor(model => model.SponsOrg)
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="SponsOrgAdv"><strong>Sponsor Contact Information</strong><br />
+                Student Organizations must provide <strong>group advisor's</strong> name and phone number. All others must provide contact name and phone number if different from on-site contact information.</label>
+		   </div>
+            <input name="SponsOrgAdv" id="SponsOrgAdv" type="text" size="60" maxlength="50" class="twelve" />
+             @Html.ValidationMessageFor(model => model.SponsOrgAdv)
+        </p>
+   		<p><div id="labels" class="twelve">
+            <strong>On-Site Contact Information</strong><br />
+            <strong><em>Give us the name, email, and cell phone number of the <span class="red">person who will be responsible on the day of the event.</span></em></strong>
+		   </div>
+            <label for="ReqName"><strong>Name: </strong></label><input type="text" name="ReqName" id="ReqName" size="60" maxlength="50" class="twelve" />
+             @Html.ValidationMessageFor(model => model.ReqName)<br />
+            <label for="ReqEmail"><strong>Email: </strong></label><input type="text" name="ReqEmail" id="ReqEmail" size="60" maxlength="50" class="twelve" />
+             @Html.ValidationMessageFor(model => model.ReqEmail)<br />
+            <label for="ReqPhone"><strong>Phone: </strong></label><input type="text" name="ReqPhone" id="ReqPhone" size="60" maxlength="50" class="twelve" />
+             @Html.ValidationMessageFor(model => model.ReqPhone)<br />
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="ReqGuests"><strong>Expected Guests</strong><br />
+            If you have an estimated number of guests for your event, please indicate that here.
+		   </div>
+            <input type="text" name="ReqGuests" id="ReqGuests" class="twelve" />
+             @Html.ValidationMessageFor(model => model.ReqGuests)
+        </p>
+        <h3>College Services</h3>
+        <p><strong>Please be aware that it is your responsibility to confirm these requests in advance.</strong></p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="ReqUPD"><strong>Requests for University Police</strong><br />
+            Please note any requests for University Police here - such as after hours room/building openings or police presence. <strong>DO NOT assume that buildings and rooms will be opened for your room reservation.</strong>
+		   </div>
+            <textarea name="ReqUPD" id="ReqUPD" rows="3" cols="70"> </textarea><br />
+               <strong><span class="red">Parking is always restricted, and permits are always necessary.</span></strong><br />
+               If you need parking for your event, permit requests must be submitted 10 days in advance through University Police.
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="ResNotes"><strong>Reservation Notes</strong><br />
+            If there is anything else you need to tell us, do so here.
+		   </div>
+            @Html.TextAreaFor(model => model.ResNotes, new { style = "width:600px; height:80px;" })
+            
+        </p>  
+        <input type="hidden" value="@DateTime.Now" name="Recorded" id="Recorded" />
+        <input type="hidden" value="0" name="RecurInit" id="RecurInit" />
+        <input type="hidden" value="pending" name="Status" id="Status" />
+        <input type="hidden" value="@User.Identity.Name" name="UserId" id="UserId" />
+    
+        string submitlabel = "";
+        bool showCertification = true;
+        if (fns.IsExtendedRoom(ViewBag.RmCode))
+        {
+            showCertification = false;
+            submitlabel = "Continue to Page Two";
+        }
+        else
+        {
+            submitlabel = "Submit Reservation Request";
+        }
+
+        if (showCertification)
+        {
+            <h4 align="center" class="red">By clicking "Submit Reservation Request," you certify that the information above is accurate to the best of your ability and that you understand that this requests but does not guarantee a reservation at the time(s) indicated. Reservations are not final until approved by the administering office.</h4>
+        }
+        <p align="center">
+            <input type="submit" id="submitBtn" value="@submitlabel" class="twelve" />
+        </p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

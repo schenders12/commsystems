@@ -1,0 +1,76 @@
+﻿@model systems.Models.FacultyProfileModule
+
+@{
+    ViewBag.Title = "Module Editor";
+}
+
+<h2>You are editing the <strong>@Model.ModuleTitle</strong> module.</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.FacultyProfileModuleId)
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.FacultyPageId)
+    @Html.HiddenFor(model => model.ModuleType)
+    @Html.HiddenFor(model => model.DisplayOrder)
+    <h5>Your module currently looks like:</h5>
+    <div id="sideleft" style="width:900px;">
+       <h4>@Model.ModuleTitle</h4>@Html.Raw(@Model.ModuleData)<hr class=clearer />
+    </div>
+
+<p><strong>HTML Modules</strong></p>
+<p>HTML modules allow you full design control. They are comprised of a Title (a heading which will appear ahead of the module) and a HTML block for design and formatting. Use the WYSIWYG editor or use the source view for tight control.</p>
+        <h3>Title:</h3>
+    
+        <table id="'edit-module-table">
+           <tr>
+              <th scope="row">
+                 <h3>Title:</h3>
+                 <p class="ten">This heading will appear above your HTML block of content.</p>
+              </th>
+              <td>
+                 <input name="ModuleTitle" id="ModuleTitle" type="text" maxlength="150" size="50" class="twelve" value="@Model.ModuleTitle" />
+              </td>
+           </tr>
+           <tr>
+              <th colspan="2">
+                 <h3>HTML Contents</h3>
+                 <p class="ten">Raw HTML can be seen by clicking the <strong>Source</strong> button.</p>
+                 <p class="ten"><strong>If the content you are using is coming from a Microsoft Office product</strong> (Word, Excel, PowerPoint), you'll have best results by using the Paste from Word toolbar button (clipboard with a W Word icon)</p>
+              </th>
+           </tr>
+           <tr>
+              <td colspan="2">
+                 <textarea name="ModuleData" id="ModuleData" cols="125" rows="10">@Model.ModuleData</textarea>
+                 <script>
+                     var profileId = '@(Model.ProfileId)';
+                     var filebrowserBrowseUrl = ROOT + 'faculty/admin/LinkToFile/' + profileId;
+                     CKEDITOR.replace('ModuleData',
+                    {
+                        customConfig: 'http://www.esf.edu/js/ckeditor/fpim_config_v2.js',
+                        width: 900,
+                        height: 250,
+                        toolbar: 'Full',
+                        filebrowserBrowseUrl: filebrowserBrowseUrl,
+                        filebrowserWindowWidth: 800,
+                        filebrowserWindowHeight: 500
+                    });
+                 </script>
+              </td>
+           </tr>
+        </table>
+<div>
+        <p>
+          <input type="submit" value="Save"></input>
+          @Html.ActionLink("Cancel", "Index", "FPIM", new { profileId = @Model.ProfileId}, new {@class="ui-widget-header ui-corner-all", data_profileid=@Model.ProfileId})
+        </p></div>
+}
+@section Style {
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+

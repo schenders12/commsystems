@@ -1,0 +1,28 @@
+﻿@model systems.Models.FacultyPage
+
+<h3>Are you sure you want to delete this page?</h3>
+
+<h2>@Model.PageTitle</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.FacultyPageId)
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.PageTitle)
+    @Html.HiddenFor(model => model.LinkURL)
+    
+    <fieldset>
+        <legend></legend>
+        <h3>Type:  @Model.PageTitle</h3>
+        <h3>Data:</h3>
+        <div>@Html.Raw(@Model.LinkURL)</div>
+
+    </fieldset>
+    <button class="delete-page-submit ui-widget-header ui-corner-all" data-pageid = "@Model.FacultyPageId">Delete</button>
+
+    @Html.ActionLink("Cancel", "ManagePages", "FPIM", new { profileId = @Model.ProfileId}, new { @class = "ui-widget-header ui-corner-all" })
+}
+<script src="~/Scripts/appjs/index.js"></script>
+

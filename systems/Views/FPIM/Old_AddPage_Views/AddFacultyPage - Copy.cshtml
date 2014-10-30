@@ -1,0 +1,108 @@
+﻿@model systems.Models.FacultyPage
+
+@{
+    ViewBag.Title = "Add a Faculty Page";
+    //Model.LinkURL = "http://www.esf.edu/faculty/" + Model.ProfileId + '/';
+    Model.LinkURL = ViewBag.LinkURL;
+}
+<h2>Add a Faculty Page:  Add an additional link to the list on your home page.  </h2>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.LinkURL)
+     
+//<div id="droppable-page" class="right droppable-page ui-widget-header">
+ // <p>This is the new page.  Drag and Drop Modules here</p>
+//</div>
+     <h3>Page Title</h3>
+     <div class="editor-field">
+
+
+         @Html.TextBoxFor(m=>m.PageTitle)
+         @Html.ValidationMessageFor(model => model.PageTitle)
+     </div>
+
+     <h3>(Optional) Select Modules to add to your page:</h3>
+    
+    // Display modules on the left of the page, page on right
+     <div id="select-modules" class="ui-widget ui-helper-clearfix">
+         <ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix ui-sortable connectedSortable"></ul>
+         <div id="new-page-droppable" class="ui-widget-content ui-state-default">
+            <h4 class="ui-widget-header"><span class="ui-icon ui-icon-document">Page</span> Page</h4>
+            <ul id="sortable-modules" class="gallery uui-helper-reset ui-helper-clearfix ui-sortable connectedSortable"></ul>
+         </div>
+     </div>
+
+    // <div id="select-draggable-modules"></div>
+    
+    // <div id="notaccordion"></div>
+
+    
+<ul id="sortable1" class="connectedSortable">
+  <li class="ui-state-default">Item 1</li>
+  <li class="ui-state-default">Item 2</li>
+  <li class="ui-state-default">Item 3</li>
+  <li class="ui-state-default">Item 4</li>
+  <li class="ui-state-default">Item 5</li>
+</ul>
+ 
+<ul id="sortable2" class="connectedSortable">
+  <li class="ui-state-highlight">Item 1</li>
+  <li class="ui-state-highlight">Item 2</li>
+  <li class="ui-state-highlight">Item 3</li>
+  <li class="ui-state-highlight">Item 4</li>
+  <li class="ui-state-highlight">Item 5</li>
+</ul>
+    
+     <div id="add-page">
+         <!-- SCH Jquery validation does not work with these controls so don't use them
+          @Html.ActionLink("Preview Page","PreviewPage", new { myID = @Model.ProfileId}, new {@class="add-page-preview ui-widget-header ui-corner-all", data_profileid=@Model.ProfileId})
+          @Html.ActionLink("Create Page","AddFacultyPage", new { myID = @Model.ProfileId}, new {@class="add-page-submit ui-widget-header ui-corner-all", data_profileid=@Model.ProfileId, type="submit"})
+         -->
+        <button class="add-page-preview ui-widget-header ui-corner-all" data-profileid = "@Model.ProfileId">Preview Page  </button>
+        <button class="add-page-submit ui-widget-header ui-corner-all" data-profileid = "@Model.ProfileId">Add Page  </button>
+        @Html.ActionLink("Cancel", "EditFacultyProfile", "FPIM", new { profileId = Model.ProfileId}, null)
+        <!--<input id="add-page-submit" type="submit" name="add-page" value =" Create" /> -->
+
+     </div>
+    
+      <div id="view-module"></div>
+}
+
+@section Style {
+          <style>
+  #sortable1, #sortable2 {
+    border: 1px solid #eee;
+    width: 142px;
+    min-height: 20px;
+    list-style-type: none;
+    margin: 0;
+    padding: 5px 0 0 0;
+    float: left;
+    margin-right: 10px;
+  }
+  #sortable1 li, #sortable2 li {
+    margin: 0 5px 5px 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 120px;
+  }
+  </style>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fpimUI")
+}
+@section Scripts {
+
+  <script>
+      $(function () {
+          $("#sortable1, #sortable2").sortable({
+              connectWith: ".connectedSortable"
+          }).disableSelection();
+      });
+  </script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/addPage")
+}

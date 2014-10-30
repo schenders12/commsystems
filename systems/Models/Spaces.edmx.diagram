@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <edmx:Designer>
+    <edmx:Diagrams>
+      <edmx:Diagram DiagramId="a3e2a9d1eec04e40ae063954179e761f" Name="Diagram1" ZoomLevel="98">
+        <edmx:EntityTypeShape EntityType="RoomResModel.Perm" Width="1.5" PointX="7.5" PointY="0.5" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="RoomResModel.BasicReservation" Width="1.5" PointX="2.625" PointY="0.5" />
+        <edmx:EntityTypeShape EntityType="RoomResModel.ReservableSpace" Width="1.5" PointX="0.5" PointY="0.5" />
+        <edmx:AssociationConnector Association="RoomResModel.FK_BasicReservation_ReservableSpaces" />
+        <edmx:EntityTypeShape EntityType="RoomResModel.ExtendedReservation" Width="1.5" PointX="5.125" PointY="0.75" />
+        <edmx:AssociationConnector Association="RoomResModel.FK_ExtendedReservation_BasicReservation" />
+        <edmx:EntityTypeShape EntityType="RoomResModel.RmGroup" Width="1.5" PointX="7.5" PointY="3.125" />
+      </edmx:Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

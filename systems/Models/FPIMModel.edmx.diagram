@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <edmx:Designer>
+    <edmx:Diagrams>
+      <edmx:Diagram DiagramId="1a96e61aa40d46ddabf040648353e296" Name="Diagram1">
+        <edmx:EntityTypeShape EntityType="systems.CommEmpDegree" Width="1.5" PointX="9.25" PointY="1.375" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="systems.CommEmployee" Width="1.5" PointX="7.375" PointY="0.75" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="systems.FacultyProfile" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="systems.FacultyPage" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="systems.FacultyProfileModule" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <edmx:AssociationConnector Association="systems.FK_FacultyPage_FacultyProfile" ManuallyRouted="false" />
+        <edmx:AssociationConnector Association="systems.FK_FacultyProfileModule_FacultyPage" ManuallyRouted="false" />
+        <edmx:AssociationConnector Association="systems.FK_FacultyProfileModule_FacultyProfile" ManuallyRouted="false" />
+        <edmx:EntityTypeShape EntityType="systems.FacultyAOSAssoc" Width="1.5" PointX="1.625" PointY="5" />
+        <edmx:EntityTypeShape EntityType="systems.FacultyDeptAssoc" Width="1.5" PointX="3.875" PointY="5" />
+        <edmx:AssociationConnector Association="systems.fk_assocaos_pid1" />
+        <edmx:AssociationConnector Association="systems.fk_facultydeptAssoc_pid" />
+        <edmx:EntityTypeShape EntityType="systems.CodesAOS" Width="1.5" PointX="9.625" PointY="6.25" />
+        <edmx:EntityTypeShape EntityType="systems.DeptHeading" Width="1.5" PointX="6.5" PointY="6.25" />
+      </edmx:Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

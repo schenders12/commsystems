@@ -1,0 +1,7 @@
+﻿@model systems.Models.FacultyProfileModule
+@using (Html.BeginForm()) {
+    <input type="hidden" name="profileID" id="profileID" value="@ViewBag.profileID" />
+      <h3>@Html.DisplayFor(m => @Model.ModuleTitle)
+      </h3>
+      <div><p>@Html.Raw( @Model.ModuleData)</p></div>
+}

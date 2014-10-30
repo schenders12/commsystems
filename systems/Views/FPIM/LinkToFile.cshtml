@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "Link to one of your Files on the ESF Server";
+}
+<h2>Link to one of your Files on the ESF Server</h2>
+
+<style>
+    #fileListDiv ul { list-style-type: none; }
+    #fileListDiv li a { float: left; }
+</style>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @action=@Url.Content("~/Upload/UploadHandler.ashx"), id = "fileupload" }))
+{
+<!--<form id="fileupload" action="/Upload/UploadHandler.ashx" method ="POST" enctype="multipart/form-data"> -->
+
+    <input id="profileId" name="profileId" type="hidden" value="@ViewBag.profileId" />
+    <input id="userId" name="userId" type="hidden" value="@ViewBag.userID" />
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <!-- The loading indicator is shown during image processing -->
+        <div class="fileupload-loading"></div>
+        <br>
+        <!-- The table listing the files available for upload/download -->
+        <table class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
+   <!--</form> -->
+}
+
+<button type="submit" class="btn btn-primary start link-file-submit">
+   <i class="icon-upload icon-white"></i>
+   <span>Link this File</span>
+</button>
+<button type="reset" class="btn btn-warning cancel link-file-cancel">
+   <i class="icon-ban-circle icon-white"></i>
+   <span>Cancel</span>
+</button>
+
+<p></p>
+<p></p>
+
+ <link href="@Url.Content("~/Scripts/FileUpload/jquery.fileupload-ui.css")" rel="stylesheet" type="text/css" />
+ <link href="@Url.Content("~/Content/bootStrap.min.css")" rel="stylesheet" type="text/css" />
+ <link href="@Url.Content("~/Content/bootStrap-responsive.css")" rel="stylesheet" type="text/css" />
+ <link href="@Url.Content("~/Content/bootstrap-image-gallery.min.css")" rel="stylesheet" type="text/css" />
+
+
+<script src="@Url.Content("~/Scripts/jquery-2.1.1.js")" ></script>
+<script src="@Url.Content("~/Scripts/jquery-ui-1.11.1.js")"></script>
+<script src="@Url.Content("~/Scripts/FileUpload/load-image.min.js")"></script>
+<script src="@Url.Content("~/Scripts/FileUpload/canvas-to-blob.min.js")"></script>
+<script src="@Url.Content("~/Scripts/FileUpload/tmpl.min.js")"></script>
+<script src="@Url.Content("~/Scripts/bootstrap.js")"></script>
+<script src="@Url.Content("~/Scripts/bootstrap-image-gallery.min.js")"></script>
+<script src="@Url.Content("~/Scripts/FileUpload/jquery.fileupload.js")"></script>
+<script src="@Url.Content("~/Scripts/FileUpload/jquery.iframe-transport.js")"></script>
+<script src="@Url.Content("~/Scripts/FileUpload/jquery.fileupload-ip.js")"></script>
+<script src="@Url.Content("~/Scripts/FileUpload/jquery.fileupload-ui.js")"></script>
+<script src="@Url.Content("~/Scripts/FileUpload/locale.js")"></script>
+
+<script>
+    var jq = jQuery.noConflict();
+    jq(document).ready(function() {
+        var userApiPath = '@Url.Content("~/Upload/UploadHandler.ashx")';
+        var ROOT = '@Url.Content("~/")';
+
+        // Initialize the jQuery File Upload widget:
+        jq('#fileupload').fileupload();
+
+        jq('#fileupload').fileupload('option', {
+            maxFileSize: 500000000,
+            resizeMaxWidth: 1920,
+            resizeMaxHeight: 1200
+        });
+
+        // Load existing files:
+        var profileId = jq('#profileId').attr('value');
+
+        jq.ajax({
+          url: userApiPath,
+          type: 'GET',
+          data: { profileId: profileId },
+          dataType: 'json',
+          context: jq('#fileupload')[0]
+      }).done(function (result) {
+          jq(this).fileupload('option', 'done').call(this, null, { result: result });
+
+          jq(".link-this-file").click(function () {
+             // alert("Clicked");
+
+          });
+      });
+
+
+    });
+
+    function getUrlParam(l, m) {
+        var n=new RegExp('(?:[?&]|&amp;)'+l+'=([^&]+)','i'),
+            o=(m||window).location.search.match(n);
+        return o&&o.length>1?o[1]:null;
+    }
+
+    jq(".link-file-submit").click(function () {
+        var parentWindow = (window.parent == window) ? window.opener : window.parent;
+        var ROOT = '@Url.Content("~/")';
+        var profileId = jq('#profileId').attr('value');
+
+        // Get the file url     fileUploadButtonBar.find('.delete')
+       // $('input[name='link-file]':checked', '#myForm').val()
+        var fileUrl = "";
+        var selected = jq("input[type='radio'][name='link-file']:checked");
+        if (selected.length > 0) {
+            //fileUrl = ROOT + 'http://www.esf.edu/faculty/' + profileId + '/documents/' + selected.val();
+            fileUrl = 'http://www.esf.edu/faculty/' + profileId + '/documents/' + selected.val();
+        }
+        //var fileUrl = "www.esf.edu/faculty/henderson/documents/payments-Copy.docx";
+       // var data = "File will be linked";
+        var funcNum = getUrlParam('CKEditorFuncNum');
+        if ( parentWindow['CKEDITOR'] )
+        {
+            parentWindow['CKEDITOR'].tools.callFunction( funcNum, fileUrl );
+        }
+        close();
+
+    });
+
+    jq(".link-file-cancel").click(function () {
+        close();
+    });
+</script>
+
+<!-- The template to display files available for upload -->
+<script id="template-upload" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-upload fade">
+        <td class="preview"><span class="fade"></span></td>
+        <td class="name"><span>{%=file.name%}</span></td>
+        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
+        {% if (file.error) { %}
+            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
+        {% } else if (o.files.valid && !i) { %}
+            <td>
+                <div class="progress progress-success progress-striped active"><div class="bar" style="width:0%;"></div></div>
+            </td>
+            <td class="start">{% if (!o.options.autoUpload) { %}
+                <button class="btn btn-primary">
+                    <i class="icon-upload icon-white"></i>
+                    <span>{%=locale.fileupload.start%}</span>
+                </button>
+            {% } %}</td>
+        {% } else { %}
+            <td colspan="2"></td>
+        {% } %}
+        <td class="cancel">{% if (!i) { %}
+            <button class="btn btn-warning">
+                <i class="icon-ban-circle icon-white"></i>
+                <span>{%=locale.fileupload.cancel%}</span>
+            </button>
+        {% } %}</td>
+    </tr>
+{% } %}
+</script>
+<!-- The template to display files available for download -->
+<script id="template-download" type="text/x-tmpl">
+{% for (var i=0, file; file=o.files[i]; i++) { %}
+    <tr class="template-download fade">
+         <td class="name">
+            {%=file.name%}
+         </td>
+         <td class="link">
+              <input type="radio" name="link-file" class="link-this-file" value={%=file.name%}>
+         </td>
+    </tr>
+{% } %}
+</script>

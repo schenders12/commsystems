@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "RequestReservationRecur";
+}
+
+<h2>RequestReservationRecur</h2>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+        <input type="hidden" value="@ViewBag.RmCode" id="RmCode" name="RmCode" />
+		<p><div id="labels" class="twelve">
+                <label FOR="Interval"><strong>Recurrence Interval</strong><br />
+                    Select Weekly or Daily.</label>
+		   </div>
+           <select name="Interval" id="Interval">
+               <option value=""> </option>
+               <option value="Weekly">Weekly</option>
+               <option value="Daily">Daily</option>
+           </select>
+		</p>
+
+    	<p><div id="labels" class="twelve">
+                <label FOR="EndDate"><strong>End Date</strong><br />
+                    The last date on which your reservation should recur (inclusive).</label>
+		   </div>
+            <input type="date" name="EndDate" id="EndDate" class="twelve" />
+        </p>
+        <h4 align="center" class="red">By clicking "Submit Reservation Request," you certify that the information above is accurate to the best of your ability and that you understand that this requests but does not guarantee a reservation at the time(s) indicated. Reservations are not final until approved by the administering office.</h4>
+        <p align="center">
+            <input type="hidden" name="BaseRes" id="BaseRes" value="@ViewBag.BaseRes" />
+            <input type="submit" value="Submit Reservation Request" class="twelve" />
+        </p>
+}

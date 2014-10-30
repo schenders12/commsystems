@@ -1,0 +1,41 @@
+﻿@using systems.Models;
+@model ProfilePhoto
+
+@{
+    ViewBag.Title = "SubmitPhoto";
+}
+
+<h2>Submit your new profile Photo</h2>
+
+@using (Html.BeginForm("SubmitPhoto", "FPIM", FormMethod.Post, new{ enctype="multipart/form-data"}))
+{
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.profileId)
+        @Html.HiddenFor(model => model.profileFirstName)
+        @Html.HiddenFor(model => model.profileLastName)
+        @Html.HiddenFor(model => model.profileEMail)
+
+         <h3>Select a photo to be used as your new profile photo.</h3><h3>  It will be emailed to the ESF Webmaster for approval.  </h3>
+        <div>
+            <label for="attachment">Select Photo:  </label>
+            <input type="file" name="attachment" id="attachment"/> 
+        </div>
+        <input type="submit" value="Send" class = "ui-widget-header ui-corner-all"/>
+        @Html.ActionLink("Cancel", "Index", "FPIM", new { profileId = @Model.profileId }, new { @class = "ui-widget-header ui-corner-all" })
+}
+
+
+@section Style {
+
+}
+@section Scripts {
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Message' == 'Sent') {
+            alert('Mail has been sent successfully');
+        }
+    });
+</script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,94 @@
+﻿@model systems.Models.FacultyProfile
+@using systems.Helpers;
+@{
+    ViewBag.Title = "FacultyPage";
+}
+
+@{
+  HtmlString header = new HtmlString(fns.FacultyPageHeading(ViewBag.userid,ViewBag.fname,ViewBag.lname));
+  @header
+}
+<!--  Nav Bar -->
+<div id="faculty-pages-div">
+  @foreach (var page in Model.FacultyPages)
+  {
+      @Html.ActionLink(@page.PageTitle,"ViewFacultyPage", "FPIM", new { profileId = @Model.ProfileId, pageID = @page.FacultyPageId}, new { @class = "pageLink", profileId = @page.FacultyPageId, data_pageid=@page.FacultyPageId, data_pagetitle=@page.PageTitle})
+      @Html.Raw(" | ")
+  }
+</div>
+
+  @foreach (var page in Model.FacultyPages.Where(m => m.FacultyPageId == ViewBag.PageId))
+  {
+       <h2>@page.PageTitle</h2>
+  }
+    <table id="tblModule" class="tblStyle">
+        <!-- Get the page-->
+        @{
+         foreach (var page in Model.FacultyPages.Where(m => m.FacultyPageId == ViewBag.PageId))
+         {
+            foreach (var item in Model.FacultyProfileModules.Where(m => m.FacultyPageId == ViewBag.PageId).OrderBy(m => m.DisplayOrder))
+            {
+
+                var html = new HtmlString("");
+                var content = "";
+
+                switch (@item.ModuleType)
+                {
+                    case "HTML":
+                        if (item.ModuleTitle != "" && item.ModuleTitle != null)
+                        {
+                            content = "<h4>" + item.ModuleTitle + "</h4>" + item.ModuleData;
+                        }
+                        else
+                        {
+                            content = item.ModuleData;
+                        }
+                        //html = new HtmlString("<hr class=clearer />" + @content);
+                        html = new HtmlString(@content);
+                        break;
+                    case "GradModule":
+                        // TODO: Graduate module.
+                        content = fns.AdviseesModule(item.FacultyProfile.UserId, item.ModuleTitle);
+                        //html = new HtmlString("<hr class=clearer />" + @content);
+                        html = new HtmlString(@content);
+                        break;
+                    // TODO: Scopus feed module, other special modules?
+                    default:
+                        // Ignore anything else.
+                        break;
+                }
+         @html;
+        }
+  }
+
+  }
+  </table>
+
+@section Style {
+<style>
+#pagelist li {
+    list-style-type: none;
+    float: left;
+}
+#faculty-pages-div {
+    overflow: auto;
+}
+.nav-pills>li>a {
+padding-top: 4px;
+padding-bottom: 4px;
+margin-top: 1px;
+margin-bottom: 1px;
+-webkit-border-radius: 2px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+}
+#pagelink a {
+    font-weight: bold;
+}
+
+</style>
+}
+@section Scripts {
+}
+
+

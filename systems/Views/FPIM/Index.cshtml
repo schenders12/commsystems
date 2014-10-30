@@ -1,0 +1,37 @@
+﻿@model systems.Models.FacultyProfile
+@using systems.Helpers;
+
+@{
+    ViewBag.Title = "Index";
+}
+<div id="box" class="w100 border bggreen">
+    <h2>@ViewBag.WelcomeMsg</h2>
+    <p>To make changes to your directory information, use the Human Resources Self-Service in the Faculty and Staff Portal. </p>
+    <p>To make changes to your pages, modules, department associations, files, or change your cover photo, select the lnks below.</p>
+</div>
+@{
+  HtmlString header = new HtmlString(fns.FacultyPageHeading(ViewBag.userid,ViewBag.fname,ViewBag.lname));
+  @header
+}
+
+  <p></p>  
+  <h4>@Html.ActionLink("Manage Files and Documents on the server", "ManageFiles", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+  <h4>@Html.ActionLink("Manage Modules", "ManageModules", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+  <h4>@Html.ActionLink("Manage Pages", "ManagePages", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+  <h4>@Html.ActionLink("Submit a new profile photo", "SubmitPhoto", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+  <h4>@Html.ActionLink("Manage Department Associations and Areas of Study", "EditDeptAOS", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+  <h4>@Html.ActionLink("Preview Your Pages", "ViewFacultyPage", "FPIM", new { profileId = @Model.ProfileId, pageId = ViewBag.MainPageID}, new { profileId = @Model.ProfileId })</h4>
+  <p></p>
+  @if (Model.UserId == "schender") {
+      <ul>
+      <h4>Administrative Functions:</h4>
+      <h4>@Html.ActionLink("Administer Content", "AdministerContent", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+      <h4>@Html.ActionLink("Manually Add Faculty", "ManuallyAddFaculty", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+      </ul>
+ }
+@section Style {
+    @Styles.Render("~/Content/fpimUI")
+}
+@section Scripts {
+}
+

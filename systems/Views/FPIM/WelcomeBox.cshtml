@@ -1,0 +1,10 @@
+﻿@model systems.Models.FacultyProfile
+
+		<div id="sideright" class="bggreen" style="width:200px;">
+        <strong>Welcome, @Html.DisplayFor(m => m.UserId)</strong>
+			<ul>
+				<li><a href="/faculty/admin/logout.asp">Logout</a></li>
+				<li><a href="/faculty/admin/default.asp">FPIM Menu</a></li>
+			</ul>
+			<p><em>Sessions will be logged out after 20 minutes of inactivity.</em></p>
+		</div>

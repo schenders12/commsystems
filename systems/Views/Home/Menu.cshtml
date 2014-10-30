@@ -1,0 +1,70 @@
+﻿@model systems.Models.UserErrata
+
+@{
+    ViewBag.Title = "Menu";
+}
+    
+    <div id="box" class="right w30 border callout bggray">
+    <h2>Public Information Systems</h2>
+        <p><strong>Welcome, @Model.username.</strong></p>
+        <ul>
+            <li>@Html.ActionLink("Log Out","LogOut")</li>
+        </ul>
+    </div>
+	<h1>Public Information Systems<br />
+        <span class="twelve"><strong>ESF Web<br />Office of Communications</strong></span></h1>
+	<h3><a href="http://www.esf.edu/forms/communications/newsevents/default.asp?u=@Model.username&atype=@Model.authtype">News &amp; Events</a></h3>
+	<ul>
+		<li><a href="http://www.esf.edu/communications/admin/admit.asp?u=@Model.username&atype=@Model.authtype">ESF News &amp; Events Administration</a></li>
+	</ul>
+	<p>Submit news stories and event listings for distribution throughout the campus.</p>
+	<h3><a href="http://www.esf.edu/spaces/reserve/admit.asp?u=@Model.username&atype=@Model.authtype">ESF Spaces</a></h3>
+	<ul>
+    	<li><a href="http://www.esf.edu/spaces/admin/admit.asp?u=@Model.username&atype=@Model.authtype">ESF Spaces Administration</a></li>
+        @if (Model.username == "acknight"){
+           <li>@Html.ActionLink("New version","Index","Spaces")</li>
+        }
+				</ul>
+
+
+			<p>Room Reservations for Nifkin (Alumni) Lounge, Bray Rotunda, and Bray 217.</p>
+
+			<h3><a href="http://www.esf.edu/forms/pim/welcome.asp?u=@Model.username&atype=@Model.authtype&f=b">Grad Public Information Manager</a></h3>
+
+			<p>Graduate students can manage their publicly viewed information on ESF web sites.</p>
+
+            @{
+                if (Model.authtype == "ESFAD" || Model.authtype == "ESFFS")
+                {
+            
+
+					<h3><a href="http://www.esf.edu/faculty/admin/admit.asp?u=@Model.username&refer=Comm&atype=@Model.authtype">Faculty Public Information Manager</a></h3>
+
+					<p>Manage your official departmental faculty page content using the new Faculty Public Information Manager.</p>
+
+					<h3><a href="http://www.esf.edu/forms/communications/logo/default.asp?u=@Model.username">College Logo Download</a></h3>
+
+					<p>Those who represent SUNY-ESF have access to the College&rsquo;s leaf-and-acorn logo and the standards that apply to its use.</p>
+
+					<h3><a href="http://www.esf.edu/coc/">Faculty Governance - Committee on Curriculum (COC)</a></h3>
+
+
+					<ul>
+
+						<li><a href="http://www.esf.edu/coc/admin/admit.asp?u=@Model.username">COC Administration</a></li>
+
+					</ul>
+
+
+					<p>The Committee on Curriculum reviews and approves course and curriculum change proposals.</p>
+
+					<h3><a href="http://www.esf.edu/communications/bcards/default.asp?u=@Model.username">Order Business Cards</a></h3>
+
+					<p>Those who represent SUNY-ESF may order business cards using this form.</p>
+
+
+				<h3><a href="http://www.esf.edu/world/admin/admit.asp?u=@Model.username">Get on the Map! (Around Your World)</a></h3>
+
+				<p>Choose below to add or edit information about your remotely (beyond metro Syracuse) located academic pursuits. Help us showcase the extent of ESF's reach. When your submission is finalized, your entry will appear on www.esf.edu/world.</p>
+
+            }}

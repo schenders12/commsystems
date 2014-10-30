@@ -1,0 +1,41 @@
+﻿@model  IEnumerable<systems.Models.spFacultyList_Result>
+
+@{
+    ViewBag.Title = "AdminIndex";
+}
+<style>
+th, td { vertical-align: top}
+</style>
+<h2>Edit a Profile</h2>
+<h3>Select the faculty member whose records you would like to edit.</h3>
+<table>
+    <tr>
+            <th class="twelve bggray"><strong>Faculty</strong></th>
+            <th class="twelve bggray"><strong>Department</strong></th>
+            <th  class="twelve bggray"><strong>Office</strong></th>
+            <th class="twelve bggray"><strong>Phone</strong><span class="tengray"><br />
+              (315&nbsp;Area&nbsp;code)</span></th>
+            <th  class="twelve bggray"><strong>Email</strong></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <strong>@Html.ActionLink(item.FullName + ", ", "EditFacultyPage", new { id=item.UserId, suad=item.SUAD, esfad=item.ESFAD })</strong>
+            @Html.DisplayFor(modelItem => item.CampusTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkLoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OffcRoom)
+            @Html.DisplayFor(modelItem => item.OffcBldg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OffcPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailId)
+        </td>
+    </tr>
+}
+</table>

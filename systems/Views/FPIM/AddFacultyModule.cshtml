@@ -1,0 +1,45 @@
+﻿@model systems.Models.FacultyProfileModule
+
+@{
+    ViewBag.Title = "AddFacultyModule";
+}
+
+<h2>AddFacultyModule</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.FacultyPageId)
+    @Html.HiddenFor(model => model.ModuleType)
+    @Html.HiddenFor(model => model.ModuleTitle)
+    @Html.HiddenFor(model => model.ModuleData)
+    @Html.HiddenFor(model => model.DisplayOrder)
+    <fieldset>
+        <legend>New Module</legend>
+
+<p><strong>HTML Module</strong></p>
+<p>HTML modules allow you full design control. They are comprised of a Title (a heading which will appear ahead of the module) and a HTML block for design and formatting. Use the WYSIWYG editor or use the source view for tight control.</p>
+        <textarea class="ckeditor" name="ModuleData"></textarea>
+        <script>
+            CKEDITOR.replace('ModuleData',
+            {
+                customConfig: 'http://www.esf.edu/js/ckeditor/fpim_config.js',
+                width: 900,
+                height: 250,
+                toolbar: 'Full'
+            });
+        </script>
+
+        <p draggable="true">
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

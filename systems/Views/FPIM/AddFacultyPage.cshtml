@@ -1,0 +1,59 @@
+﻿@model systems.Models.FacultyPage
+
+@{
+    ViewBag.Title = "Add a Faculty Page";
+    //Model.LinkURL = "http://www.esf.edu/faculty/" + Model.ProfileId + '/';
+    Model.LinkURL = ViewBag.LinkURL;
+}
+<h2>Add a Page:</h2> 
+<h3>Drag modules from the column on the left to the page on the right.  If there are no modules to drag, you have no modules and must create some.</h3>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.LinkURL)
+
+     <h3>Page Title</h3>
+     <div class="editor-field">
+         @Html.TextBoxFor(m=>m.PageTitle)
+         @Html.ValidationMessageFor(model => model.PageTitle)
+     </div>
+
+     <h3>Select Modules to display on your page:</h3>
+    
+    // Display modules on the left of the page, page on right
+    <div id="select-modules" class="ui-widget ui-helper-clearfix">
+      <!--   <ul id="available-modules" class="gallery  ui-helper-reset ui-helper-clearfix"></ul> -->
+      <ul id="available-modules" class="gallery"></ul>
+        <div id="new-page-droppable" class="ui-widget-content ui-state-default">
+          <h4 class="ui-widget-header"><span class="ui-icon ui-icon-document"> Drag Modules here:</span> Drag Modules here:</h4>
+           <!-- <ul id="sortable-modules" class="gallery ui-helper-reset ui-helper-clearfix gallery" width: 143px;> -->
+           <ul id="sortable-modules" class="gallery"></ul>
+                <!--<li class="placeholder">Drop your modules here</li> -->
+        </div>
+   </div>
+
+    <div id="add-page">
+        <button class="add-page-preview ui-widget-header ui-corner-all" data-profileid = "@Model.ProfileId">Preview Page  </button>
+        <button id="add-page-submit" class="add-page-submit ui-widget-header ui-corner-all" data-profileid = "@Model.ProfileId">Add Page  </button>
+
+        @Html.ActionLink("Cancel", "ManagePages", "FPIM", new { profileId = Model.ProfileId}, null)
+
+    </div>
+    
+      <div id="view-module"></div>
+}
+
+@section Style {
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/addPage")
+  <style>
+ /* #sortable-modules { list-style-type: none; margin: 0; padding: 0; float: left; margin-right: 10px; background: #eee; padding: 5px; width: 143px;}
+  #sortable1 li, #sortable2 li, #sortable3 li { margin: 5px; padding: 5px; font-size: 1.2em; width: 120px; } */
+  </style>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/addPage")
+}

@@ -1,0 +1,69 @@
+﻿@model systems.Models.FacultyPage
+
+@{
+    ViewBag.Title = "EditFacultyPage";
+}
+
+  <style>
+  #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #sortable li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; height: 1.5em; }
+  html>body #sortable li { height: 1.5em; line-height: 1.2em; }
+  .ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+  </style>
+
+<h2>@Model.PageTitle</h2>
+
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.FacultyPageId)
+
+<h2>Edit a Page:</h2> 
+<h3>To add modules to your page, drag them from the left to the page on the right.</h3>
+<h3>To remove modules from your page, drag them from the page on the right to the left.</h3>
+<h3>If there are no modules to drag, you have no modules and must create some.</h3>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.LinkURL)
+    <fieldset>
+        <legend></legend>
+     <h3>Page Title</h3>
+     <div class="editor-field">
+         @Html.TextBoxFor(m=>m.PageTitle)
+         @Html.ValidationMessageFor(model => model.PageTitle)
+     </div>
+    <!-- Display Page modules on the left of the page, page on right -->
+    <div id="select-modules" class="ui-widget ui-helper-clearfix">
+      <!--   <ul id="available-modules" class="gallery  ui-helper-reset ui-helper-clearfix"></ul> -->
+      <ul id="available-modules" class="gallery"></ul>
+        <div id="new-page-droppable" class="ui-widget-content ui-state-default">
+          <h4 class="ui-widget-header"><span class="ui-icon ui-icon-document"> Drag Modules here:</span> Drag Modules here:</h4>
+           <!-- <ul id="sortable-modules" class="gallery ui-helper-reset ui-helper-clearfix gallery" width: 143px;> -->
+           <ul id="sortable-modules" class="gallery">
+            @foreach (var item in Model.FacultyProfileModules)
+            {
+                 <li  class="ui-state-default ui-sortable-handle"  id="@Html.Raw(@item.FacultyProfileModuleId)" data-modid="@Html.Raw(@item.FacultyProfileModuleId)" value="@Html.Raw(@item.FacultyProfileModuleId)">@Html.Raw(@item.ModuleTitle)</li>
+            }
+           </ul>
+                <!--<li class="placeholder">Drop your modules here</li> -->
+        </div>
+   </div>
+    <div id="edit-page">
+        <button id="edit-page-submit" class="edit-page-submit ui-widget-header ui-corner-all" data-profileid = "@Model.ProfileId">Save</button>
+        @Html.ActionLink("Cancel", "ManagePages", "FPIM", new { profileId = Model.ProfileId}, null)
+    </div>
+    </fieldset>
+}
+@section Style {
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/addPage")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/editPage")
+}

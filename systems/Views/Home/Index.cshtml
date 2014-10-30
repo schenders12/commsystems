@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Welcome to FPIM, version 2!!</h2>
+<h3>Please enter your ESF ID below and you will be transferred.</h3>
+@using (Html.BeginForm("Transfer", "Home"))
+{
+<!-- <form action="/Home/Transfer/" method="post"> -->
+    <input type="text" name="id" />
+    <input type="text" name="atype" value="ESFAD" />
+    <select name="target">
+        <option value="FPIM" selected="selected">FPIM Version 2</option>
+    </select>
+    <input type="submit" />
+<!-- </form> -->
+<p></p>
+<h3>For testing purposes only, Julia will be Valerie Luzadis and Paul will be Russ Briggs.  Don't worry!  You will NOT affect any of their real data.</h3>
+<h3>Please test all functions:  Create, edit and delete a page; Create, edit and delete a module; Upload, download and delete files.</h3>
+
+
+<h3>Unfinished functions/Possible features: </h3> 
+<h3>                           - Catalog module</h3>
+<h3>                           - Improve 'Manage Associations and Areas of Study' to allow mutually exclusive main depts</h3>
+<h3>                           - Allow option to chose whether to display profile photo on each page</h3>
+<h3>                           - Banners are squashed when the main page is displayed</h3>
+<h3>                           - File download popup is greyed out</h3>
+
+
+
+<!-- @Html.ActionLink("FPIM Link","Transfer", new { id = "schender", atype="ESFIS", target="FPIM" })
+</br>
+@Html.ActionLink("FPIM New Link", "EditFacultyProfile", "FPIM", new { profileId = "henderson"}, null)
+</br>
+@Html.ActionLink("Spaces Link","Transfer", new { id = "schender", atype="ESFIS", target="spaces" }) -->
+}

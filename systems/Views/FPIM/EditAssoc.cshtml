@@ -1,0 +1,45 @@
+﻿@model IEnumerable<systems.Models.spFetchFacultyAssocList_Result>
+
+@{
+    ViewBag.Title = "EditAssoc";
+}
+
+<h2>Departmental Associations</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <input id="profileID" name="profileID" type="hidden" value="@ViewBag.profileId" />
+    <input id="userID" name="userID" type="hidden" value="@ViewBag.userID" />
+    
+<div id="primary-association">
+  <h3><input id="Chemistry" name="assoc" type="checkbox" value="Chemistry"/>&nbsp;Chemistry</h3>
+  <h3><input id="EFB" name="assoc" type="checkbox" value="EFB" />&nbsp;EFB</h3>
+  <h3><input id="ERE" name="assoc" type="checkbox" value="ERE" />&nbsp;ERE</h3>
+  <h3><input id="Environmental Studies" name="assoc" type="checkbox" value="Environmental Studies" />&nbsp;Environmental Studies</h3>
+  <p><input id="Writing Program" name="assoc" type="checkbox" value="Writing Program" />&nbsp;Environmental Writing Program</p>
+  <h3><input id="Environmental Science" name="assoc" type="checkbox" value="Environmental Science" />&nbsp;Environmental Science</h3>
+  <h3><input id="FNRM" name="assoc" type="checkbox" value="FNRM" />&nbsp;FNRM</h3>
+  <h3><input id="LA" name="assoc" type="checkbox" value="LA" />&nbsp;Landscape Architecture</h3>
+  <h3><input id="Moon Library" name="assoc" type="checkbox" value="Moon Library" />&nbsp;Moon Library</h3>
+  <h3><input id="PBE" name="assoc" type="checkbox" value="PBE" />&nbsp;PBE</h3>
+  <h3><input id="SCME" name="assoc" type="checkbox" value="SCME" />&nbsp;SCME</h3>
+
+    @foreach (var item in Model) {
+      // Create hidden elements with name 'checkMe' and value of department 
+      // to indicate which elements need to be checked
+      <input name="checkMe" type="hidden" value="@item.Dept" />
+    }
+</div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

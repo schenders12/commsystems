@@ -1,0 +1,86 @@
+﻿@model systems.Models.ExtendedReservation
+
+@{
+    ViewBag.Title = "RequestReservationExtended";
+}
+
+<h2>RequestReservationStepTwo</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <h4>Facilities Requirements</h4>
+    <textarea name="FacilityReqs" id="FacilityReqs" rows="5" cols="90" class="twelve"></textarea>
+    @Html.ValidationMessageFor(model => model.FacilityReqs)
+    
+    <p>@Html.EditorFor(model => model.FoodServed) <strong>Check here if food will be served at your event</strong></p>
+    <p>@Html.EditorFor(model => model.AlcoholServed) <strong>Check here if alcohol will be served at your event</strong>  <br />An Alcohol Request Form (Student, Faculty/Staff) must be submitted to Office of Student Affairs for approval at least 2 weeks prior to the event for alcohol to be served.</p>
+    <p><strong>Event Admission</strong><br />Please select the widest audience you are allowing (i.e. if open to campus and general community, select general public).
+        @{
+            if (ViewBag.RmCode != "EvCtrGW")
+            {
+                <strong>Please note that an admission fee cannot be charged in most cases.</strong>
+            }
+        }
+    </p>
+    <select name="EventAdm" id="EventAdm">
+        <option selected="selected"></option>
+        <option value="restricted">Admission is Restricted</option>
+        <option value="genpublic">General Public</option>
+        <option value="college">College Community</option>
+    </select>
+    <p>Select Restricted if the event admission is by invite only. If open to the college community but not the general public, select College Community; otherwise, select General Public. <em>All events that are open to at least the college community are required to be placed on the ESF College Calendar.</em></p>
+    
+    @Html.ValidationMessageFor(model => model.EventAdm)
+    if (ViewBag.RmCode == "EvCtrGW") // If Gateway, show the Event Center fields. If not, pad blank hidden fields for it.
+    {
+        <h4>Event Center Room Configuration</h4>
+        <p>The Gateway Events Center is composed of three rooms. Please indicate which parts of the Events Center you wish to use (A, B, C). <strong>Note that if you are using the Catering Kitchen for your event, you MUST at least reserve Room C.</strong></p>
+        <p>Room A:
+            @Html.EditorFor(model => model.GatewayA)
+            @Html.ValidationMessageFor(model => model.GatewayA)
+        </p>
+        <p>Room B:
+            @Html.EditorFor(model => model.GatewayB)
+            @Html.ValidationMessageFor(model => model.GatewayB)
+        </p>
+        <p>Room C:
+            @Html.EditorFor(model => model.GatewayC)
+            @Html.ValidationMessageFor(model => model.GatewayC)
+        </p>
+    }
+    else
+    {
+        <!-- input blanks for Nifkin, Rotunda -->
+        <input type="hidden" name="GatewayA" id="GatewayA" value="" />
+        <input type="hidden" name="GatewayB" id="GatewayB" value="" />
+        <input type="hidden" name="GatewayC" id="GatewayC" value="" />
+    }
+    if (ViewBag.DoesRecur == "Yes")
+    {
+        <p><div id="labels" class="twelve">
+                <label FOR="Interval"><strong>Recurrence Interval</strong><br />Select Weekly or Daily.</label>
+		   </div>
+           <select name="Interval" id="Interval">
+               <option value=""> </option>
+               <option value="Weekly">Weekly</option>
+               <option value="Daily">Daily</option>
+           </select>
+		</p>
+
+    	<p><div id="labels" class="twelve">
+                <label FOR="EndDate"><strong>End Date</strong><br />The last date on which your reservation should recur (inclusive).</label>
+		   </div>
+            <input type="date" name="EndDate" id="EndDate" class="twelve" />
+        </p>
+        <input type="hidden" name="BaseRes" id="BaseRes" value="@ViewBag.BaseRes" />
+    }
+        <p>
+            <input type="submit" value="Submit Reservation Request" />
+        </p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

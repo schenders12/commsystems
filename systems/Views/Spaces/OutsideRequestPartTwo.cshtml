@@ -1,0 +1,164 @@
+﻿@model systems.Models.ExtendedReservation
+
+@{
+    ViewBag.Title = "RequestReservationExtended";
+}
+<script>
+  var pickers = jQuery.noConflict();
+  pickers(function() {
+    pickers("#EndDate").datepicker();
+  });
+</script>
+
+<h2>Request Reservation (Step Two)</h2>
+	<link rel="stylesheet" href="http://www.esf.edu/css/validationEngine.jquery.css" type="text/css"/>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+	<p>You've elected to enter a reservation for an event space, so we need a little more information:</p>
+
+    if (ViewBag.RmCode == "EvCtrGW") // If Gateway, show the Event Center fields. If not, pad blank hidden fields for it.
+    {
+	    <script>
+		  var pickers2 = jQuery.noConflict();
+		  pickers2(function() {
+		    pickers2("#EvDate").datepicker();
+			pickers2("#EvStart").timePicker({
+			  show24Hours: false,
+			  separator: ':',
+			  step: 5});
+			pickers2("#EvEnd").timePicker({
+			  show24Hours: false,
+			  separator: ':',
+			  step: 5});
+		  });
+		</script>
+        <h3>Event Date &amp; Time</h3>
+        <p>You’ve already given us the time duration of your entire reservation, but this is the actual start and end time of your event. <strong>Unless otherwise indicated, it is assumed that any facilities work and setup should be completed outside of this timeframe.</strong></p>
+    	<p><div id="labels" class="twelve">
+                <label FOR="EventDate"><strong>Date</strong></label>
+		   </div>
+            <input type="text" name="EvDate" id="EvDate" class="twelve" />
+             @Html.ValidationMessageFor(model => model.EvDate)
+        </p>
+   		<p><div id="labels" class="twelve">
+                <label FOR="EvStart"><strong>Start Time</strong><br />
+				<em>Facilities work and setup should occur before this time.</em></label>
+		   </div>
+            <input type="text" name="EvStart" id="EvStart" class="twelve" />
+             @Html.ValidationMessageFor(model => model.EvStart)
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="EvEnd"><strong>End Time</strong><br />
+            <em>Facilities work and setup should occur after this time.</em></label>
+		   </div>
+            <input type="text" name="EvEnd" id="EvEnd" class="twelve" />
+             @Html.ValidationMessageFor(model => model.EvEnd)
+        </p>
+	    if (ViewBag.DoesRecur == "Yes")
+	    {
+            <h3>Daily Recurrence</h3>
+			<input type="hidden" value="Daily" name="Interval" id="Interval">
+	
+	    	<p><div id="labels" class="twelve">
+	                <label FOR="EndDate"><strong>End Date</strong><br />Recur daily until this date (inclusive).</label>
+			   </div>
+	            <input type="text" name="EndDate" id="EndDate" class="twelve" />
+	        </p>
+	        <input type="hidden" name="BaseRes" id="BaseRes" value="@ViewBag.BaseRes" />
+	    }
+        <h3>Room Configuration</h3>
+        <p><div id="labels" class="twelve">
+           The Gateway Center event space is comprised of three rooms. Based on your setup needs, we will provide you with the best available spaces.<br />
+		   Indicate the room setup your event will require. <a href="/outreach/gateway/#plans" target="_blank">Diagrams and other space details</a>.<br />
+        Please note that all event spaces are equipped with:
+        <ul>
+        	<li>Catering & Registration Tables:
+	        	<ul>
+	        		<li>15-50 people (2 Catering Tables/ 1 Registration Table)</li>
+	        		<li>50-100 people (3 Catering Tables/ 1 Registration Table)</li>
+	        		<li>100-200 people (4 Catering Tables/ 2 Registration Tables)</li>
+	        		<li>200+ people (4 Catering Tables/ 2 Registration Tables)</li>
+	        	</ul>
+        	</li>
+        </ul></div>
+        <span class="twelve"><strong>Seating Type</strong></span><br />
+        <select name="RoomConfig" id="RoomConfig">
+        	<option selected="selected" value="--"> -- Seating Type -- </option>
+        	<option value="Round Tables">Round Tables</option>
+        	<option value="Classroom Seating">Classroom Seating</option>
+        	<option value="Theater Seating">Theater Seating</option>
+        </select><br /><br />
+        <span class="twelve"><strong>Seating for how many?</strong></span><br />
+	        Round tables, maximum 200.<br />
+	        Classroom style, maximum 300.<br />
+	        Theater style, maximum 400.<br /><br />
+        <select name="FacilityReqs" id="FacilityReqs">
+        	<option selected="selected" value="--"> -- Setup -- </option>
+        	<option value="15-50">15-50</option>
+        	<option value="51-100">51-100</option>
+        	<option value="101-200">101-200</option>
+        	<option value="201-400">201+ (Not available for Rounds)</option>
+        </select><br />
+            @Html.EditorFor(model => model.PTStage)&nbsp;Check here if you would like a stage for your event (available only for Medium & Large groups)<br />
+            @Html.EditorFor(model => model.PTPodium)&nbsp;Check here if you would like a podium for your event<br />
+
+        </p>
+        
+        <hr class="clearer" />
+        <h3>Presentation Technology</h3>
+   		<p><div id="labels" class="twelve">
+            <label><strong>Identify the technological services necessary for your event.</strong><br />
+			The Gateway Center exhibit spaces are Audio/Visual equipment ready, but <em>please note that a computer/laptop is not provided.</em><br />&nbsp;</label>
+		   </div>
+            @Html.EditorFor(model => model.PTProj)&nbsp;Projector &amp; Screen<br />
+            @Html.EditorFor(model => model.PTMic)&nbsp;Wired Microphone on Podium<br />
+            @Html.EditorFor(model => model.PTWMic)&nbsp;Wireless Microphone<br />
+            @Html.EditorFor(model => model.PTPhone)&nbsp;Conference Telephone<br />
+            @Html.EditorFor(model => model.PTWeb)&nbsp;Internet Access at Podium
+        </p>
+	    <h3>Food &amp; Beverages</h3>
+	    <p>@Html.EditorFor(model => model.FoodServed)&nbsp;<strong>Check here if food and/or beverages will be served at your event</strong></p>
+	    <p>@Html.EditorFor(model => model.AlcoholServed)&nbsp;<strong>Check here if alcohol will be served at your event (ESF Faculty/Staff Only)</strong>  <br />An <a target="_blank" href="/au/documents/alcohol-permit-faculty.pdf">Alcohol Request Form (Faculty/Staff Only)</a> must be submitted to Outreach Office for approval at least one month prior to the event for alcohol to be served. Please consult the <a target="_blank" href="/au/documents/PolicyforServingAlcoholicBeveragesatCampusEvents-2.pdf" target="_blank">Policy for Serving Alcoholic Beverages on Campus and on ESF Owned Properties</a> before submitting the form.</p>
+	    <p><em>Please note that Non-ESF groups are prohibited from serving alcoholic beverages at Gateway Center events.</em></p>
+	    <h4>Catering</h4>
+	    <p>@Html.EditorFor(model => model.Catering)&nbsp;<strong>Check here if you are using a caterer for your event</strong></p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="CateringInfo"><strong>Caterer Information</strong><br />
+            <em>If you are using a caterer for your event, please indicate the caterer who you are using.</em></label>
+		   </div>
+            <input type="text" name="CateringInfo" id="CateringInfo"  size="60" maxlength="50" class="twelve" />
+             @Html.ValidationMessageFor(model => model.CateringInfo)
+        </p>
+        <p>@Html.EditorFor(model => model.KitchenReq)&nbsp;<strong>Check here if you require access to the Catering Kitchen</strong></p>
+        <h3>Parking</h3>
+   		<p><div id="labels" class="twelve">
+            <label FOR="ParkingReq"><strong>Indicate the number of parking spaces required on the day of your event.</strong><br />Additional fees may apply. </label>
+		   </div>
+            <input type="text" name="ParkingReq" id="ParkingReq" class="twelve" />
+             @Html.ValidationMessageFor(model => model.ParkingReq)<br />
+             <strong>Parking is always restricted, and permits are always necessary</strong> - and permit requests must be submitted 1 month in advance.
+        </p>
+	    <h3>Event Admission</h3>
+	    @Html.EditorFor(model => model.AdmFee) <strong>&nbsp;Check here if an admission fee will be charged for the event.</strong>
+	    <input type="hidden" name="EventAdm" id="EventAdm" value="" />
+	    @Html.ValidationMessageFor(model => model.EventAdm)
+        <h3>Additional Notes</h3>
+   		<p><div id="labels" class="twelve">
+            <label FOR="AddlNotes"><strong>Additional Reservation Notes</strong><br />
+            If there is anything else you need to tell us, do so here.
+		   </div>
+            @Html.TextAreaFor(model => model.AddlNotes, new { style = "width:600px; height:80px;" })
+            
+        </p>  
+    }
+        <h4 align="center" class="red">By clicking "Submit Reservation Request," you certify that the information above is accurate to the best of your ability and that you understand that this requests but does not guarantee a reservation at the time(s) indicated. Reservations are not final until approved by the Outreach Office.</h4>
+        <p align="center">
+            <input type="submit" value="Submit Reservation Request" />
+        </p>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,26 @@
+﻿<h2>Choose a Page type</h2>
+@using (Html.BeginForm()) {
+    <input type="hidden" name="profileID" id="profileID" value="@ViewBag.profileID" />
+    @Html.Hidden("viewType", "Internal")
+				<table>
+					<tr>
+						<th style="width:10%;text-align:center;vertical-align:middle;" scope="row">
+							<input type="radio" class="twelve" name="PageType" id="PageType" value="Internal" />
+						</th>
+						<td>
+							<h4>Internal</h4>
+							<p>Use this option to create a page with all the features of an ESF web page.</p>
+						</td>
+					</tr>
+					<tr>
+						<th style="width:10%;text-align:center;vertical-align:middle;" scope="row">
+							<input type="radio" class="twelve" name="PageType" value="External" />
+						</th>
+						<td>
+							<h4>External</h4>
+							<p>Use this option to create a single link to a page that you have created.</p>
+						</td>
+					</tr>
+				</table>
+				<p align="center" class="fourteen"><input type="submit" id="choose-page-submit" data-profileid = "@ViewBag.ProfileId" value="Continue" /></p>
+}

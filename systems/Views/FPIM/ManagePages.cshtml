@@ -1,0 +1,66 @@
+﻿@model systems.Models.FacultyProfile
+
+@{
+    ViewBag.Title = "ManagePages";
+}
+
+@Html.Partial("WelcomeBox", Model) 
+<h2>Manage Pages</h2>
+   <p>This table lists your current pages.</p>
+   <p>Use the 'Edit' Option to rename the page, or add/remove/rearrange modules.</p>
+   <p>  Use the 'Delete' option to delete the page.</p>
+   <p>  Use the 'Add a Page' button to add a new page.</p>
+<p></p>
+<p></p>
+  <p>
+  @Html.ActionLink("Add a Page","ChoosePageTypePartial", "FPIM", new { profileId = @Model.ProfileId}, new {@class="create-page-choose ui-widget-header ui-corner-all", data_profileid=@Model.ProfileId})
+  @Html.ActionLink("Done","Index", "FPIM", new { profileId = @Model.ProfileId}, new {@class="ui-widget-header ui-corner-all"})
+  </p>
+
+   <h4>Your Pages</h4>
+@if (Model.FacultyPages.Count >= 1)
+  {
+      <table>
+        <tr>
+            <th>Options</th>
+            <th>Page Title (Click to view page)</th>
+            <th>Modules contained in this page</th>
+        </tr>
+      @foreach (var page in Model.FacultyPages)
+      {
+        <tr>
+           <td> 
+             @Html.ActionLink("Edit Page","EditFacultyPage", "FPIM", new { pageId = @page.FacultyPageId}, new {@class="edit-page-button btnStyleOne", data_pageid=@page.FacultyPageId})
+             @Html.ActionLink("Delete Page","DeletePagePartial", "FPIM", new { pageId = @page.FacultyPageId}, new {@class="delete-page-button btnStyleOne", data_pageid=@page.FacultyPageId})
+          </td>
+          <td>
+              @if (!(string.IsNullOrEmpty(page.PageTitle)))
+              {
+                  @Html.ActionLink(@page.PageTitle,"ViewFacultyPage", new { profileId = @Model.ProfileId, pageID = @page.FacultyPageId}, new { profileId = @page.FacultyPageId, data_pageid=@page.FacultyPageId})
+              }
+          </td>
+          <td>
+          @foreach (var module in Model.FacultyProfileModules)
+          {
+              if (module.FacultyPageId == page.FacultyPageId)
+              {
+                 <p>@Html.DisplayFor(m => module.ModuleTitle)</p>
+             };
+          }
+          </td>
+          </tr>
+      }
+      </table>
+  }
+
+  <div id="delete-page"></div>
+  <div id="choose-page"></div>
+
+@section Style {
+    @Styles.Render("~/Content/managePages")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/managePages")
+}
+

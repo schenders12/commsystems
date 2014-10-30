@@ -1,0 +1,48 @@
+﻿@model IEnumerable<systems.Models.ReservableSpace>
+
+@{
+    ViewBag.Title = "Spaces";
+}
+
+<h2>ESF Spaces<br /><span class="twelve"><strong>Room Reservations</strong></span></h2>
+    @if (@ViewBag.SystemMessage != "" && @ViewBag.SystemMessage != null)
+    {
+        <div id='box' class="right w100 bggreen callout"><h4 align="center">@ViewBag.SystemMessage</h4></div>
+    }
+<div id="box" class="right w40 border bgorange">
+    <h3>My Reservations</h3>
+    @{
+        if (@ViewBag.MyReservations.Count != 0)
+        {
+            foreach (systems.Models.BasicReservation res in @ViewBag.MyReservations)
+            {
+                <p>@Html.ActionLink(res.EventName + " in " + res.ReservableSpace.RmName + " (" + res.EventDate.ToShortDateString() + ")","ViewReservation",new { id = res.ResId })</p>
+            }
+        }
+        else
+        {
+            <p>No reservations were found.</p>
+        }
+    }
+</div>
+<p>ESF Spaces is the campus room reservation system. You may request room reservations to many campus spaces through this system. An ESF portals, ESF NetId, or SU NetId account is required to request a room reservation.</p>
+<p>Campus spaces reserved through this system include all classrooms controlled by the Office of the Registrar, all reservable spaces in the Gateway Center, and Nifkin (Alumni) Lounge. If you currently handle room reservations for another campus space, and want your space added to this system, please contact <a href="mailto:acknight@esf.edu">Aaron Knight</a>.</p>
+<h3>Reservable Spaces<br /><span class="twelve"><em>Listed by Building</em></span></h3>
+@{
+    var prevbldg = "";
+    foreach (var item in Model) {
+        if (item.Building != prevbldg)
+        {
+            <h4>@item.Building</h4>
+        }
+        prevbldg = item.Building;
+        <p>
+            @Html.ActionLink(@item.RmName,"SpaceDetails", new { id = item.RmCode } )
+        </p>
+    
+    }
+}
+    
+<h3>@Html.ActionLink("Administration","Admin")</h3>
+
+

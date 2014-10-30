@@ -1,0 +1,411 @@
+﻿@model systems.Models.FullReservation
+
+@{
+    ViewBag.Title = "EditReservation";
+}
+<script>
+    var pickers = jQuery.noConflict();
+    pickers(function () {
+        pickers("#basic.EventDate").datepicker();
+        pickers("#basic.StartTime").timePicker({
+            show24Hours: false,
+            separator: ':',
+            step: 5
+        });
+        pickers("#basic.EndTime").timePicker({
+            show24Hours: false,
+            separator: ':',
+            step: 5
+        });
+    });
+</script>
+
+<h2>Editing Reservation &ldquo;@Model.basic.EventName&rdquo;</h2>
+<p><strong>This reservation is for @systems.Helpers.fns.SpaceName(@Model.basic.RmCode) - if you need to change rooms, please contact @Model.basic.ReservableSpace.ContactName at <a href="mailto:@Model.basic.ReservableSpace.ContactEmail">@Model.basic.ReservableSpace.ContactEmail</a></strong></p>
+<p>Please note that modifying the date or time of your event will subject your event to approval again - your event is no longer considered approved.</p>
+<p>Any changes to facility requirements (for Nifkin, Bray Rotunda and the Gateway Events Center) will also subject the event to approval again.</p>
+<style>
+    p {
+        padding-bottom:5px;
+    }
+</style>
+	<link rel="stylesheet" href="http://www.esf.edu/css/validationEngine.jquery.css" type="text/css"/>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+        @Html.HiddenFor(model => model.basic.ResId)
+        @Html.HiddenFor(model => model.basic.RmCode)
+        @Html.HiddenFor(model => model.basic.Status)
+        @Html.HiddenFor(model => model.basic.ApprovedBy)
+        @Html.HiddenFor(model => model.basic.ApprovedOn)
+        @Html.HiddenFor(model => model.basic.Recorded)
+        @Html.HiddenFor(model => model.basic.RecurInit)
+
+        <h3>Basic Reservation Information</h3>
+		<p><div id="labels" class="twelve">
+                <label FOR="EventName"><strong>Event Name</strong><br />
+               	@if (ViewBag.RmCode != "EvCtrGW")
+               	{    
+               		string lab = "If your event is affiliated with a class, please include the full class ID (e.g. APM 104).";
+               		@lab
+                }</label>
+		   </div>
+           <input name="EventName" id="EventName" type="text" size="60" maxlength="50" value="@Model.basic.EventName" class="twelve" />
+            @Html.ValidationMessageFor(model => model.basic.EventName)
+		</p>
+
+    	<p><div id="labels" class="twelve">
+                <label FOR="EventDesc"><strong>Describe Your Event</strong><br />
+               	@if (ViewBag.RmCode != "EvCtrGW")
+               	{    
+               		string desc1 = "Please be as detailed as you can in order to expedite processing.";
+               		@desc1
+                }
+                else
+                {
+                	HtmlString desc2 = new HtmlString("Please include pertinent details about your event – e.g., &ldquo;Small, full-day conference on Emerald Ash Borer beetles for researchers and students on campus. Will include plenary-style presentations throughout the day, and a lunch break with food served.&rdquo;");
+                	@desc2
+                }</label>
+		   </div>
+                <textarea name="basic.EventDesc" id="basic.EventDesc" cols="70" rows="4" >@Model.basic.EventDesc</textarea>
+            @Html.ValidationMessageFor(model => model.basic.EventDesc)
+		</p>
+    	<p><div id="labels" class="twelve">
+                <label FOR="basic.EventDate"><strong>Event Date</strong><br />
+                    If your reservation recurs (daily or weekly), enter the <strong>first</strong> date needed.</label>
+		   </div>
+            <input type="text" name="basic.EventDate" id="basic.EventDate" value="@Model.basic.EventDate.ToShortDateString()" class="twelve" />
+             @Html.ValidationMessageFor(model => model.basic.EventDate)
+        </p>
+
+   		<p><div id="labels" class="twelve">
+                <label FOR="basic.StartTime"><strong>Start Time</strong><br />
+                    This is the <strong>start time</strong> of your reservation. <strong>Include any set-up time you need</strong> before the event.</label>
+		   </div>
+            <input type="text" name="basic.StartTime" id="basic.StartTime" value="@Model.basic.StartTime.ToShortTimeString()" class="twelve" />
+             @Html.ValidationMessageFor(model => model.basic.StartTime)
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="basic.EndTime"><strong>End Time</strong><br />
+            This is the <strong>end time</strong> of your reservation. <strong>Include any take down time you need</strong> at the end of the event.</label>
+		   </div>
+            <input type="text" name="basic.EndTime" id="basic.EndTime" value="@Model.basic.EndTime.ToShortTimeString()" class="twelve" />
+             @Html.ValidationMessageFor(model => model.basic.EndTime)
+        </p>
+        <h3>Contact Information</h3>
+               	if (Model.basic.RmCode == "EvCtrGW")
+               	{
+                    <p>From the details below, please indicate if your event emanates from an ESF or non-ESF entity.</p>
+			   		<p><div id="labels" class="twelve">
+			            <label FOR="basic.SponsOrg"><strong>ESF Events</strong><br />
+			            An ESF event is one that emanates from one of the following individuals/departments:<br />
+			            &nbsp;&bull;&nbsp;Academic Department Chair<br />
+			            &nbsp;&bull;&nbsp;Dean of Student Affairs<br />
+			            &nbsp;&bull;&nbsp;Associate Provost/Dean of Graduate School<br />
+			            &nbsp;&bull;&nbsp;Associate Provost for Outreach<br />
+			            &nbsp;&bull;&nbsp;Vice Provost of Research<br />
+			            &nbsp;&bull;&nbsp;Provost/Vice President of Academic Affairs<br />
+			            &nbsp;&bull;&nbsp;Vice President of Enrollment Management<br />
+			            &nbsp;&bull;&nbsp;Vice President of Administration<br />
+			            &nbsp;&bull;&nbsp;College President
+					   </div>
+			            <strong>Please indicate which individual from the list on the left, or from which ESF campus department this event emanates from:</strong><br />
+			            <input name="basic.SponsOrg" id="basic.SponsOrg" type="text" size="60" maxlength="50" value="@Model.basic.SponsOrg" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.basic.SponsOrg)
+   			            <br /><strong></p>
+			   		<p><div id="labels" class="twelve">
+			            <label FOR="basic.SponsOrgAdv">
+			                <strong>Non-ESF Events</strong><br />
+			                A non-ESF event is an ESF mission-allied event that emanates from a non-ESF organization. Please indicate the <strong>organization that is holding the event</strong>.</label>
+					   </div>
+                        <span style="font-weight:normal;">For all non-ESF organizations, a <strong>Revocable Permit</strong> must be submitted to the Outreach office for approval at least two months prior to the event. Please refer to the <a href="http://www.esf.edu/au/documents/PolicyforServingAlcoholicBeveragesatCampusEvents-2.pdf" target="_blank">ESF policy for Occasional Use of Campus Facilities by Non-Commercial Organizations</a> for more information.</span><br />
+			            <input name="basic.SponsOrgAdv" id="basic.SponsOrgAdv" type="text" size="60" maxlength="50" value="@Model.basic.SponsOrgAdv" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.basic.SponsOrgAdv)
+			        </p>
+               	}
+               	else
+               	{
+			   		<p><div id="labels" class="twelve">
+			            <label FOR="basic.SponsOrg"><strong>Sponsoring ESF Organization</strong><br />
+			            If an organization is organizing or affiliated with this reservation request, enter that here.</label>
+			            <br />Please Note: If your organization is not affiliated with ESF, you must get approval through the Vice President for Administration before placing a reservation.
+					   </div>
+			            <input name="basic.SponsOrg" id="basic.SponsOrg" type="text" size="60" maxlength="50" value="@Model.basic.SponsOrg" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.basic.SponsOrg)
+			        </p>
+			   		<p><div id="labels" class="twelve">
+			            <label FOR="basic.SponsOrgAdv"><strong>Sponsor Contact Information</strong><br />
+			                Student Organizations must provide <strong>group advisor's</strong> name and phone number. All others must provide contact name and phone number if different from on-site contact information.</label>
+					   </div>
+			            <input name="basic.SponsOrgAdv" id="basic.SponsOrgAdv" type="text" size="60" maxlength="50" value="@Model.basic.SponsOrgAdv" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.basic.SponsOrgAdv)
+			        </p>
+               	}
+
+                if (Model.basic.RmCode != "EvCtrGW")
+               	{
+
+			   		<p><div id="labels" class="twelve">
+			            <strong>On-Site Contact Information</strong><br />
+			            
+			            <strong><em>Give us the name, email, and cell phone number of the <span class="red">person who will be responsible on the day of the event.</span></em></strong>
+					   </div>
+                    <label for="basic.ReqName"><strong>Name: </strong></label><input type="text" name="basic.ReqName" id="basic.ReqName" size="60" maxlength="50" value="@Model.basic.ReqName" class="twelve" />
+                     @Html.ValidationMessageFor(model => model.basic.ReqName)<br />
+                    <label for="basic.ReqEmail"><strong>Email: </strong></label><input type="text" name="basic.ReqEmail" id="basic.ReqEmail" size="60" maxlength="50" value="@Model.basic.ReqEmail" class="twelve" />
+                     @Html.ValidationMessageFor(model => model.basic.ReqEmail)<br />
+                    <label for="basic.ReqPhone"><strong>Phone: </strong></label><input type="text" name="ReqPhone" id="ReqPhone" size="60" maxlength="50" value="@Model.basic.ReqPhone" class="twelve" />
+			   		<input type="hidden" value="n/a" name="ReqTitle" id="ReqTitle" />
+               		<input type="hidden" value="n/a" name="ReqOrg" id="ReqOrg" />
+               		<input type="hidden" value="n/a" name="ReqDept" id="ReqDept" />
+               		        </p>
+
+               	}
+               	else
+               	{
+			   		<p><div id="labels" class="twelve" style="min-height:130px;">
+			            <strong>On-Site Contact Information</strong><br />
+			            
+			            <strong><em>Give us the contact information of the <span class="red">person who will be responsible on the day of the event.</span></em></strong>
+					   </div>
+                        <label for="basic.ReqName"><strong>Name: </strong></label><input type="text" name="basic.ReqName" id="basic.ReqName" size="60" maxlength="50" value="@Model.basic.ReqName" class="twelve" />
+                         @Html.ValidationMessageFor(model => model.basic.ReqName)<br />
+			            <label for="basic.ReqTitle"><strong>Title: </strong></label><input type="text" name="basic.ReqTitle" id="basic.ReqTitle" size="60" maxlength="50" value="@Model.basic.ReqTitle" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.basic.ReqTitle)<br />
+			            <label for="basic.ReqOrg"><strong>Organization: </strong></label><input type="text" name="basic.ReqOrg" id="basic.ReqOrg" size="60" maxlength="50" value="@Model.basic.ReqOrg" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.basic.ReqOrg)<br />
+			            <label for="basic.ReqDept"><strong>Department/Office: </strong></label><input type="text" name="basic.ReqDept" id="basic.ReqDept" size="60" maxlength="50" value="@Model.basic.ReqDept" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.basic.ReqDept)<br />
+			            <label for="basic.ReqEmail"><strong>Email: </strong></label><input type="text" name="basic.ReqEmail" id="basic.ReqEmail" size="60" maxlength="50" value="@Model.basic.ReqEmail" class="twelve" />
+			             @Html.ValidationMessageFor(model => model.basic.ReqEmail)<br />
+                        <label for="basic.ReqPhone"><strong>Phone: </strong></label><input type="text" name="basic.ReqPhone" id="basic.ReqPhone" size="60" maxlength="50" value="@Model.basic.ReqPhone" class="twelve" />
+						</p>
+               	
+               	}
+        <h3>Attendance</h3>
+   		<p><div id="labels" class="twelve">
+            <label FOR="ReqGuests"><strong>Expected Number of Attendees</strong><br />
+            If you have an estimated number of attendees, please indicate that here.
+		   </div>
+            <input type="text" name="basic.ReqGuests" id="basic.ReqGuests" value="@Model.basic.ReqGuests" class="twelve" />
+             @Html.ValidationMessageFor(model => model.basic.ReqGuests)
+        </p>
+        <h3>University Police Services</h3>
+        <p><strong>It is your responsibility to confirm any requests in advance. Contact University Police directly at 315-470-6667.</strong></p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="basic.ReqUPD"><!-- <strong>Requests for University Police</strong><br /> -->
+            <strong>Note any requests for University Police here such as after hours room/building openings or police presence. <span class="red">DO NOT assume that buildings and rooms are open during your room reservation.</span></strong>
+		   </div>
+            <textarea name="basic.ReqUPD" id="basic.ReqUPD" rows="3" cols="70">@Model.basic.ReqUPD</textarea><br />
+               
+               @{
+                string pkplus;
+               	if (Model.basic.RmCode == "EvCtrGW")
+               	{
+               		pkplus = "<strong><span class='red'>On-campus parking is always restricted, and permits are always necessary.</span></strong><br /> Parking details will be provided on the next page.";
+               	}
+               	else
+               	{
+               		pkplus = "<strong><span class='red'>On-campus parking is always restricted, and permits are always necessary.</span></strong><br />If you need on-campus parking for your event, permits must be requested 10 days in advance through University Police directly.";
+               	}
+               	HtmlString parking = new HtmlString(pkplus);
+               	@parking
+               }
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="basic.ResNotes"><strong>Reservation Notes</strong><br />
+            If there is anything else you need to tell us, do so here.
+		   </div>
+            <textarea name="basic.ResNotes" id="basic.ResNotes" rows="3" cols="70">@Model.basic.ResNotes</textarea>
+             @Html.ValidationMessageFor(model => model.basic.ResNotes)
+        </p>  
+        if (@Model.extended != null) // show extended information
+        { 
+     if (Model.basic.RmCode == "EvCtrGW") // If Gateway, show the Event Center fields. If not, pad blank hidden fields for it.
+    {
+	    <script>
+	        var pickers2 = jQuery.noConflict();
+	        pickers2(function () {
+	            pickers2("#extended.EvDate").datepicker();
+	            pickers2("#extended.EvStart").timePicker({
+	                show24Hours: false,
+	                separator: ':',
+	                step: 5
+	            });
+	            pickers2("#extended.EvEnd").timePicker({
+	                show24Hours: false,
+	                separator: ':',
+	                step: 5
+	            });
+	        });
+		</script>
+        <h3>Event Date &amp; Time</h3>
+        <p>You’ve already given us the time duration of your entire reservation, but this is the actual start and end time of your event. <strong>Unless otherwise indicated, it is assumed that any facilities work and setup should be completed outside of this timeframe.</strong></p>
+    	<p><div id="labels" class="twelve">
+                <label FOR="extended.EventDate"><strong>Date</strong></label>
+		   </div>
+               @{
+                    DateTime extevdate = Model.extended.EvDate ?? DateTime.Now;    
+               }
+            <input type="text" name="extended.EvDate" id="extended.EvDate" value="@extevdate.ToShortDateString()" class="twelve" />
+             @Html.ValidationMessageFor(model => model.extended.EvDate)
+        </p>
+   		<p><div id="labels" class="twelve">
+                <label FOR="extended.EvStart"><strong>Start Time</strong><br />
+				<em>Facilities work and setup should occur before this time.</em></label>
+		   </div>
+               @{
+                    DateTime extevstart = Model.extended.EvStart ?? DateTime.Now;    
+               }
+            <input type="text" name="extended.EvStart" id="extended.EvStart" value="@extevstart.ToShortTimeString()" class="twelve" />
+             @Html.ValidationMessageFor(model => model.extended.EvStart)
+        </p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="extended.EvEnd"><strong>End Time</strong><br />
+            <em>Facilities work and setup should occur after this time.</em></label>
+		   </div>
+               @{
+                    DateTime extevend = Model.extended.EvEnd ?? DateTime.Now;    
+               }
+            <input type="text" name="extended.EvEnd" id="extended.EvEnd" value="@extevend.ToShortTimeString()" class="twelve" />
+             @Html.ValidationMessageFor(model => model.extended.EvEnd)
+        </p>
+        <h3>Room Configuration</h3>
+        <p><div id="labels" class="twelve">
+           The Gateway Center event space is comprised of three rooms. Based on your setup needs, we will provide you with the best available spaces.<br />
+		   Indicate the room setup your event will require. <a href="/outreach/gateway/#plans" target="_blank">Diagrams and other space details</a>.<br />
+        Please note that all event spaces are equipped with:
+        <ul>
+        	<li>Catering & Registration Tables:
+	        	<ul>
+	        		<li>15-50 people (2 Catering Tables/ 1 Registration Table)</li>
+	        		<li>50-100 people (3 Catering Tables/ 1 Registration Table)</li>
+	        		<li>100-200 people (4 Catering Tables/ 2 Registration Tables)</li>
+	        		<li>200+ people (4 Catering Tables/ 2 Registration Tables)</li>
+	        	</ul>
+        	</li>
+        </ul></div>
+        <span class="twelve"><strong>Seating Type</strong></span><br />
+        <select name="extended.RoomConfig" id="extended.RoomConfig">
+        	<option selected="selected" value="@Model.extended.RoomConfig">@Model.extended.RoomConfig</option>
+        	<option value="--"> -- Seating Type -- </option>
+        	<option value="Round Tables">Round Tables</option>
+        	<option value="Classroom Seating">Classroom Seating</option>
+        	<option value="Theater Seating">Theater Seating</option>
+        </select><br /><br />
+        <span class="twelve"><strong>Seating for how many?</strong></span><br />
+	        Round tables, maximum 200.<br />
+	        Classroom style, maximum 300.<br />
+	        Theater style, maximum 400.<br /><br />
+        <select name="FacilityReqs" id="FacilityReqs">
+        	<option selected="selected" value="@Model.extended.FacilityReqs">@Model.extended.FacilityReqs</option>
+        	<option value="--"> -- Setup -- </option>
+        	<option value="15-50">15-50</option>
+        	<option value="51-100">51-100</option>
+        	<option value="101-200">101-200</option>
+        	<option value="201-400">201+ (Not available for Rounds)</option>
+        </select><br />
+            @Html.EditorFor(model => model.extended.PTStage)&nbsp;Check here if you would like a stage for your event (available only for Medium & Large groups)<br />
+            @Html.EditorFor(model => model.extended.PTPodium)&nbsp;Check here if you would like a podium for your event<br />
+
+        </p>
+        
+        <hr class="clearer" />
+        <h3>Presentation Technology</h3>
+   		<p><div id="labels" class="twelve">
+            <label><strong>Identify the technological services necessary for your event.</strong><br />
+			The Gateway Center exhibit spaces are Audio/Visual equipment ready, but <em>please note that a computer/laptop is not provided.</em><br />&nbsp;</label>
+		   </div>
+            @Html.EditorFor(model => model.extended.PTProj)&nbsp;Projector &amp; Screen<br />
+            @Html.EditorFor(model => model.extended.PTMic)&nbsp;Wired Microphone on Podium<br />
+            @Html.EditorFor(model => model.extended.PTWMic)&nbsp;Wireless Microphone<br />
+            @Html.EditorFor(model => model.extended.PTPhone)&nbsp;Conference Telephone<br />
+            @Html.EditorFor(model => model.extended.PTWeb)&nbsp;Internet Access at Podium
+        </p>
+	    <h3>Food &amp; Beverages</h3>
+	    <p>@Html.EditorFor(model => model.extended.FoodServed)&nbsp;<strong>Check here if food and/or beverages will be served at your event</strong></p>
+	    <p>@Html.EditorFor(model => model.extended.AlcoholServed)&nbsp;<strong>Check here if alcohol will be served at your event (ESF Faculty/Staff Only)</strong>  <br />An <a target="_blank" href="/au/documents/alcohol-permit-faculty.pdf">Alcohol Request Form (Faculty/Staff Only)</a> must be submitted to Outreach Office for approval at least one month prior to the event for alcohol to be served. Please consult the <a target="_blank" href="/au/documents/PolicyforServingAlcoholicBeveragesatCampusEvents-2.pdf" target="_blank">Policy for Serving Alcoholic Beverages on Campus and on ESF Owned Properties</a> before submitting the form.</p>
+	    <p><em>Please note that Non-ESF groups are prohibited from serving alcoholic beverages at Gateway Center events.</em></p>
+	    <h4>Catering</h4>
+	    <p>@Html.EditorFor(model => model.extended.Catering)&nbsp;<strong>Check here if you are using a caterer for your event</strong></p>
+   		<p><div id="labels" class="twelve">
+            <label FOR="extended.CateringInfo"><strong>Caterer Information</strong><br />
+            <em>If you are using a caterer for your event, please indicate the caterer who you are using.</em></label>
+		   </div>
+            <input type="text" name="extended.CateringInfo" id="extended.CateringInfo"  size="60" maxlength="50" value="@Model.extended.CateringInfo" class="twelve" />
+             @Html.ValidationMessageFor(model => model.extended.CateringInfo)
+        </p>
+        <p>@Html.EditorFor(model => model.extended.KitchenReq)&nbsp;<strong>Check here if you require access to the Catering Kitchen</strong></p>
+        <h3>Parking</h3>
+   		<p><div id="labels" class="twelve">
+            <label FOR="extended.ParkingReq"><strong>Indicate the number of parking spaces required on the day of your event.</strong><br />Additional fees may apply. </label>
+		   </div>
+            <input type="text" name="extended.ParkingReq" id="extended.ParkingReq" value="@Model.extended.ParkingReq" class="twelve" />
+             @Html.ValidationMessageFor(model => model.extended.ParkingReq)<br />
+             <strong>Parking is always restricted, and permits are always necessary</strong> - and permit requests must be submitted 1 month in advance.
+        </p>
+	    <h3>Event Admission</h3>
+	    @Html.EditorFor(model => model.extended.AdmFee) <strong>&nbsp;Check here if an admission fee will be charged for the event.</strong>
+	    <input type="hidden" name="extended.EventAdm" id="extended.EventAdm" value="" />
+	    @Html.ValidationMessageFor(model => model.extended.EventAdm)
+        <h3>Additional Notes</h3>
+   		<p><div id="labels" class="twelve">
+            <label FOR="AddlNotes"><strong>Additional Reservation Notes</strong><br />
+            If there is anything else you need to tell us, do so here.
+		   </div>
+            @Html.TextAreaFor(model => model.extended.AddlNotes, new { style = "width:600px; height:80px;" })
+            
+        </p>  
+    }
+    else
+    {
+           <h4>Facilities Requirements</h4>
+            <textarea name="extended.FacilityReqs" id="extended.FacilityReqs" rows="5" cols="90" class="twelve">@Model.extended.FacilityReqs</textarea>
+            @Html.ValidationMessageFor(model => model.extended.FacilityReqs)
+            <p>
+                @if(Model.extended.FoodServed == null)
+                {
+                    Model.extended.FoodServed = false;
+                }
+                @Html.CheckBoxFor(model => model.extended.FoodServed)
+             <strong>Check here if food will be served at your event</strong></p>
+            <p>
+                @if(Model.extended.AlcoholServed == null)
+                {
+                    Model.extended.AlcoholServed = false;
+                }
+                @Html.CheckBoxFor(model => model.extended.AlcoholServed)
+             <strong>Check here if alcohol will be served at your event</strong>  <br />An Alcohol Request Form (Student, Faculty/Staff) must be submitted to Office of Student Affairs for approval at least 2 weeks prior to the event for alcohol to be served.</p>
+            <p><strong>Event Admission</strong><br />Please select the widest audience you are allowing (i.e. if open to campus and general community, select general public).
+               @if (ViewBag.RmCode != "EvCtrGW")
+                    {
+                        <strong>Please note that an admission fee cannot be charged in most cases.</strong>
+                    }
+            </p>
+            <select name="extended.EventAdm" id="extended.EventAdm">
+                <option selected="selected" value="@Model.extended.EventAdm">@Model.extended.EventAdm</option>
+                <option value="restricted">Admission is Restricted</option>
+                <option value="genpublic">General Public</option>
+                <option value="college">College Community</option>
+            </select>
+            <p>Select Restricted if the event admission is by invite only. If open to the college community but not the general public, select College Community; otherwise, select General Public. <em>All events that are open to at least the college community are required to be placed on the ESF College Calendar.</em></p>
+    
+            @Html.ValidationMessageFor(model => Model.extended.EventAdm)
+         }   
+        }
+
+        <p>
+            <input type="submit" id="submitBtn" class="twelve" value="Save Changes" />
+        </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

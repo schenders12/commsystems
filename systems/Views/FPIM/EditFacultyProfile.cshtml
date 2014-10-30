@@ -1,0 +1,162 @@
+﻿@model systems.Models.FacultyProfile
+@using systems.Helpers;
+
+@{
+    ViewBag.Title = "Index";
+}
+    <h2>@ViewBag.Message</h2>
+<div id="box" class="w100 border bggreen">
+    <h2>@ViewBag.WelcomeMsg</h2>
+    <p>Click the edit link next to any web page module that you would like to edit.</p>
+    <p>Once you make edits, they should be live immediately. If you aren't seeing your edits, please contact Aaron Knight at x6648.</p>
+    <p>To make changes to your directory information, use the Human Resources Self-Service in the Faculty and Staff Portal. </p>
+</div>
+@{
+  HtmlString header = new HtmlString(fns.FacultyPageHeading(ViewBag.userid,ViewBag.fname,ViewBag.lname));
+  @header
+
+  <h4>@Html.ActionLink("Manage Associations and Areas of Study", "EditDeptAOS", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId, @class = "fpim-links" })</h4>
+  <p></p>  
+  <h4>@Html.ActionLink("Manage Files and Documents on the server", "ManageFiles", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId, @class = "fpim-links" })</h4>
+  <h4>@Html.ActionLink("Manage Modules", "ManageModules", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId, @class = "fpim-links" })</h4>
+  <h4>@Html.ActionLink("Manage Pages", "ManagePages", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId, @class = "fpim-links" })</h4>
+  <h4>@Html.ActionLink("Submit a new profile photo", "SubmitPhoto", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId, @class = "fpim-links" })</h4>
+
+      <!-- Modules -->
+  
+  <h4>Your entries</h4> 
+
+  <p></p>
+
+    <!-- Table of Modules-->
+    <table id="tblModule" class="tblStyle">
+        <tr  class="tblModuleRow">
+            <th class="tblModuleCell" >Options
+            </th>
+            <th class="tblModuleCell">Title
+            </th>
+            <th class="tblModuleCell">Module Type
+            </th>
+            <th class="tblModuleCell">Module Data
+            </th>
+        </tr>
+        @foreach (var item in Model.FacultyProfileModules.Where(m => m.FacultyPageId == -1))
+        {
+
+          var html = new HtmlString("");
+          var content = "";
+
+          switch (@item.ModuleType)
+          {
+              case "HTML":
+                  if (item.ModuleTitle != "" && item.ModuleTitle != null)
+                  {
+                      content = "<h4>" + item.ModuleTitle + "</h4>" + item.ModuleData;
+                  }
+                  else
+                  {
+                      content = item.ModuleData;
+                  }
+                  html = new HtmlString("<hr class=clearer />" + @content);
+                  break;
+              case "GradModule":
+                  // TODO: Graduate module.
+                  content = fns.AdviseesModule(item.FacultyProfile.UserId, item.ModuleTitle);
+                  html = new HtmlString("<hr class=clearer />" + @content);
+                  break;
+              // TODO: Scopus feed module, other special modules?
+              default: 
+                  // Ignore anything else.
+                  break;
+          }
+          // Get the page ID that displays this module
+          string modData = item.ModuleData;
+          <tr class="tblRow">
+          <td class="tblColumn"> 
+             @Html.ActionLink("Edit","EditFacultyModule", "FPIM", new { profileId = @Model.ProfileId, moduleId = @item.FacultyProfileModuleId}, new { profileId = @item.FacultyProfileModuleId, @class="edit-module-button btnStyleOne", data_moduleid=@item.FacultyProfileModuleId})
+             @Html.ActionLink("Del","DeleteModulePartial", "FPIM", new { profileId = @Model.ProfileId, moduleId = @item.FacultyProfileModuleId}, new {  profileId = @item.FacultyProfileModuleId, @class="delete-module-button btnStyleOne", data_moduleid=@item.FacultyProfileModuleId})
+          </td>
+          <td id="modTitle" class="itemIdClass tblColumn">
+                   <strong>@Html.DisplayFor(m => item.ModuleTitle)</strong>
+          </td>
+          <td id="modType" class="itemIdClass tblColumn">
+                    @Html.DisplayFor(m => item.ModuleType)
+          </td>
+          <td id="modData" class="itemIdClass tblColumn">
+                    @Html.Raw(modData)
+          </td>
+          </tr>
+  }  
+  </table>
+  <div id="create-module"></div>
+  <div id="delete-module"></div>
+  <div id="choose-page"></div>
+  <div id="delete-page"></div>
+    
+    //  Pages  
+  //<button class="create-module-choose ui-widget-header ui-corner-all" data-profileid = "@Model.ProfileId">Create a Module  </button>
+  //@Html.ActionLink("Create Module","ChooseModuleTypePartial", new { profileID = @Model.ProfileId }, new { @class="create-module-choose ui-widget-header ui-corner-all", data_profileID=@Model.ProfileId })
+  @Html.ActionLink("Create Module","ChooseModuleTypePartial", new { profileID = @Model.ProfileId }, new { @class="create-module-choose ui-widget-header ui-corner-all", data_profileID=@Model.ProfileId })
+
+    if (Model.FacultyPages.Count >= 1)
+  {
+      <h4>Your Pages</h4>
+
+      <table id="tblPages" class="tblStyle">
+        <tr  class="tblPagesRow">
+            <th class="tblPagesCell" >Page Title (Click to view page)
+            </th>
+            <th class="tblPagesCell">Modules contained in this page
+            </th>
+            <th class="tblPagesCell">Actions
+            </th>
+        </tr>
+      @foreach (var page in Model.FacultyPages)
+      {
+        <tr class="tblRow">
+          <td id="pageTitle" class="itemIdClass tblColumn">
+              @if (!(string.IsNullOrEmpty(page.PageTitle)))
+              {
+                    <!-- @Html.ActionLink(@page.PageTitle,"ViewFacultyPage", new { profileId = @Model.ProfileId, pageID = @page.FacultyPageId}, new { profileId = @page.FacultyPageId, data_pageid=@page.FacultyPageId}) -->
+                    @Html.ActionLink(@page.PageTitle,"ViewFacultyPage", new { profileId = @Model.ProfileId, pageID = @page.FacultyPageId}, new { profileId = @page.FacultyPageId, data_pageid=@page.FacultyPageId})
+                   <!-- <p>@Html.DisplayFor(m => page.PageTitle)</p> -->
+              }
+          </td>
+       <!--   <td id="pageURL" class="itemIdClass tblColumn">
+             <p>@Html.DisplayFor(m => page.LinkURL)</p>
+          </td> -->
+          <td id="pageModules" class="itemIdClass tblColumn">
+          @foreach (var module in Model.FacultyProfileModules)
+          {
+              if (module.FacultyPageId == page.FacultyPageId)
+              {
+                 <p>@Html.DisplayFor(m => module.ModuleTitle)</p>
+             };
+          }
+          </td>
+          <td class="tblColumn"> 
+             <!-- SCH TBD JQuery UI Styles not applied for this line <button class="view-page-button btnStyleOne" >View</button> -->
+             <!-- <input id="view-page-button" type="button" value="View" class="view-page-button btnStyleOne" data-pageid = "@page.FacultyPageId"/>
+             <input id="edit-page-button" type="button" value="Edit" class="buttonEdit btnStyleOne" data-pageid = "@page.FacultyPageId"/>
+             <input id="delete-page-button" type="button" value="Delete"  class="buttonDelete btnStyleOne" data-pageid = "@page.FacultyPageId"/> -->
+            <!-- @Html.ActionLink("View Page","ViewFacultyPage", new { profileId = @Model.ProfileId, myPage = @page.FacultyPageId}, new { profileId = @page.FacultyPageId, @class="view-page-button btnStyleOne", data_pageid=@page.FacultyPageId}) -->
+             @Html.ActionLink("Edit Page","EditFacultyPage", new { pageId = @page.FacultyPageId}, new { pageId = @page.FacultyPageId, @class="edit-page-button btnStyleOne", data_pageid=@page.FacultyPageId})
+             @Html.ActionLink("Delete Page","DeletePagePartial", new { pageId = @page.FacultyPageId}, new {  pageId = @page.FacultyPageId, @class="delete-page-button btnStyleOne", data_pageid=@page.FacultyPageId})
+          </td>
+          </tr>
+      }
+      </table>
+
+  }
+
+  <p>@Html.ActionLink("Add a Page","ChoosePageTypePartial", new { profileId = @Model.ProfileId}, new {@class="create-page-choose btnStyleOne", data_profileID=@Model.ProfileId})</p>
+  <p>@Html.ActionLink("Done Editing","ViewMainFacultyPage", new { profileId = @Model.ProfileId}, new {@class="btnStyleOne", data_profileID=@Model.ProfileId})</p>
+}
+@section Style {
+    @Styles.Render("~/Content/fpimUI")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/fpimIndex")
+    @Scripts.Render("~/bundles/editModule")
+}

@@ -1,0 +1,39 @@
+﻿@model systems.Models.FacultyProfileModule
+
+@{
+    ViewBag.Title = "AddCatalogModule";
+}
+
+<h3>Add Catalog Module</h3>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.ProfileId)
+    @Html.HiddenFor(model => model.FacultyPageId)
+    @Html.HiddenFor(model => model.ModuleType)
+    @Html.HiddenFor(model => model.DisplayOrder)
+    
+     <h3>Your catalog module looks like this:</h3>
+     <div id="catalog-module">
+         <ul id="courses">
+
+         </ul>
+     </div>
+    
+
+    if (@ViewBag.Approver == true)
+    {
+
+    }
+
+<div>
+    @Html.ActionLink("Cancel", "Index")
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/catalogModule")
+}

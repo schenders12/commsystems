@@ -1,0 +1,52 @@
+﻿@model systems.Models.FacultyPage
+
+@{
+    ViewBag.Title = "AddFacultyExternalLink";
+}
+
+<h2>AddFacultyExternalLink</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        @Html.HiddenFor(model => model.ProfileId)
+        <legend>Add Link to an External Page</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PageTitle)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PageTitle)
+            @Html.ValidationMessageFor(model => model.PageTitle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinkURL)
+        </div>
+        <div class="editor-field">
+            @Html.URLFor(model => model.LinkURL, new { style = "width: 500px;" })
+            @Html.ValidationMessageFor(model => model.LinkURL)
+        </div>
+
+        <p>
+            <input id="create-external-page" type="submit" value="Create" />
+            @Html.ActionLink("Create Link","AddFacultyPage", new { myID = @Model.ProfileId}, new {@class="add-page-submit ui-widget-header ui-corner-all", data_profileid=@Model.ProfileId, type="submit"})
+            <button class="add-page-submit ui-widget-header ui-corner-all" data-profileid = "@Model.ProfileId">Add Link  </button>
+
+
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Style {
+    @Styles.Render("~/Content/css")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/addPage")
+}

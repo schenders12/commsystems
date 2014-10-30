@@ -1,0 +1,27 @@
+﻿a.edit-module-button
+{
+     background: url("./images/edit-icon.jpg") no-repeat top left;
+     display: block;
+     width: 40px;
+     height: 40px;
+     text-indent: -9999px; /* hides the link text */
+}
+a.delete-module-button
+{
+     background: url("./images/delete-icon.jpg") no-repeat top left;
+     display: block;
+     width: 40px;
+     height: 40px;
+     text-indent: -9999px; /* hides the link text */
+}
+  a.view-module-button
+{
+     background: url("../Images/image.gif") no-repeat top left;
+     display: block;
+     width: 40px;
+     height: 40px;
+     text-indent: -9999px; /* hides the link text */
+  }
+  #tblModule td {
+    vertical-align: middle;
+}

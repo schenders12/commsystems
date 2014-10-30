@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CatalogModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="CatalogModelStoreContainer">
+          <EntitySet Name="CatalogBaseCourses" EntityType="CatalogModel.Store.CatalogBaseCourses" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ESFCourses" EntityType="CatalogModel.Store.ESFCourses" store:Type="Tables" store:Schema="dbo" store:Name="ESFCourses" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+      [ESFCourses].[CourseId] AS [CourseId], 
+      [ESFCourses].[NiceTitle] AS [NiceTitle], 
+      [ESFCourses].[CourseDesc] AS [CourseDesc], 
+      [ESFCourses].[WebUrl] AS [WebUrl], 
+      [ESFCourses].[GenEd] AS [GenEd], 
+      [ESFCourses].[NiceNotes] AS [NiceNotes]
+      FROM [dbo].[ESFCourses] AS [ESFCourses]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SUCourses" EntityType="CatalogModel.Store.SUCourses" store:Type="Tables" store:Schema="dbo" store:Name="SUCourses" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+      [SUCourses].[CourseId] AS [CourseId], 
+      [SUCourses].[Title] AS [Title], 
+      [SUCourses].[Credits] AS [Credits], 
+      [SUCourses].[GenEds] AS [GenEds]
+      FROM [dbo].[SUCourses] AS [SUCourses]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TimeScheduleWeb" EntityType="CatalogModel.Store.TimeScheduleWeb" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+        </EntityContainer>
+        <EntityType Name="CatalogBaseCourses">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="varchar" Nullable="false" MaxLength="6" />
+          <Property Name="CourseTitle" Type="varchar" Nullable="false" MaxLength="40" />
+          <Property Name="ApprovalDt" Type="datetime" Nullable="false" />
+          <Property Name="DeactivationDt" Type="datetime" Nullable="false" />
+          <Property Name="MinCredHrs" Type="real" Nullable="false" />
+          <Property Name="MaxCredHrs" Type="real" Nullable="false" />
+          <Property Name="ProfConsent" Type="bit" Nullable="false" />
+          <Property Name="CrossListed" Type="varchar" Nullable="false" MaxLength="6" />
+          <Property Name="TeachDept" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Comments" Type="varchar" Nullable="false" MaxLength="120" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'Catalog.dbo.ESFCourses' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="ESFCourses">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="varchar" Nullable="false" MaxLength="6" />
+          <Property Name="NiceTitle" Type="varchar" MaxLength="100" />
+          <Property Name="CourseDesc" Type="text" />
+          <Property Name="WebUrl" Type="varchar" MaxLength="100" />
+          <Property Name="GenEd" Type="varchar" MaxLength="25" />
+          <Property Name="NiceNotes" Type="text" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'Catalog.dbo.SUCourses' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="SUCourses">
+          <Key>
+            <PropertyRef Name="CourseId" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Credits" />
+            <PropertyRef Name="GenEds" />
+          </Key>
+          <Property Name="CourseId" Type="varchar" Nullable="false" MaxLength="6" />
+          <Property Name="Title" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Credits" Type="real" Nullable="false" />
+          <Property Name="GenEds" Type="varchar" Nullable="false" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="TimeScheduleWeb">
+          <Key>
+            <PropertyRef Name="Semester" />
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="SectNbr" />
+            <PropertyRef Name="MtgKey" />
+            <PropertyRef Name="ProfKey" />
+          </Key>
+          <Property Name="Semester" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="CourseID" Type="varchar" Nullable="false" MaxLength="6" />
+          <Property Name="SectNbr" Type="varchar" Nullable="false" MaxLength="2" />
+          <Property Name="MtgKey" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="ProfKey" Type="varchar" Nullable="false" MaxLength="3" />
+          <Property Name="GeneralCourseTitle" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SectionCourseTitle" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="MinCredHrs" Type="real" Nullable="false" />
+          <Property Name="MaxCredHrs" Type="real" Nullable="false" />
+          <Property Name="ReferenceNbr" Type="int" Nullable="false" />
+          <Property Name="GeneralProfConsent" Type="bit" Nullable="false" />
+          <Property Name="SectionProfConsent" Type="bit" Nullable="false" />
+          <Property Name="SectionBeginDt" Type="datetime" Nullable="false" />
+          <Property Name="SectionEndDt" Type="datetime" Nullable="false" />
+          <Property Name="GeneralCrossListed" Type="varchar" Nullable="false" MaxLength="6" />
+          <Property Name="GeneralComments" Type="varchar" Nullable="false" MaxLength="120" />
+          <Property Name="SectionComments" Type="varchar" Nullable="false" MaxLength="120" />
+          <Property Name="SectionHighSchool" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Monday" Type="real" Nullable="false" />
+          <Property Name="Tuesday" Type="real" Nullable="false" />
+          <Property Name="Wednesday" Type="real" Nullable="false" />
+          <Property Name="Thursday" Type="real" Nullable="false" />
+          <Property Name="Friday" Type="real" Nullable="false" />
+          <Property Name="Saturday" Type="real" Nullable="false" />
+          <Property Name="Sunday" Type="real" Nullable="false" />
+          <Property Name="DayUnspecified" Type="real" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="Building" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Room" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Instructor" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Function Name="spDistinctSemestersTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spTimeSchedSingleSpace" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="semester" Type="varchar" Mode="In" />
+          <Parameter Name="building" Type="varchar" Mode="In" />
+          <Parameter Name="room" Type="varchar" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CatalogModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="CatalogEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="CatalogBaseCourses" EntityType="CatalogModel.CatalogBaseCours" />
+          <EntitySet Name="ESFCourses" EntityType="CatalogModel.ESFCours" />
+          <EntitySet Name="SUCourses" EntityType="CatalogModel.SUCours" />
+          <EntitySet Name="TimeScheduleWebs" EntityType="CatalogModel.TimeScheduleWeb" />
+          <FunctionImport Name="spTimeSchedSingleSpace" ReturnType="Collection(CatalogModel.spTimeSchedSingleSpace_Result)">
+            <Parameter Name="semester" Mode="In" Type="String" />
+            <Parameter Name="building" Mode="In" Type="String" />
+            <Parameter Name="room" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spDistinctSemestersTS" ReturnType="Collection(String)" />
+        </EntityContainer>
+        <EntityType Name="CatalogBaseCours">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="String" Nullable="false" MaxLength="6" Unicode="false" FixedLength="false" />
+          <Property Name="CourseTitle" Type="String" Nullable="false" MaxLength="40" Unicode="false" FixedLength="false" />
+          <Property Name="ApprovalDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeactivationDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MinCredHrs" Type="Single" Nullable="false" />
+          <Property Name="MaxCredHrs" Type="Single" Nullable="false" />
+          <Property Name="ProfConsent" Type="Boolean" Nullable="false" />
+          <Property Name="CrossListed" Type="String" Nullable="false" MaxLength="6" Unicode="false" FixedLength="false" />
+          <Property Name="TeachDept" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Comments" Type="String" Nullable="false" MaxLength="120" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="ESFCours">
+          <Key>
+            <PropertyRef Name="CourseId" />
+          </Key>
+          <Property Name="CourseId" Type="String" Nullable="false" MaxLength="6" Unicode="false" FixedLength="false" />
+          <Property Name="NiceTitle" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="CourseDesc" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="WebUrl" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="GenEd" Type="String" MaxLength="25" Unicode="false" FixedLength="false" />
+          <Property Name="NiceNotes" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="SUCours">
+          <Key>
+            <PropertyRef Name="CourseId" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="Credits" />
+            <PropertyRef Name="GenEds" />
+          </Key>
+          <Property Name="CourseId" Type="String" Nullable="false" MaxLength="6" Unicode="false" FixedLength="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Credits" Type="Single" Nullable="false" />
+          <Property Name="GenEds" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TimeScheduleWeb">
+          <Key>
+            <PropertyRef Name="Semester" />
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="SectNbr" />
+            <PropertyRef Name="MtgKey" />
+            <PropertyRef Name="ProfKey" />
+          </Key>
+          <Property Name="Semester" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="CourseID" Type="String" Nullable="false" MaxLength="6" Unicode="false" FixedLength="false" />
+          <Property Name="SectNbr" Type="String" Nullable="false" MaxLength="2" Unicode="false" FixedLength="false" />
+          <Property Name="MtgKey" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="false" />
+          <Property Name="ProfKey" Type="String" Nullable="false" MaxLength="3" Unicode="false" FixedLength="false" />
+          <Property Name="GeneralCourseTitle" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="SectionCourseTitle" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="MinCredHrs" Type="Single" Nullable="false" />
+          <Property Name="MaxCredHrs" Type="Single" Nullable="false" />
+          <Property Name="ReferenceNbr" Type="Int32" Nullable="false" />
+          <Property Name="GeneralProfConsent" Type="Boolean" Nullable="false" />
+          <Property Name="SectionProfConsent" Type="Boolean" Nullable="false" />
+          <Property Name="SectionBeginDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SectionEndDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GeneralCrossListed" Type="String" Nullable="false" MaxLength="6" Unicode="false" FixedLength="false" />
+          <Property Name="GeneralComments" Type="String" Nullable="false" MaxLength="120" Unicode="false" FixedLength="false" />
+          <Property Name="SectionComments" Type="String" Nullable="false" MaxLength="120" Unicode="false" FixedLength="false" />
+          <Property Name="SectionHighSchool" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Monday" Type="Single" Nullable="false" />
+          <Property Name="Tuesday" Type="Single" Nullable="false" />
+          <Property Name="Wednesday" Type="Single" Nullable="false" />
+          <Property Name="Thursday" Type="Single" Nullable="false" />
+          <Property Name="Friday" Type="Single" Nullable="false" />
+          <Property Name="Saturday" Type="Single" Nullable="false" />
+          <Property Name="Sunday" Type="Single" Nullable="false" />
+          <Property Name="DayUnspecified" Type="Single" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Building" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Room" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Instructor" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <ComplexType Name="spTimeSchedSingleSpace_Result">
+          <Property Type="DateTime" Name="StartTime" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EndTime" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CourseId" Nullable="true" MaxLength="6" />
+          <Property Type="DateTime" Name="EventDate" Nullable="true" Precision="23" />
+          </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CatalogModelStoreContainer" CdmEntityContainer="CatalogEntities">
+          <EntitySetMapping Name="CatalogBaseCourses">
+            <EntityTypeMapping TypeName="CatalogModel.CatalogBaseCours">
+              <MappingFragment StoreEntitySet="CatalogBaseCourses">
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="CourseTitle" ColumnName="CourseTitle" />
+                <ScalarProperty Name="ApprovalDt" ColumnName="ApprovalDt" />
+                <ScalarProperty Name="DeactivationDt" ColumnName="DeactivationDt" />
+                <ScalarProperty Name="MinCredHrs" ColumnName="MinCredHrs" />
+                <ScalarProperty Name="MaxCredHrs" ColumnName="MaxCredHrs" />
+                <ScalarProperty Name="ProfConsent" ColumnName="ProfConsent" />
+                <ScalarProperty Name="CrossListed" ColumnName="CrossListed" />
+                <ScalarProperty Name="TeachDept" ColumnName="TeachDept" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESFCourses">
+            <EntityTypeMapping TypeName="CatalogModel.ESFCours">
+              <MappingFragment StoreEntitySet="ESFCourses">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="NiceTitle" ColumnName="NiceTitle" />
+                <ScalarProperty Name="CourseDesc" ColumnName="CourseDesc" />
+                <ScalarProperty Name="WebUrl" ColumnName="WebUrl" />
+                <ScalarProperty Name="GenEd" ColumnName="GenEd" />
+                <ScalarProperty Name="NiceNotes" ColumnName="NiceNotes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUCourses">
+            <EntityTypeMapping TypeName="CatalogModel.SUCours">
+              <MappingFragment StoreEntitySet="SUCourses">
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Credits" ColumnName="Credits" />
+                <ScalarProperty Name="GenEds" ColumnName="GenEds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeScheduleWebs">
+            <EntityTypeMapping TypeName="CatalogModel.TimeScheduleWeb">
+              <MappingFragment StoreEntitySet="TimeScheduleWeb">
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="SectNbr" ColumnName="SectNbr" />
+                <ScalarProperty Name="MtgKey" ColumnName="MtgKey" />
+                <ScalarProperty Name="ProfKey" ColumnName="ProfKey" />
+                <ScalarProperty Name="GeneralCourseTitle" ColumnName="GeneralCourseTitle" />
+                <ScalarProperty Name="SectionCourseTitle" ColumnName="SectionCourseTitle" />
+                <ScalarProperty Name="MinCredHrs" ColumnName="MinCredHrs" />
+                <ScalarProperty Name="MaxCredHrs" ColumnName="MaxCredHrs" />
+                <ScalarProperty Name="ReferenceNbr" ColumnName="ReferenceNbr" />
+                <ScalarProperty Name="GeneralProfConsent" ColumnName="GeneralProfConsent" />
+                <ScalarProperty Name="SectionProfConsent" ColumnName="SectionProfConsent" />
+                <ScalarProperty Name="SectionBeginDt" ColumnName="SectionBeginDt" />
+                <ScalarProperty Name="SectionEndDt" ColumnName="SectionEndDt" />
+                <ScalarProperty Name="GeneralCrossListed" ColumnName="GeneralCrossListed" />
+                <ScalarProperty Name="GeneralComments" ColumnName="GeneralComments" />
+                <ScalarProperty Name="SectionComments" ColumnName="SectionComments" />
+                <ScalarProperty Name="SectionHighSchool" ColumnName="SectionHighSchool" />
+                <ScalarProperty Name="Monday" ColumnName="Monday" />
+                <ScalarProperty Name="Tuesday" ColumnName="Tuesday" />
+                <ScalarProperty Name="Wednesday" ColumnName="Wednesday" />
+                <ScalarProperty Name="Thursday" ColumnName="Thursday" />
+                <ScalarProperty Name="Friday" ColumnName="Friday" />
+                <ScalarProperty Name="Saturday" ColumnName="Saturday" />
+                <ScalarProperty Name="Sunday" ColumnName="Sunday" />
+                <ScalarProperty Name="DayUnspecified" ColumnName="DayUnspecified" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="Room" ColumnName="Room" />
+                <ScalarProperty Name="Instructor" ColumnName="Instructor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spTimeSchedSingleSpace" FunctionName="CatalogModel.Store.spTimeSchedSingleSpace">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CatalogModel.spTimeSchedSingleSpace_Result">
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="CourseId" ColumnName="CourseId" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spDistinctSemestersTS" FunctionName="CatalogModel.Store.spDistinctSemestersTS" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams />
+  </Designer>
+</edmx:Edmx>

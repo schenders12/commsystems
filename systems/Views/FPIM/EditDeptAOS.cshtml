@@ -1,0 +1,80 @@
+﻿@model IEnumerable<systems.Models.FacultyAOSAssoc>
+@{
+    ViewBag.Title = "EditDeptAOS";
+}
+<h2>Departmental Associations and Areas of Study</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <input id="profileID" name="profileID" type="hidden" value="@ViewBag.profileId" />
+    <input id="userID" name="userID" type="hidden" value="@ViewBag.userID" />
+    
+<div id="primary-association">
+
+  <div id="DEPT-FCH"><h3><input name="assoc" type="checkbox" value="DEPT-FCH" onClick="javascript: animatedcollapse.toggle('DEPT-FCH_PA')"/>&nbsp;Chemistry</h3></div>
+  <div id="DEPT-EFB"><h3><input name="assoc" type="checkbox" value="DEPT-EFB" onClick="javascript: animatedcollapse.toggle('DEPT-EFB_PA')"/>&nbsp;EFB</h3></div>
+  <div id="DEPT-ERE"><h3><input name="assoc" type="checkbox" value="DEPT-ERE" onClick="javascript: animatedcollapse.toggle('DEPT-ERE_PA')"/>&nbsp;ERE</h3></div>
+  <div id="DEPT-EST"><h3><input name="assoc" type="checkbox" value="DEPT-EST" onClick="javascript: animatedcollapse.toggle('DEPT-EST_PA')"/>&nbsp;Environmental Studies</h3></div>
+  <div id="DEPT-EWP"><h3><input name="assoc" type="checkbox" value="DEPT-EWP" onClick="javascript: animatedcollapse.toggle('DEPT-EWP_PA')"/>&nbsp;Environmental Writing Program</h3></div>
+  <div id="DEPT-ESC"><h3><input name="assoc" type="checkbox" value="DEPT-ESC" onClick="javascript: animatedcollapse.toggle('DEPT-ESC_PA')"/>&nbsp;Environmental Science</h3></div>
+  <div id="DEPT-FNRM"><h3><input name="assoc" type="checkbox" value="DEPT-FNRM" onClick="javascript: animatedcollapse.toggle('DEPT-FNRM_PA')"/>&nbsp;FNRM</h3></div>
+  <div id="DEPT-LA"><h3><input name="assoc" type="checkbox" value="DEPT-LA" onClick="javascript: animatedcollapse.toggle('DEPT-LA_PA')"/>&nbsp;Landscape Architecture</h3></div>
+  <div id="DEPT-MOON"><h3><input name="assoc" type="checkbox" value="DEPT-MOON" onClick="javascript: animatedcollapse.toggle('DEPT-MOON_PA')"/>&nbsp;Moon Library</h3></div>
+  <div id="DEPT-PBE"><h3><input name="assoc" type="checkbox" value="DEPT-PBE" onClick="javascript: animatedcollapse.toggle('DEPT-PBE_PA')"/>&nbsp;PBE</h3></div>
+  <div id="DEPT-SCME"><h3><input name="assoc" type="checkbox" value="DEPT-SCME" onClick="javascript: animatedcollapse.toggle('DEPT-SCME_PA')"/>&nbsp;SCME</h3></div>
+
+
+ <!-- <h4 id="DEPT-FCH" >&nbsp;Chemistry</h4>
+  <h4 id="DEPT-EFB" >&nbsp;EFB</h4>
+  <h4 id="DEPT-ERE" >&nbsp;ERE</h4>
+  <h4 id="DEPT-EST" >&nbsp;Environmental Studies</h4>
+  <p id="DEPT-EWp">&nbsp;Environmental Writing Program</p>
+  <h4 id="DEPT-ESC" >&nbsp;Environmental Science</h4>
+  <h4 id="DEPT-FNRM" >&nbsp;FNRM</h4>
+  <h4 id="DEPT-LA" >&nbsp;Landscape Architecture</h4>
+  <h4 id="DEPT-MOON" >&nbsp;Moon Library</h4>
+  <h4 id="DEPT-PBE" >&nbsp;PBE</h4>
+  <h4 id="DEPT-SCME" >&nbsp;SCME</h4>
+      -->
+  <div id="DEPT-CERT"><h4>&nbsp;Certificates</h4></div>
+  <div id="DEPT-MIN"><h4>&nbsp;Minors</h4></div>
+  <div id="DEPT-OTH"><h4>&nbsp;OTH</h4></div>
+  <div id="DEPT-XD"><h4>&nbsp;Cross Departmental</h4></div>
+
+  <!--<h3><input id="Chemistry" name="assoc" type="checkbox" value="Chemistry"/>&nbsp;Chemistry</h3>
+  <h3><input id="EFB" name="assoc" type="checkbox" value="EFB" />&nbsp;EFB</h3>
+  <h3><input id="ERE" name="assoc" type="checkbox" value="ERE" />&nbsp;ERE</h3>
+  <h3><input id="Environmental Studies" name="assoc" type="checkbox" value="Environmental Studies" />&nbsp;Environmental Studies</h3>
+  <p><input id="Writing Program" name="assoc" type="checkbox" value="Writing Program" />&nbsp;Environmental Writing Program</p>
+  <h3><input id="Environmental Science" name="assoc" type="checkbox" value="Environmental Science" />&nbsp;Environmental Science</h3>
+  <h3><input id="FNRM" name="assoc" type="checkbox" value="FNRM" />&nbsp;FNRM</h3>
+  <h3><input id="LA" name="assoc" type="checkbox" value="LA" />&nbsp;Landscape Architecture</h3>
+  <h3><input id="Moon Library" name="assoc" type="checkbox" value="Moon Library" />&nbsp;Moon Library</h3>
+  <h3><input id="PBE" name="assoc" type="checkbox" value="PBE" />&nbsp;PBE</h3>
+  <h3><input id="SCME" name="assoc" type="checkbox" value="SCME" />&nbsp;SCME</h3> -->
+
+
+    @foreach (var item in Model) {
+      // Create hidden elements with name 'checkMe' and value of department 
+      // to indicate which elements need to be checked
+      <input name="checkMe" type="hidden" value="@item.AOSCode" />
+    }
+
+</div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "FPIM", new { profileId = ViewBag.profileId}, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/aosassoc")
+    @Scripts.Render("~/bundles/animatedcollapse")
+}

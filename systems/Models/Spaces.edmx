@@ -1,0 +1,1886 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RoomResModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="RoomResModelStoreContainer">
+          <EntitySet Name="BasicReservation" EntityType="RoomResModel.Store.BasicReservation" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ExtendedReservation" EntityType="RoomResModel.Store.ExtendedReservation" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Perm" EntityType="RoomResModel.Store.Perm" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="ReservableSpaces" EntityType="RoomResModel.Store.ReservableSpaces" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="RmGroups" EntityType="RoomResModel.Store.RmGroups" store:Type="Tables" store:Schema="dbo" store:Name="RmGroups" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+            <DefiningQuery>SELECT 
+      [RmGroups].[RmGroup] AS [RmGroup], 
+      [RmGroups].[RmList] AS [RmList]
+      FROM [dbo].[RmGroups] AS [RmGroups]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_BasicReservation_ReservableSpaces" Association="RoomResModel.Store.FK_BasicReservation_ReservableSpaces">
+            <End Role="ReservableSpaces" EntitySet="ReservableSpaces" />
+            <End Role="BasicReservation" EntitySet="BasicReservation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExtendedReservation_BasicReservation" Association="RoomResModel.Store.FK_ExtendedReservation_BasicReservation">
+            <End Role="BasicReservation" EntitySet="BasicReservation" />
+            <End Role="ExtendedReservation" EntitySet="ExtendedReservation" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BasicReservation">
+          <Key>
+            <PropertyRef Name="ResId" />
+          </Key>
+          <Property Name="ResId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RmCode" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="EventName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="EventDesc" Type="text" Nullable="false" />
+          <Property Name="EventDate" Type="datetime" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="SponsOrg" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="SponsOrgAdv" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ReqName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ReqEmail" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="ReqPhone" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="ReqGuests" Type="varchar" Nullable="false" MaxLength="12" />
+          <Property Name="ReqUPD" Type="text" Nullable="false" />
+          <Property Name="ResNotes" Type="text" Nullable="false" />
+          <Property Name="Recorded" Type="datetime" Nullable="false" />
+          <Property Name="RecurInit" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="ApprovedBy" Type="varchar" MaxLength="15" />
+          <Property Name="ApprovedOn" Type="datetime" />
+          <Property Name="UserId" Type="varchar" MaxLength="15" />
+          <Property Name="ReqTitle" Type="varchar" MaxLength="50" />
+          <Property Name="ReqOrg" Type="varchar" MaxLength="50" />
+          <Property Name="ReqDept" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ExtendedReservation">
+          <Key>
+            <PropertyRef Name="ResID" />
+          </Key>
+          <Property Name="ResID" Type="int" Nullable="false" />
+          <Property Name="EventAdm" Type="varchar" Nullable="false" MaxLength="11" />
+          <Property Name="FoodServed" Type="bit" Nullable="false" />
+          <Property Name="AlcoholServed" Type="bit" Nullable="false" />
+          <Property Name="FacilityReqs" Type="text" Nullable="false" />
+          <Property Name="AdmFee" Type="bit" />
+          <Property Name="Catering" Type="bit" />
+          <Property Name="CateringInfo" Type="varchar" MaxLength="50" />
+          <Property Name="RoomConfig" Type="varchar" MaxLength="50" />
+          <Property Name="EvDate" Type="datetime" />
+          <Property Name="EvStart" Type="datetime" />
+          <Property Name="EvEnd" Type="datetime" />
+          <Property Name="ParkingReq" Type="varchar" MaxLength="50" />
+          <Property Name="PTProj" Type="bit" />
+          <Property Name="PTMic" Type="bit" />
+          <Property Name="PTPhone" Type="bit" />
+          <Property Name="PTWeb" Type="bit" />
+          <Property Name="AddlNotes" Type="text" />
+          <Property Name="PTWMic" Type="bit" />
+          <Property Name="KitchenReq" Type="bit" />
+          <Property Name="PTStage" Type="bit" />
+          <Property Name="PTPodium" Type="bit" />
+        </EntityType>
+        <EntityType Name="Perm">
+          <Key>
+            <PropertyRef Name="PermID" />
+          </Key>
+          <Property Name="PermID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="NetId" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="ESFAD" Type="varchar" MaxLength="15" />
+          <Property Name="SUAD" Type="varchar" MaxLength="15" />
+          <Property Name="RmGroup" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Viewer" Type="bit" />
+          <Property Name="Edit" Type="bit" />
+          <Property Name="Approve" Type="bit" />
+        </EntityType>
+        <EntityType Name="ReservableSpaces">
+          <Key>
+            <PropertyRef Name="RmCode" />
+          </Key>
+          <Property Name="RmCode" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Online" Type="bit" Nullable="false" />
+          <Property Name="RmName" Type="varchar" Nullable="false" MaxLength="30" />
+          <Property Name="Building" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="RoomNum" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Capacity" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ContactOffc" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ContactName" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="ContactEmail" Type="varchar" Nullable="false" MaxLength="150" />
+          <Property Name="ContactPhone" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="RmAV" Type="text" Nullable="false" />
+          <Property Name="RmNotes" Type="text" Nullable="false" />
+          <Property Name="NFrom" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="NotifyList" Type="text" Nullable="false" />
+          <Property Name="FoodService" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="CapTheatreStyle" Type="int" />
+          <Property Name="CapConfTables" Type="int" />
+          <Property Name="CapDiningTables" Type="int" />
+          <Property Name="CapExhibStyle" Type="int" />
+          <Property Name="Restrictions" Type="text" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'RoomRes.dbo.RmGroups' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="RmGroups">
+          <Key>
+            <PropertyRef Name="RmGroup" />
+            <PropertyRef Name="RmList" />
+          </Key>
+          <Property Name="RmGroup" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="RmList" Type="text" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BasicReservation_ReservableSpaces">
+          <End Role="ReservableSpaces" Type="RoomResModel.Store.ReservableSpaces" Multiplicity="1" />
+          <End Role="BasicReservation" Type="RoomResModel.Store.BasicReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReservableSpaces">
+              <PropertyRef Name="RmCode" />
+            </Principal>
+            <Dependent Role="BasicReservation">
+              <PropertyRef Name="RmCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExtendedReservation_BasicReservation">
+          <End Role="BasicReservation" Type="RoomResModel.Store.BasicReservation" Multiplicity="1" />
+          <End Role="ExtendedReservation" Type="RoomResModel.Store.ExtendedReservation" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BasicReservation">
+              <PropertyRef Name="ResId" />
+            </Principal>
+            <Dependent Role="ExtendedReservation">
+              <PropertyRef Name="ResID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spApproveDeny" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+          <Parameter Name="YesNo" Type="bit" Mode="In" />
+          <Parameter Name="Now" Type="datetime" Mode="In" />
+          <Parameter Name="User" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spCancelBase" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spCancelRes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spCancelResSeries" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RecurInit" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spCreateRes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NetId" Type="varchar" Mode="In" />
+          <Parameter Name="EventName" Type="varchar" Mode="In" />
+          <Parameter Name="EventDesc" Type="text" Mode="In" />
+          <Parameter Name="EventStart" Type="datetime" Mode="In" />
+          <Parameter Name="EventEnd" Type="datetime" Mode="In" />
+          <Parameter Name="ReserveStart" Type="datetime" Mode="In" />
+          <Parameter Name="ReserveEnd" Type="datetime" Mode="In" />
+          <Parameter Name="SponsOrg" Type="varchar" Mode="In" />
+          <Parameter Name="SponsOrgAdv" Type="varchar" Mode="In" />
+          <Parameter Name="ReqName" Type="varchar" Mode="In" />
+          <Parameter Name="ReqEmail" Type="varchar" Mode="In" />
+          <Parameter Name="ReqPhone" Type="varchar" Mode="In" />
+          <Parameter Name="ReqGuests" Type="varchar" Mode="In" />
+          <Parameter Name="ReqUPD" Type="text" Mode="In" />
+          <Parameter Name="Recorded" Type="datetime" Mode="In" />
+          <Parameter Name="ResNotes" Type="text" Mode="In" />
+          <Parameter Name="Which" Type="varchar" Mode="In" />
+          <Parameter Name="AuthType" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spCreateResEvCenter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="FacilityReqs" Type="text" Mode="In" />
+          <Parameter Name="EventAdm" Type="varchar" Mode="In" />
+          <Parameter Name="FoodServed" Type="bit" Mode="In" />
+          <Parameter Name="AlcoholServed" Type="bit" Mode="In" />
+          <Parameter Name="RmA" Type="bit" Mode="In" />
+          <Parameter Name="RmB" Type="bit" Mode="In" />
+          <Parameter Name="RmC" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="spCreateResNifkin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="FacilityReqs" Type="text" Mode="In" />
+          <Parameter Name="EventAdm" Type="varchar" Mode="In" />
+          <Parameter Name="FoodServed" Type="bit" Mode="In" />
+          <Parameter Name="AlcoholServed" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="spCreateResRecur" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NetId" Type="varchar" Mode="In" />
+          <Parameter Name="EventName" Type="varchar" Mode="In" />
+          <Parameter Name="EventDesc" Type="text" Mode="In" />
+          <Parameter Name="EventStart" Type="datetime" Mode="In" />
+          <Parameter Name="EventEnd" Type="datetime" Mode="In" />
+          <Parameter Name="ReserveStart" Type="datetime" Mode="In" />
+          <Parameter Name="ReserveEnd" Type="datetime" Mode="In" />
+          <Parameter Name="SponsOrg" Type="varchar" Mode="In" />
+          <Parameter Name="SponsOrgAdv" Type="varchar" Mode="In" />
+          <Parameter Name="ReqName" Type="varchar" Mode="In" />
+          <Parameter Name="ReqEmail" Type="varchar" Mode="In" />
+          <Parameter Name="ReqPhone" Type="varchar" Mode="In" />
+          <Parameter Name="ReqGuests" Type="varchar" Mode="In" />
+          <Parameter Name="ReqUPD" Type="text" Mode="In" />
+          <Parameter Name="Recorded" Type="datetime" Mode="In" />
+          <Parameter Name="ResNotes" Type="text" Mode="In" />
+          <Parameter Name="Which" Type="varchar" Mode="In" />
+          <Parameter Name="AuthType" Type="varchar" Mode="In" />
+          <Parameter Name="RecurId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spCreateResRotunda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="FacilityReqs" Type="text" Mode="In" />
+          <Parameter Name="EventAdm" Type="varchar" Mode="In" />
+          <Parameter Name="FoodServed" Type="bit" Mode="In" />
+          <Parameter Name="AlcoholServed" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="spFetchAllSpaces" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spFetchAwaiting" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchBaseReservation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spFetchConflicts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EventDate" Type="varchar" Mode="In" />
+          <Parameter Name="RmCode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchExtendedReservation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spFetchMine" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NetId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+          <Parameter Name="StartDt" Type="datetime" Mode="In" />
+          <Parameter Name="EndDt" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="spFetchNotif" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchPending" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchPerm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NetId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchPermUsers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spFetchRange" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Room" Type="varchar" Mode="In" />
+          <Parameter Name="StartDt" Type="datetime" Mode="In" />
+          <Parameter Name="EndDt" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="spFetchRes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spFetchReservations" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchResMonth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDt" Type="datetime" Mode="In" />
+          <Parameter Name="EndDt" Type="datetime" Mode="In" />
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchRSpaces" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchSpace" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RmCode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchSpaceByRmCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RmCode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchSpacesByBuilding" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="BldgName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spFetchSpacesByRmCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RmCodeList" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spInsertBase" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ReqNetId" Type="varchar" Mode="In" />
+          <Parameter Name="ReqName" Type="varchar" Mode="In" />
+          <Parameter Name="ReqResponsible" Type="varchar" Mode="In" />
+          <Parameter Name="ReqEmail" Type="varchar" Mode="In" />
+          <Parameter Name="ReqPhone" Type="varchar" Mode="In" />
+          <Parameter Name="SponsOrg" Type="varchar" Mode="In" />
+          <Parameter Name="SponsOrgAdv" Type="varchar" Mode="In" />
+          <Parameter Name="ReqDate" Type="datetime" Mode="In" />
+          <Parameter Name="ReqEvName" Type="varchar" Mode="In" />
+          <Parameter Name="ReqPurpose" Type="text" Mode="In" />
+          <Parameter Name="ReqGuests" Type="varchar" Mode="In" />
+          <Parameter Name="ReqUPD" Type="text" Mode="In" />
+          <Parameter Name="Recorded" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="spInsertCRApp" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="Approved" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="spInsertCRAppAuto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="Rm" Type="varchar" Mode="In" />
+          <Parameter Name="ID" Type="int" Mode="In" />
+          <Parameter Name="By" Type="varchar" Mode="In" />
+          <Parameter Name="Dt" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="spSFbyBuilding" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Building" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spSFbyRmName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RmCode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spUpdateBase" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResId" Type="int" Mode="In" />
+          <Parameter Name="NetId" Type="varchar" Mode="In" />
+          <Parameter Name="EventName" Type="varchar" Mode="In" />
+          <Parameter Name="EventDesc" Type="text" Mode="In" />
+          <Parameter Name="EventStart" Type="datetime" Mode="In" />
+          <Parameter Name="EventEnd" Type="datetime" Mode="In" />
+          <Parameter Name="ReserveStart" Type="datetime" Mode="In" />
+          <Parameter Name="ReserveEnd" Type="datetime" Mode="In" />
+          <Parameter Name="SponsOrg" Type="varchar" Mode="In" />
+          <Parameter Name="SponsOrgAdv" Type="varchar" Mode="In" />
+          <Parameter Name="ReqName" Type="varchar" Mode="In" />
+          <Parameter Name="ReqEmail" Type="varchar" Mode="In" />
+          <Parameter Name="ReqPhone" Type="varchar" Mode="In" />
+          <Parameter Name="ReqGuests" Type="varchar" Mode="In" />
+          <Parameter Name="ReqUPD" Type="text" Mode="In" />
+          <Parameter Name="ResNotes" Type="text" Mode="In" />
+        </Function>
+        <Function Name="spUpdateBaseRecur" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RecurInit" Type="int" Mode="In" />
+          <Parameter Name="NetId" Type="varchar" Mode="In" />
+          <Parameter Name="EventName" Type="varchar" Mode="In" />
+          <Parameter Name="EventDesc" Type="text" Mode="In" />
+          <Parameter Name="SponsOrg" Type="varchar" Mode="In" />
+          <Parameter Name="SponsOrgAdv" Type="varchar" Mode="In" />
+          <Parameter Name="ReqName" Type="varchar" Mode="In" />
+          <Parameter Name="ReqEmail" Type="varchar" Mode="In" />
+          <Parameter Name="ReqPhone" Type="varchar" Mode="In" />
+          <Parameter Name="ReqGuests" Type="varchar" Mode="In" />
+          <Parameter Name="ReqUPD" Type="text" Mode="In" />
+          <Parameter Name="ResNotes" Type="text" Mode="In" />
+          <Parameter Name="Which" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spUpdateBaseRecurSingle" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResId" Type="int" Mode="In" />
+          <Parameter Name="NetId" Type="varchar" Mode="In" />
+          <Parameter Name="EventName" Type="varchar" Mode="In" />
+          <Parameter Name="EventDesc" Type="text" Mode="In" />
+          <Parameter Name="EventStart" Type="datetime" Mode="In" />
+          <Parameter Name="EventEnd" Type="datetime" Mode="In" />
+          <Parameter Name="ReserveStart" Type="datetime" Mode="In" />
+          <Parameter Name="ReserveEnd" Type="datetime" Mode="In" />
+          <Parameter Name="SponsOrg" Type="varchar" Mode="In" />
+          <Parameter Name="SponsOrgAdv" Type="varchar" Mode="In" />
+          <Parameter Name="ReqName" Type="varchar" Mode="In" />
+          <Parameter Name="ReqEmail" Type="varchar" Mode="In" />
+          <Parameter Name="ReqPhone" Type="varchar" Mode="In" />
+          <Parameter Name="ReqGuests" Type="varchar" Mode="In" />
+          <Parameter Name="ReqUPD" Type="text" Mode="In" />
+          <Parameter Name="ResNotes" Type="text" Mode="In" />
+          <Parameter Name="Which" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spUpdateEvCenter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="FacilityReqs" Type="text" Mode="In" />
+          <Parameter Name="EventAdm" Type="varchar" Mode="In" />
+          <Parameter Name="FoodServed" Type="bit" Mode="In" />
+          <Parameter Name="AlcoholServed" Type="bit" Mode="In" />
+          <Parameter Name="RmA" Type="bit" Mode="In" />
+          <Parameter Name="RmB" Type="bit" Mode="In" />
+          <Parameter Name="RmC" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="spUpdateInitialRecur" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResId" Type="int" Mode="In" />
+          <Parameter Name="RecurInit" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spUpdateLocationApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResId" Type="int" Mode="In" />
+          <Parameter Name="Which" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="spUpdateNif" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="FacilityReqs" Type="text" Mode="In" />
+          <Parameter Name="EventAdm" Type="varchar" Mode="In" />
+          <Parameter Name="FoodServed" Type="bit" Mode="In" />
+          <Parameter Name="AlcoholServed" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="spUpdateRot" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ResID" Type="int" Mode="In" />
+          <Parameter Name="FacilityReqs" Type="text" Mode="In" />
+          <Parameter Name="EventAdm" Type="varchar" Mode="In" />
+          <Parameter Name="FoodServed" Type="bit" Mode="In" />
+          <Parameter Name="AlcoholServed" Type="bit" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RoomResModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="RoomResEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Perms" EntityType="RoomResModel.Perm" />
+          <FunctionImport Name="spApproveDeny">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="Rm" Mode="In" Type="String" />
+            <Parameter Name="YesNo" Mode="In" Type="Boolean" />
+            <Parameter Name="Now" Mode="In" Type="DateTime" />
+            <Parameter Name="User" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spCancelBase">
+          <Parameter Name="ResID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spCancelRes">
+          <Parameter Name="ResID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spCancelResSeries">
+          <Parameter Name="RecurInit" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spCreateRes" ReturnType="Collection(Decimal)">
+            <Parameter Name="NetId" Mode="In" Type="String" />
+            <Parameter Name="EventName" Mode="In" Type="String" />
+            <Parameter Name="EventDesc" Mode="In" Type="String" />
+            <Parameter Name="EventStart" Mode="In" Type="DateTime" />
+            <Parameter Name="EventEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="ReserveStart" Mode="In" Type="DateTime" />
+            <Parameter Name="ReserveEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="SponsOrg" Mode="In" Type="String" />
+            <Parameter Name="SponsOrgAdv" Mode="In" Type="String" />
+            <Parameter Name="ReqName" Mode="In" Type="String" />
+            <Parameter Name="ReqEmail" Mode="In" Type="String" />
+            <Parameter Name="ReqPhone" Mode="In" Type="String" />
+            <Parameter Name="ReqGuests" Mode="In" Type="String" />
+            <Parameter Name="ReqUPD" Mode="In" Type="String" />
+            <Parameter Name="Recorded" Mode="In" Type="DateTime" />
+            <Parameter Name="ResNotes" Mode="In" Type="String" />
+            <Parameter Name="Which" Mode="In" Type="String" />
+            <Parameter Name="AuthType" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spCreateResEvCenter" ReturnType="Collection(Decimal)">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="FacilityReqs" Mode="In" Type="String" />
+            <Parameter Name="EventAdm" Mode="In" Type="String" />
+            <Parameter Name="FoodServed" Mode="In" Type="Boolean" />
+            <Parameter Name="AlcoholServed" Mode="In" Type="Boolean" />
+            <Parameter Name="RmA" Mode="In" Type="Boolean" />
+            <Parameter Name="RmB" Mode="In" Type="Boolean" />
+            <Parameter Name="RmC" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spCreateResNifkin" ReturnType="Collection(Decimal)">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="FacilityReqs" Mode="In" Type="String" />
+            <Parameter Name="EventAdm" Mode="In" Type="String" />
+            <Parameter Name="FoodServed" Mode="In" Type="Boolean" />
+            <Parameter Name="AlcoholServed" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spCreateResRecur" ReturnType="Collection(Decimal)">
+            <Parameter Name="NetId" Mode="In" Type="String" />
+            <Parameter Name="EventName" Mode="In" Type="String" />
+            <Parameter Name="EventDesc" Mode="In" Type="String" />
+            <Parameter Name="EventStart" Mode="In" Type="DateTime" />
+            <Parameter Name="EventEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="ReserveStart" Mode="In" Type="DateTime" />
+            <Parameter Name="ReserveEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="SponsOrg" Mode="In" Type="String" />
+            <Parameter Name="SponsOrgAdv" Mode="In" Type="String" />
+            <Parameter Name="ReqName" Mode="In" Type="String" />
+            <Parameter Name="ReqEmail" Mode="In" Type="String" />
+            <Parameter Name="ReqPhone" Mode="In" Type="String" />
+            <Parameter Name="ReqGuests" Mode="In" Type="String" />
+            <Parameter Name="ReqUPD" Mode="In" Type="String" />
+            <Parameter Name="Recorded" Mode="In" Type="DateTime" />
+            <Parameter Name="ResNotes" Mode="In" Type="String" />
+            <Parameter Name="Which" Mode="In" Type="String" />
+            <Parameter Name="AuthType" Mode="In" Type="String" />
+            <Parameter Name="RecurId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spCreateResRotunda" ReturnType="Collection(Decimal)">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="FacilityReqs" Mode="In" Type="String" />
+            <Parameter Name="EventAdm" Mode="In" Type="String" />
+            <Parameter Name="FoodServed" Mode="In" Type="Boolean" />
+            <Parameter Name="AlcoholServed" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchAllSpaces" ReturnType="Collection(RoomResModel.spFetchAllSpaces_Result)" />
+          <FunctionImport Name="spFetchAwaiting" ReturnType="Collection(RoomResModel.spFetchAwaiting_Result)">
+          <Parameter Name="Rm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchMine" ReturnType="Collection(RoomResModel.spFetchMine_Result)">
+          <Parameter Name="NetId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchMonth" ReturnType="Collection(RoomResModel.spFetchMonth_Result)">
+            <Parameter Name="Rm" Mode="In" Type="String" />
+            <Parameter Name="StartDt" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchNotif" ReturnType="Collection(RoomResModel.spFetchNotif_Result)">
+          <Parameter Name="Rm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchPerm" ReturnType="Collection(RoomResModel.spFetchPerm_Result)">
+          <Parameter Name="NetId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchPermUsers" ReturnType="Collection(String)" />
+          <FunctionImport Name="spFetchRange">
+            <Parameter Name="Room" Mode="In" Type="String" />
+            <Parameter Name="StartDt" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchRes" ReturnType="Collection(RoomResModel.spFetchRes_Result)">
+          <Parameter Name="ResID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchResMonth" ReturnType="Collection(RoomResModel.spFetchResMonth_Result)">
+            <Parameter Name="StartDt" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDt" Mode="In" Type="DateTime" />
+            <Parameter Name="Rm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchRSpaces" ReturnType="Collection(RoomResModel.spFetchRSpaces_Result)">
+          <Parameter Name="UserId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchSpace" ReturnType="Collection(RoomResModel.spFetchSpace_Result)">
+          <Parameter Name="RmCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spInsertBase" ReturnType="Collection(Decimal)">
+            <Parameter Name="ReqNetId" Mode="In" Type="String" />
+            <Parameter Name="ReqName" Mode="In" Type="String" />
+            <Parameter Name="ReqResponsible" Mode="In" Type="String" />
+            <Parameter Name="ReqEmail" Mode="In" Type="String" />
+            <Parameter Name="ReqPhone" Mode="In" Type="String" />
+            <Parameter Name="SponsOrg" Mode="In" Type="String" />
+            <Parameter Name="SponsOrgAdv" Mode="In" Type="String" />
+            <Parameter Name="ReqDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ReqEvName" Mode="In" Type="String" />
+            <Parameter Name="ReqPurpose" Mode="In" Type="String" />
+            <Parameter Name="ReqGuests" Mode="In" Type="String" />
+            <Parameter Name="ReqUPD" Mode="In" Type="String" />
+            <Parameter Name="Recorded" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spInsertCRApp">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="Rm" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="Approved" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spInsertCRAppAuto">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="Rm" Mode="In" Type="String" />
+            <Parameter Name="ID" Mode="In" Type="Int32" />
+            <Parameter Name="By" Mode="In" Type="String" />
+            <Parameter Name="Dt" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="spSFbyBuilding" ReturnType="Collection(RoomResModel.spSFbyBuilding_Result)">
+          <Parameter Name="Building" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spSFbyRmName" ReturnType="Collection(RoomResModel.spSFbyRmName_Result)">
+          <Parameter Name="RmCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateBase">
+            <Parameter Name="ResId" Mode="In" Type="Int32" />
+            <Parameter Name="NetId" Mode="In" Type="String" />
+            <Parameter Name="EventName" Mode="In" Type="String" />
+            <Parameter Name="EventDesc" Mode="In" Type="String" />
+            <Parameter Name="EventStart" Mode="In" Type="DateTime" />
+            <Parameter Name="EventEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="ReserveStart" Mode="In" Type="DateTime" />
+            <Parameter Name="ReserveEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="SponsOrg" Mode="In" Type="String" />
+            <Parameter Name="SponsOrgAdv" Mode="In" Type="String" />
+            <Parameter Name="ReqName" Mode="In" Type="String" />
+            <Parameter Name="ReqEmail" Mode="In" Type="String" />
+            <Parameter Name="ReqPhone" Mode="In" Type="String" />
+            <Parameter Name="ReqGuests" Mode="In" Type="String" />
+            <Parameter Name="ReqUPD" Mode="In" Type="String" />
+            <Parameter Name="ResNotes" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateBaseRecur">
+            <Parameter Name="RecurInit" Mode="In" Type="Int32" />
+            <Parameter Name="NetId" Mode="In" Type="String" />
+            <Parameter Name="EventName" Mode="In" Type="String" />
+            <Parameter Name="EventDesc" Mode="In" Type="String" />
+            <Parameter Name="SponsOrg" Mode="In" Type="String" />
+            <Parameter Name="SponsOrgAdv" Mode="In" Type="String" />
+            <Parameter Name="ReqName" Mode="In" Type="String" />
+            <Parameter Name="ReqEmail" Mode="In" Type="String" />
+            <Parameter Name="ReqPhone" Mode="In" Type="String" />
+            <Parameter Name="ReqGuests" Mode="In" Type="String" />
+            <Parameter Name="ReqUPD" Mode="In" Type="String" />
+            <Parameter Name="ResNotes" Mode="In" Type="String" />
+            <Parameter Name="Which" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateBaseRecurSingle">
+            <Parameter Name="ResId" Mode="In" Type="Int32" />
+            <Parameter Name="NetId" Mode="In" Type="String" />
+            <Parameter Name="EventName" Mode="In" Type="String" />
+            <Parameter Name="EventDesc" Mode="In" Type="String" />
+            <Parameter Name="EventStart" Mode="In" Type="DateTime" />
+            <Parameter Name="EventEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="ReserveStart" Mode="In" Type="DateTime" />
+            <Parameter Name="ReserveEnd" Mode="In" Type="DateTime" />
+            <Parameter Name="SponsOrg" Mode="In" Type="String" />
+            <Parameter Name="SponsOrgAdv" Mode="In" Type="String" />
+            <Parameter Name="ReqName" Mode="In" Type="String" />
+            <Parameter Name="ReqEmail" Mode="In" Type="String" />
+            <Parameter Name="ReqPhone" Mode="In" Type="String" />
+            <Parameter Name="ReqGuests" Mode="In" Type="String" />
+            <Parameter Name="ReqUPD" Mode="In" Type="String" />
+            <Parameter Name="ResNotes" Mode="In" Type="String" />
+            <Parameter Name="Which" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateEvCenter">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="FacilityReqs" Mode="In" Type="String" />
+            <Parameter Name="EventAdm" Mode="In" Type="String" />
+            <Parameter Name="FoodServed" Mode="In" Type="Boolean" />
+            <Parameter Name="AlcoholServed" Mode="In" Type="Boolean" />
+            <Parameter Name="RmA" Mode="In" Type="Boolean" />
+            <Parameter Name="RmB" Mode="In" Type="Boolean" />
+            <Parameter Name="RmC" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateInitialRecur">
+            <Parameter Name="ResId" Mode="In" Type="Int32" />
+            <Parameter Name="RecurInit" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateLocationApproval">
+            <Parameter Name="ResId" Mode="In" Type="Int32" />
+            <Parameter Name="Which" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateNif">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="FacilityReqs" Mode="In" Type="String" />
+            <Parameter Name="EventAdm" Mode="In" Type="String" />
+            <Parameter Name="FoodServed" Mode="In" Type="Boolean" />
+            <Parameter Name="AlcoholServed" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="spUpdateRot">
+            <Parameter Name="ResID" Mode="In" Type="Int32" />
+            <Parameter Name="FacilityReqs" Mode="In" Type="String" />
+            <Parameter Name="EventAdm" Mode="In" Type="String" />
+            <Parameter Name="FoodServed" Mode="In" Type="Boolean" />
+            <Parameter Name="AlcoholServed" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <EntitySet Name="BasicReservations" EntityType="RoomResModel.BasicReservation" />
+          <EntitySet Name="ReservableSpaces" EntityType="RoomResModel.ReservableSpace" />
+          <AssociationSet Name="FK_BasicReservation_ReservableSpaces" Association="RoomResModel.FK_BasicReservation_ReservableSpaces">
+            <End Role="ReservableSpace" EntitySet="ReservableSpaces" />
+            <End Role="BasicReservation" EntitySet="BasicReservations" />
+          </AssociationSet>
+          <EntitySet Name="ExtendedReservations" EntityType="RoomResModel.ExtendedReservation" />
+          <AssociationSet Name="FK_ExtendedReservation_BasicReservation" Association="RoomResModel.FK_ExtendedReservation_BasicReservation">
+            <End Role="BasicReservation" EntitySet="BasicReservations" />
+            <End Role="ExtendedReservation" EntitySet="ExtendedReservations" />
+          </AssociationSet>
+          <FunctionImport Name="spFetchSpaceByRmCode" ReturnType="Collection(RoomResModel.spFetchSpaceByRmCode_Result)">
+          <Parameter Name="RmCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchBaseReservation" ReturnType="Collection(RoomResModel.spFetchBaseReservation_Result)">
+          <Parameter Name="ResID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FindBasicReservation" EntitySet="BasicReservations" ReturnType="Collection(RoomResModel.BasicReservation)">
+          <Parameter Name="ResID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchExtendedReservation" ReturnType="Collection(RoomResModel.spFetchExtendedReservation_Result)">
+          <Parameter Name="ResID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FindExtendedReservation" EntitySet="ExtendedReservations" ReturnType="Collection(RoomResModel.ExtendedReservation)">
+          <Parameter Name="ResID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchPending" ReturnType="Collection(RoomResModel.spFetchPending_Result)">
+          <Parameter Name="Rm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchConflicts" EntitySet="BasicReservations" ReturnType="Collection(RoomResModel.BasicReservation)">
+            <Parameter Name="EventDate" Mode="In" Type="String" />
+            <Parameter Name="RmCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchReservations" EntitySet="BasicReservations" ReturnType="Collection(RoomResModel.BasicReservation)">
+          <Parameter Name="Rm" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchSpacesByBuilding" EntitySet="ReservableSpaces" ReturnType="Collection(RoomResModel.ReservableSpace)">
+          <Parameter Name="BldgName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchSpacesByRmCodes" EntitySet="ReservableSpaces" ReturnType="Collection(RoomResModel.ReservableSpace)">
+          <Parameter Name="RmCodeList" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="RmGroups" EntityType="RoomResModel.RmGroup" />
+        </EntityContainer>
+        <EntityType Name="Perm">
+          <Key>
+            <PropertyRef Name="PermID" />
+          </Key>
+          <Property Name="PermID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="NetId" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="ESFAD" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="SUAD" Type="String" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="RmGroup" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Viewer" Type="Boolean" />
+          <Property Name="Edit" Type="Boolean" />
+          <Property Name="Approve" Type="Boolean" />
+        </EntityType>
+        <ComplexType Name="spFetchAllSpaces_Result">
+          <Property Type="Int32" Name="RmId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ContactEmail" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="ContactPhone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="RmAV" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="RmNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="NFrom" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NotifyList" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="FoodService" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CapTheatreStyle" Nullable="true" />
+          <Property Type="Int32" Name="CapConfTables" Nullable="true" />
+          <Property Type="Int32" Name="CapDiningTables" Nullable="true" />
+          <Property Type="Int32" Name="CapExhibStyle" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spFetchAwaiting_Result">
+          <Property Type="Int32" Name="ResID" Nullable="false" />
+          <Property Type="String" Name="Rm" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Boolean" Name="Approved" Nullable="true" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ResID1" Nullable="false" />
+          <Property Type="String" Name="NetId" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="AuthType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EventEnd" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveEnd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ResNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Which" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="RecurInit" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spFetchMine_Result">
+          <Property Type="Int32" Name="ResID" Nullable="false" />
+          <Property Type="String" Name="Rm" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Boolean" Name="Approved" Nullable="true" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="ResID1" Nullable="false" />
+          <Property Type="String" Name="NetId" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="AuthType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EventEnd" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveEnd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ResNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Which" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="RecurInit" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spFetchMonth_Result">
+          <Property Type="Int32" Name="ResID" Nullable="false" />
+          <Property Type="String" Name="NetId" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="AuthType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EventEnd" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveEnd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ResNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Which" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="RecurInit" Nullable="true" />
+          <Property Type="String" Name="RmName" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="FacilityReqs" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="EventAdm" Nullable="true" MaxLength="11" />
+          <Property Type="Boolean" Name="FoodServed" Nullable="true" />
+          <Property Type="Boolean" Name="AlcoholServed" Nullable="true" />
+          <Property Type="Int32" Name="ResID1" Nullable="true" />
+          <Property Type="String" Name="Rm" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="Boolean" Name="Approved" Nullable="true" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spFetchNotif_Result">
+          <Property Type="Int32" Name="RmId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ContactEmail" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="ContactPhone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="RmAV" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="RmNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="NFrom" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NotifyList" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="FoodService" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CapTheatreStyle" Nullable="true" />
+          <Property Type="Int32" Name="CapConfTables" Nullable="true" />
+          <Property Type="Int32" Name="CapDiningTables" Nullable="true" />
+          <Property Type="Int32" Name="CapExhibStyle" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spFetchPerm_Result">
+          <Property Type="Int32" Name="PermID" Nullable="false" />
+          <Property Type="String" Name="NetId" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="RmGroup" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="Viewer" Nullable="true" />
+          <Property Type="Boolean" Name="Edit" Nullable="true" />
+          <Property Type="Boolean" Name="Approve" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spFetchRes_Result">
+          <Property Type="Int32" Name="ResID" Nullable="false" />
+          <Property Type="String" Name="NetId" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="AuthType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EventEnd" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveEnd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ResNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Which" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="RecurInit" Nullable="true" />
+          <Property Type="String" Name="RmName" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="FacilityReqs" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="EventAdm" Nullable="true" MaxLength="11" />
+          <Property Type="Boolean" Name="FoodServed" Nullable="true" />
+          <Property Type="Boolean" Name="AlcoholServed" Nullable="true" />
+          <Property Type="Int32" Name="ResID1" Nullable="true" />
+          <Property Type="String" Name="Rm" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="Boolean" Name="Approved" Nullable="true" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spFetchResMonth_Result">
+          <Property Type="Int32" Name="ResID" Nullable="false" />
+          <Property Type="String" Name="NetId" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="AuthType" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="EventEnd" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="ReserveEnd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ResNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="Which" Nullable="false" MaxLength="10" />
+          <Property Type="Int32" Name="RecurInit" Nullable="true" />
+          <Property Type="String" Name="FacilityReqs" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="EventAdm" Nullable="true" MaxLength="11" />
+          <Property Type="Boolean" Name="FoodServed" Nullable="true" />
+          <Property Type="Boolean" Name="AlcoholServed" Nullable="true" />
+          <Property Type="Boolean" Name="RmA" Nullable="true" />
+          <Property Type="Boolean" Name="RmB" Nullable="true" />
+          <Property Type="Boolean" Name="RmC" Nullable="true" />
+          <Property Type="Int32" Name="ResID1" Nullable="true" />
+          <Property Type="String" Name="Rm" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="ID" Nullable="true" />
+          <Property Type="Boolean" Name="Approved" Nullable="true" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spFetchRSpaces_Result">
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="true" MaxLength="10" />
+          <Property Type="Int32" Name="PermID" Nullable="false" />
+          <Property Type="String" Name="NetId" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="Rm" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="Viewer" Nullable="true" />
+          <Property Type="Boolean" Name="Editor" Nullable="true" />
+          <Property Type="Boolean" Name="Approver" Nullable="true" />
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+        </ComplexType>
+        <ComplexType Name="spFetchSpace_Result">
+          <Property Type="Int32" Name="RmId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ContactEmail" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="ContactPhone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="RmAV" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="RmNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="NFrom" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NotifyList" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="FoodService" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CapTheatreStyle" Nullable="true" />
+          <Property Type="Int32" Name="CapConfTables" Nullable="true" />
+          <Property Type="Int32" Name="CapDiningTables" Nullable="true" />
+          <Property Type="Int32" Name="CapExhibStyle" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spSFbyBuilding_Result">
+          <Property Type="Int32" Name="RmId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ContactEmail" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="ContactPhone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="RmAV" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="RmNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="NFrom" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NotifyList" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="FoodService" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CapTheatreStyle" Nullable="true" />
+          <Property Type="Int32" Name="CapConfTables" Nullable="true" />
+          <Property Type="Int32" Name="CapDiningTables" Nullable="true" />
+          <Property Type="Int32" Name="CapExhibStyle" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spSFbyRmName_Result">
+          <Property Type="Int32" Name="RmId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ContactEmail" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="ContactPhone" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="RmAV" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="RmNotes" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="NFrom" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NotifyList" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="FoodService" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="CapTheatreStyle" Nullable="true" />
+          <Property Type="Int32" Name="CapConfTables" Nullable="true" />
+          <Property Type="Int32" Name="CapDiningTables" Nullable="true" />
+          <Property Type="Int32" Name="CapExhibStyle" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="BasicReservation">
+          <Key>
+            <PropertyRef Name="ResId" />
+          </Key>
+          <Property Type="Int32" Name="ResId" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="EventDate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="EndTime" Nullable="false" Precision="3" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" DefaultValue="''" />
+          <Property Type="String" Name="ResNotes" MaxLength="Max" FixedLength="false" Unicode="false" DefaultValue="''" Nullable="false" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="RecurInit" Nullable="false" />
+          <NavigationProperty Name="ReservableSpace" Relationship="RoomResModel.FK_BasicReservation_ReservableSpaces" FromRole="BasicReservation" ToRole="ReservableSpace" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ApprovedBy" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ApprovedOn" Precision="3" />
+          <NavigationProperty Name="ExtendedReservation" Relationship="RoomResModel.FK_ExtendedReservation_BasicReservation" FromRole="BasicReservation" ToRole="ExtendedReservation" />
+          <Property Type="String" Name="UserId" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReqTitle" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReqOrg" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ReqDept" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ReservableSpace">
+          <Key>
+            <PropertyRef Name="RmCode" />
+          </Key>
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RoomNum" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ContactName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ContactEmail" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ContactPhone" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RmAV" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RmNotes" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="NFrom" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="NotifyList" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FoodService" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="CapTheatreStyle" />
+          <Property Type="Int32" Name="CapConfTables" />
+          <Property Type="Int32" Name="CapDiningTables" />
+          <Property Type="Int32" Name="CapExhibStyle" />
+          <NavigationProperty Name="BasicReservations" Relationship="RoomResModel.FK_BasicReservation_ReservableSpaces" FromRole="ReservableSpace" ToRole="BasicReservation" />
+          <Property Type="String" Name="Restrictions" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_BasicReservation_ReservableSpaces">
+          <End Type="RoomResModel.ReservableSpace" Role="ReservableSpace" Multiplicity="1" />
+          <End Type="RoomResModel.BasicReservation" Role="BasicReservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReservableSpace">
+              <PropertyRef Name="RmCode" />
+            </Principal>
+            <Dependent Role="BasicReservation">
+              <PropertyRef Name="RmCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExtendedReservation">
+          <Key>
+            <PropertyRef Name="ResID" />
+          </Key>
+          <Property Type="Int32" Name="ResID" Nullable="false" />
+          <Property Type="String" Name="EventAdm" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="FoodServed" Nullable="false" />
+          <Property Type="Boolean" Name="AlcoholServed" Nullable="false" />
+          <Property Type="String" Name="FacilityReqs" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BasicReservation" Relationship="RoomResModel.FK_ExtendedReservation_BasicReservation" FromRole="ExtendedReservation" ToRole="BasicReservation" />
+          <Property Type="Boolean" Name="AdmFee" />
+          <Property Type="Boolean" Name="Catering" />
+          <Property Type="String" Name="CateringInfo" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RoomConfig" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="EvDate" Precision="3" />
+          <Property Type="DateTime" Name="EvStart" Precision="3" />
+          <Property Type="DateTime" Name="EvEnd" Precision="3" />
+          <Property Type="String" Name="ParkingReq" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="PTProj" />
+          <Property Type="Boolean" Name="PTMic" />
+          <Property Type="Boolean" Name="PTPhone" />
+          <Property Type="Boolean" Name="PTWeb" />
+          <Property Type="String" Name="AddlNotes" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="PTWMic" />
+          <Property Type="Boolean" Name="KitchenReq" />
+          <Property Type="Boolean" Name="PTStage" />
+          <Property Type="Boolean" Name="PTPodium" />
+        </EntityType>
+        <Association Name="FK_ExtendedReservation_BasicReservation">
+          <End Type="RoomResModel.BasicReservation" Role="BasicReservation" Multiplicity="1" />
+          <End Type="RoomResModel.ExtendedReservation" Role="ExtendedReservation" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BasicReservation">
+              <PropertyRef Name="ResId" />
+            </Principal>
+            <Dependent Role="ExtendedReservation">
+              <PropertyRef Name="ResID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="spFetchSpaceByRmCode_Result">
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactEmail" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ContactPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="RmAV" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="RmNotes" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="NFrom" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NotifyList" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="FoodService" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CapTheatreStyle" Nullable="true" />
+          <Property Type="Int32" Name="CapConfTables" Nullable="true" />
+          <Property Type="Int32" Name="CapDiningTables" Nullable="true" />
+          <Property Type="Int32" Name="CapExhibStyle" Nullable="true" />
+          <Property Type="String" Name="Restrictions" Nullable="true" MaxLength="Max" />
+        </ComplexType>
+        <ComplexType Name="spFetchBaseReservation_Result">
+          <Property Type="Int32" Name="ResId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndTime" Nullable="false" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="ResNotes" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="RecurInit" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spFetchExtendedReservation_Result">
+          <Property Type="Int32" Name="ResID" Nullable="false" />
+          <Property Type="String" Name="EventAdm" Nullable="false" MaxLength="11" />
+          <Property Type="Boolean" Name="FoodServed" Nullable="false" />
+          <Property Type="Boolean" Name="AlcoholServed" Nullable="false" />
+          <Property Type="Boolean" Name="GatewayA" Nullable="true" />
+          <Property Type="Boolean" Name="GatewayB" Nullable="true" />
+          <Property Type="Boolean" Name="GatewayC" Nullable="true" />
+          <Property Type="String" Name="FacilityReqs" Nullable="false" MaxLength="Max" />
+        </ComplexType>
+        <ComplexType Name="spFetchPending_Result">
+          <Property Type="Int32" Name="ResId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndTime" Nullable="false" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="ResNotes" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="RecurInit" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spFetchConflicts_Result">
+          <Property Type="Int32" Name="ResId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndTime" Nullable="false" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="ResNotes" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="RecurInit" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spFetchReservations_Result">
+          <Property Type="Int32" Name="ResId" Nullable="false" />
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="EventName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="EventDesc" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="EventDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="EndTime" Nullable="false" Precision="23" />
+          <Property Type="String" Name="SponsOrg" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SponsOrgAdv" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ReqEmail" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ReqPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ReqGuests" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ReqUPD" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="ResNotes" Nullable="false" MaxLength="Max" />
+          <Property Type="DateTime" Name="Recorded" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="RecurInit" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="ApprovedBy" Nullable="true" MaxLength="15" />
+          <Property Type="DateTime" Name="ApprovedOn" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="spFetchSpacesByBuilding_Result">
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactEmail" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ContactPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="RmAV" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="RmNotes" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="NFrom" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NotifyList" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="FoodService" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CapTheatreStyle" Nullable="true" />
+          <Property Type="Int32" Name="CapConfTables" Nullable="true" />
+          <Property Type="Int32" Name="CapDiningTables" Nullable="true" />
+          <Property Type="Int32" Name="CapExhibStyle" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spFetchSpacesByRmCodes_Result">
+          <Property Type="String" Name="RmCode" Nullable="false" MaxLength="10" />
+          <Property Type="Boolean" Name="Online" Nullable="false" />
+          <Property Type="String" Name="RmName" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Building" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="RoomNum" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Capacity" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactOffc" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactEmail" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="ContactPhone" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="RmAV" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="RmNotes" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="NFrom" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NotifyList" Nullable="false" MaxLength="Max" />
+          <Property Type="String" Name="FoodService" Nullable="false" MaxLength="200" />
+          <Property Type="Int32" Name="CapTheatreStyle" Nullable="true" />
+          <Property Type="Int32" Name="CapConfTables" Nullable="true" />
+          <Property Type="Int32" Name="CapDiningTables" Nullable="true" />
+          <Property Type="Int32" Name="CapExhibStyle" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="RmGroup">
+          <Key>
+            <PropertyRef Name="RmGroup1" />
+            <PropertyRef Name="RmList" />
+          </Key>
+          <Property Type="String" Name="RmGroup1" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="RmList" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RoomResModelStoreContainer" CdmEntityContainer="RoomResEntities">
+          <EntitySetMapping Name="Perms">
+            <EntityTypeMapping TypeName="RoomResModel.Perm">
+              <MappingFragment StoreEntitySet="Perm">
+                <ScalarProperty Name="PermID" ColumnName="PermID" />
+                <ScalarProperty Name="NetId" ColumnName="NetId" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="RmGroup" ColumnName="RmGroup" />
+                <ScalarProperty Name="Viewer" ColumnName="Viewer" />
+                <ScalarProperty Name="Edit" ColumnName="Edit" />
+                <ScalarProperty Name="Approve" ColumnName="Approve" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spApproveDeny" FunctionName="RoomResModel.Store.spApproveDeny" />
+          <FunctionImportMapping FunctionImportName="spCancelBase" FunctionName="RoomResModel.Store.spCancelBase" />
+          <FunctionImportMapping FunctionImportName="spCancelRes" FunctionName="RoomResModel.Store.spCancelRes" />
+          <FunctionImportMapping FunctionImportName="spCancelResSeries" FunctionName="RoomResModel.Store.spCancelResSeries" />
+          <FunctionImportMapping FunctionImportName="spCreateRes" FunctionName="RoomResModel.Store.spCreateRes" />
+          <FunctionImportMapping FunctionImportName="spCreateResEvCenter" FunctionName="RoomResModel.Store.spCreateResEvCenter" />
+          <FunctionImportMapping FunctionImportName="spCreateResNifkin" FunctionName="RoomResModel.Store.spCreateResNifkin" />
+          <FunctionImportMapping FunctionImportName="spCreateResRecur" FunctionName="RoomResModel.Store.spCreateResRecur" />
+          <FunctionImportMapping FunctionImportName="spCreateResRotunda" FunctionName="RoomResModel.Store.spCreateResRotunda" />
+          <FunctionImportMapping FunctionImportName="spFetchAllSpaces" FunctionName="RoomResModel.Store.spFetchAllSpaces">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchAllSpaces_Result">
+                <ScalarProperty Name="RmId" ColumnName="RmId" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RoomNum" ColumnName="RoomNum" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Online" ColumnName="Online" />
+                <ScalarProperty Name="ContactOffc" ColumnName="ContactOffc" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="RmAV" ColumnName="RmAV" />
+                <ScalarProperty Name="RmNotes" ColumnName="RmNotes" />
+                <ScalarProperty Name="NFrom" ColumnName="NFrom" />
+                <ScalarProperty Name="NotifyList" ColumnName="NotifyList" />
+                <ScalarProperty Name="FoodService" ColumnName="FoodService" />
+                <ScalarProperty Name="CapTheatreStyle" ColumnName="CapTheatreStyle" />
+                <ScalarProperty Name="CapConfTables" ColumnName="CapConfTables" />
+                <ScalarProperty Name="CapDiningTables" ColumnName="CapDiningTables" />
+                <ScalarProperty Name="CapExhibStyle" ColumnName="CapExhibStyle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchAwaiting" FunctionName="RoomResModel.Store.spFetchAwaiting">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchAwaiting_Result">
+                <ScalarProperty Name="ResID" ColumnName="ResID" />
+                <ScalarProperty Name="Rm" ColumnName="Rm" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+                <ScalarProperty Name="ResID1" ColumnName="ResID1" />
+                <ScalarProperty Name="NetId" ColumnName="NetId" />
+                <ScalarProperty Name="AuthType" ColumnName="AuthType" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+                <ScalarProperty Name="EventStart" ColumnName="EventStart" />
+                <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
+                <ScalarProperty Name="ReserveStart" ColumnName="ReserveStart" />
+                <ScalarProperty Name="ReserveEnd" ColumnName="ReserveEnd" />
+                <ScalarProperty Name="SponsOrg" ColumnName="SponsOrg" />
+                <ScalarProperty Name="SponsOrgAdv" ColumnName="SponsOrgAdv" />
+                <ScalarProperty Name="ReqName" ColumnName="ReqName" />
+                <ScalarProperty Name="ReqEmail" ColumnName="ReqEmail" />
+                <ScalarProperty Name="ReqPhone" ColumnName="ReqPhone" />
+                <ScalarProperty Name="ReqGuests" ColumnName="ReqGuests" />
+                <ScalarProperty Name="ReqUPD" ColumnName="ReqUPD" />
+                <ScalarProperty Name="Recorded" ColumnName="Recorded" />
+                <ScalarProperty Name="ResNotes" ColumnName="ResNotes" />
+                <ScalarProperty Name="Which" ColumnName="Which" />
+                <ScalarProperty Name="RecurInit" ColumnName="RecurInit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchMine" FunctionName="RoomResModel.Store.spFetchMine">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchMine_Result">
+                <ScalarProperty Name="ResID" ColumnName="ResID" />
+                <ScalarProperty Name="Rm" ColumnName="Rm" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+                <ScalarProperty Name="ResID1" ColumnName="ResID1" />
+                <ScalarProperty Name="NetId" ColumnName="NetId" />
+                <ScalarProperty Name="AuthType" ColumnName="AuthType" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+                <ScalarProperty Name="EventStart" ColumnName="EventStart" />
+                <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
+                <ScalarProperty Name="ReserveStart" ColumnName="ReserveStart" />
+                <ScalarProperty Name="ReserveEnd" ColumnName="ReserveEnd" />
+                <ScalarProperty Name="SponsOrg" ColumnName="SponsOrg" />
+                <ScalarProperty Name="SponsOrgAdv" ColumnName="SponsOrgAdv" />
+                <ScalarProperty Name="ReqName" ColumnName="ReqName" />
+                <ScalarProperty Name="ReqEmail" ColumnName="ReqEmail" />
+                <ScalarProperty Name="ReqPhone" ColumnName="ReqPhone" />
+                <ScalarProperty Name="ReqGuests" ColumnName="ReqGuests" />
+                <ScalarProperty Name="ReqUPD" ColumnName="ReqUPD" />
+                <ScalarProperty Name="Recorded" ColumnName="Recorded" />
+                <ScalarProperty Name="ResNotes" ColumnName="ResNotes" />
+                <ScalarProperty Name="Which" ColumnName="Which" />
+                <ScalarProperty Name="RecurInit" ColumnName="RecurInit" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchMonth" FunctionName="RoomResModel.Store.spFetchMonth">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchMonth_Result">
+                <ScalarProperty Name="ResID" ColumnName="ResID" />
+                <ScalarProperty Name="NetId" ColumnName="NetId" />
+                <ScalarProperty Name="AuthType" ColumnName="AuthType" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+                <ScalarProperty Name="EventStart" ColumnName="EventStart" />
+                <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
+                <ScalarProperty Name="ReserveStart" ColumnName="ReserveStart" />
+                <ScalarProperty Name="ReserveEnd" ColumnName="ReserveEnd" />
+                <ScalarProperty Name="SponsOrg" ColumnName="SponsOrg" />
+                <ScalarProperty Name="SponsOrgAdv" ColumnName="SponsOrgAdv" />
+                <ScalarProperty Name="ReqName" ColumnName="ReqName" />
+                <ScalarProperty Name="ReqEmail" ColumnName="ReqEmail" />
+                <ScalarProperty Name="ReqPhone" ColumnName="ReqPhone" />
+                <ScalarProperty Name="ReqGuests" ColumnName="ReqGuests" />
+                <ScalarProperty Name="ReqUPD" ColumnName="ReqUPD" />
+                <ScalarProperty Name="Recorded" ColumnName="Recorded" />
+                <ScalarProperty Name="ResNotes" ColumnName="ResNotes" />
+                <ScalarProperty Name="Which" ColumnName="Which" />
+                <ScalarProperty Name="RecurInit" ColumnName="RecurInit" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="FacilityReqs" ColumnName="FacilityReqs" />
+                <ScalarProperty Name="EventAdm" ColumnName="EventAdm" />
+                <ScalarProperty Name="FoodServed" ColumnName="FoodServed" />
+                <ScalarProperty Name="AlcoholServed" ColumnName="AlcoholServed" />
+                <ScalarProperty Name="ResID1" ColumnName="ResID1" />
+                <ScalarProperty Name="Rm" ColumnName="Rm" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchNotif" FunctionName="RoomResModel.Store.spFetchNotif">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchNotif_Result">
+                <ScalarProperty Name="RmId" ColumnName="RmId" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RoomNum" ColumnName="RoomNum" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Online" ColumnName="Online" />
+                <ScalarProperty Name="ContactOffc" ColumnName="ContactOffc" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="RmAV" ColumnName="RmAV" />
+                <ScalarProperty Name="RmNotes" ColumnName="RmNotes" />
+                <ScalarProperty Name="NFrom" ColumnName="NFrom" />
+                <ScalarProperty Name="NotifyList" ColumnName="NotifyList" />
+                <ScalarProperty Name="FoodService" ColumnName="FoodService" />
+                <ScalarProperty Name="CapTheatreStyle" ColumnName="CapTheatreStyle" />
+                <ScalarProperty Name="CapConfTables" ColumnName="CapConfTables" />
+                <ScalarProperty Name="CapDiningTables" ColumnName="CapDiningTables" />
+                <ScalarProperty Name="CapExhibStyle" ColumnName="CapExhibStyle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchPerm" FunctionName="RoomResModel.Store.spFetchPerm">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchPerm_Result">
+                <ScalarProperty Name="PermID" ColumnName="PermID" />
+                <ScalarProperty Name="NetId" ColumnName="NetId" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="RmGroup" ColumnName="RmGroup" />
+                <ScalarProperty Name="Viewer" ColumnName="Viewer" />
+                <ScalarProperty Name="Edit" ColumnName="Edit" />
+                <ScalarProperty Name="Approve" ColumnName="Approve" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchPermUsers" FunctionName="RoomResModel.Store.spFetchPermUsers" />
+          <FunctionImportMapping FunctionImportName="spFetchRange" FunctionName="RoomResModel.Store.spFetchRange" />
+          <FunctionImportMapping FunctionImportName="spFetchRes" FunctionName="RoomResModel.Store.spFetchRes">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchRes_Result">
+                <ScalarProperty Name="ResID" ColumnName="ResID" />
+                <ScalarProperty Name="NetId" ColumnName="NetId" />
+                <ScalarProperty Name="AuthType" ColumnName="AuthType" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+                <ScalarProperty Name="EventStart" ColumnName="EventStart" />
+                <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
+                <ScalarProperty Name="ReserveStart" ColumnName="ReserveStart" />
+                <ScalarProperty Name="ReserveEnd" ColumnName="ReserveEnd" />
+                <ScalarProperty Name="SponsOrg" ColumnName="SponsOrg" />
+                <ScalarProperty Name="SponsOrgAdv" ColumnName="SponsOrgAdv" />
+                <ScalarProperty Name="ReqName" ColumnName="ReqName" />
+                <ScalarProperty Name="ReqEmail" ColumnName="ReqEmail" />
+                <ScalarProperty Name="ReqPhone" ColumnName="ReqPhone" />
+                <ScalarProperty Name="ReqGuests" ColumnName="ReqGuests" />
+                <ScalarProperty Name="ReqUPD" ColumnName="ReqUPD" />
+                <ScalarProperty Name="Recorded" ColumnName="Recorded" />
+                <ScalarProperty Name="ResNotes" ColumnName="ResNotes" />
+                <ScalarProperty Name="Which" ColumnName="Which" />
+                <ScalarProperty Name="RecurInit" ColumnName="RecurInit" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="FacilityReqs" ColumnName="FacilityReqs" />
+                <ScalarProperty Name="EventAdm" ColumnName="EventAdm" />
+                <ScalarProperty Name="FoodServed" ColumnName="FoodServed" />
+                <ScalarProperty Name="AlcoholServed" ColumnName="AlcoholServed" />
+                <ScalarProperty Name="ResID1" ColumnName="ResID1" />
+                <ScalarProperty Name="Rm" ColumnName="Rm" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchResMonth" FunctionName="RoomResModel.Store.spFetchResMonth">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchResMonth_Result">
+                <ScalarProperty Name="ResID" ColumnName="ResID" />
+                <ScalarProperty Name="NetId" ColumnName="NetId" />
+                <ScalarProperty Name="AuthType" ColumnName="AuthType" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+                <ScalarProperty Name="EventStart" ColumnName="EventStart" />
+                <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
+                <ScalarProperty Name="ReserveStart" ColumnName="ReserveStart" />
+                <ScalarProperty Name="ReserveEnd" ColumnName="ReserveEnd" />
+                <ScalarProperty Name="SponsOrg" ColumnName="SponsOrg" />
+                <ScalarProperty Name="SponsOrgAdv" ColumnName="SponsOrgAdv" />
+                <ScalarProperty Name="ReqName" ColumnName="ReqName" />
+                <ScalarProperty Name="ReqEmail" ColumnName="ReqEmail" />
+                <ScalarProperty Name="ReqPhone" ColumnName="ReqPhone" />
+                <ScalarProperty Name="ReqGuests" ColumnName="ReqGuests" />
+                <ScalarProperty Name="ReqUPD" ColumnName="ReqUPD" />
+                <ScalarProperty Name="Recorded" ColumnName="Recorded" />
+                <ScalarProperty Name="ResNotes" ColumnName="ResNotes" />
+                <ScalarProperty Name="Which" ColumnName="Which" />
+                <ScalarProperty Name="RecurInit" ColumnName="RecurInit" />
+                <ScalarProperty Name="FacilityReqs" ColumnName="FacilityReqs" />
+                <ScalarProperty Name="EventAdm" ColumnName="EventAdm" />
+                <ScalarProperty Name="FoodServed" ColumnName="FoodServed" />
+                <ScalarProperty Name="AlcoholServed" ColumnName="AlcoholServed" />
+                <ScalarProperty Name="RmA" ColumnName="RmA" />
+                <ScalarProperty Name="RmB" ColumnName="RmB" />
+                <ScalarProperty Name="RmC" ColumnName="RmC" />
+                <ScalarProperty Name="ResID1" ColumnName="ResID1" />
+                <ScalarProperty Name="Rm" ColumnName="Rm" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchRSpaces" FunctionName="RoomResModel.Store.spFetchRSpaces">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchRSpaces_Result">
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RoomNum" ColumnName="RoomNum" />
+                <ScalarProperty Name="PermID" ColumnName="PermID" />
+                <ScalarProperty Name="NetId" ColumnName="NetId" />
+                <ScalarProperty Name="Rm" ColumnName="Rm" />
+                <ScalarProperty Name="Viewer" ColumnName="Viewer" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="Approver" ColumnName="Approver" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchSpace" FunctionName="RoomResModel.Store.spFetchSpace">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchSpace_Result">
+                <ScalarProperty Name="RmId" ColumnName="RmId" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RoomNum" ColumnName="RoomNum" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Online" ColumnName="Online" />
+                <ScalarProperty Name="ContactOffc" ColumnName="ContactOffc" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="RmAV" ColumnName="RmAV" />
+                <ScalarProperty Name="RmNotes" ColumnName="RmNotes" />
+                <ScalarProperty Name="NFrom" ColumnName="NFrom" />
+                <ScalarProperty Name="NotifyList" ColumnName="NotifyList" />
+                <ScalarProperty Name="FoodService" ColumnName="FoodService" />
+                <ScalarProperty Name="CapTheatreStyle" ColumnName="CapTheatreStyle" />
+                <ScalarProperty Name="CapConfTables" ColumnName="CapConfTables" />
+                <ScalarProperty Name="CapDiningTables" ColumnName="CapDiningTables" />
+                <ScalarProperty Name="CapExhibStyle" ColumnName="CapExhibStyle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spInsertBase" FunctionName="RoomResModel.Store.spInsertBase" />
+          <FunctionImportMapping FunctionImportName="spInsertCRApp" FunctionName="RoomResModel.Store.spInsertCRApp" />
+          <FunctionImportMapping FunctionImportName="spInsertCRAppAuto" FunctionName="RoomResModel.Store.spInsertCRAppAuto" />
+          <FunctionImportMapping FunctionImportName="spSFbyBuilding" FunctionName="RoomResModel.Store.spSFbyBuilding">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spSFbyBuilding_Result">
+                <ScalarProperty Name="RmId" ColumnName="RmId" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RoomNum" ColumnName="RoomNum" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Online" ColumnName="Online" />
+                <ScalarProperty Name="ContactOffc" ColumnName="ContactOffc" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="RmAV" ColumnName="RmAV" />
+                <ScalarProperty Name="RmNotes" ColumnName="RmNotes" />
+                <ScalarProperty Name="NFrom" ColumnName="NFrom" />
+                <ScalarProperty Name="NotifyList" ColumnName="NotifyList" />
+                <ScalarProperty Name="FoodService" ColumnName="FoodService" />
+                <ScalarProperty Name="CapTheatreStyle" ColumnName="CapTheatreStyle" />
+                <ScalarProperty Name="CapConfTables" ColumnName="CapConfTables" />
+                <ScalarProperty Name="CapDiningTables" ColumnName="CapDiningTables" />
+                <ScalarProperty Name="CapExhibStyle" ColumnName="CapExhibStyle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spSFbyRmName" FunctionName="RoomResModel.Store.spSFbyRmName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spSFbyRmName_Result">
+                <ScalarProperty Name="RmId" ColumnName="RmId" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RoomNum" ColumnName="RoomNum" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Online" ColumnName="Online" />
+                <ScalarProperty Name="ContactOffc" ColumnName="ContactOffc" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="RmAV" ColumnName="RmAV" />
+                <ScalarProperty Name="RmNotes" ColumnName="RmNotes" />
+                <ScalarProperty Name="NFrom" ColumnName="NFrom" />
+                <ScalarProperty Name="NotifyList" ColumnName="NotifyList" />
+                <ScalarProperty Name="FoodService" ColumnName="FoodService" />
+                <ScalarProperty Name="CapTheatreStyle" ColumnName="CapTheatreStyle" />
+                <ScalarProperty Name="CapConfTables" ColumnName="CapConfTables" />
+                <ScalarProperty Name="CapDiningTables" ColumnName="CapDiningTables" />
+                <ScalarProperty Name="CapExhibStyle" ColumnName="CapExhibStyle" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spUpdateBase" FunctionName="RoomResModel.Store.spUpdateBase" />
+          <FunctionImportMapping FunctionImportName="spUpdateBaseRecur" FunctionName="RoomResModel.Store.spUpdateBaseRecur" />
+          <FunctionImportMapping FunctionImportName="spUpdateBaseRecurSingle" FunctionName="RoomResModel.Store.spUpdateBaseRecurSingle" />
+          <FunctionImportMapping FunctionImportName="spUpdateEvCenter" FunctionName="RoomResModel.Store.spUpdateEvCenter" />
+          <FunctionImportMapping FunctionImportName="spUpdateInitialRecur" FunctionName="RoomResModel.Store.spUpdateInitialRecur" />
+          <FunctionImportMapping FunctionImportName="spUpdateLocationApproval" FunctionName="RoomResModel.Store.spUpdateLocationApproval" />
+          <FunctionImportMapping FunctionImportName="spUpdateNif" FunctionName="RoomResModel.Store.spUpdateNif" />
+          <FunctionImportMapping FunctionImportName="spUpdateRot" FunctionName="RoomResModel.Store.spUpdateRot" />
+          <EntitySetMapping Name="BasicReservations">
+            <EntityTypeMapping TypeName="RoomResModel.BasicReservation">
+              <MappingFragment StoreEntitySet="BasicReservation">
+                <ScalarProperty Name="ReqDept" ColumnName="ReqDept" />
+                <ScalarProperty Name="ReqOrg" ColumnName="ReqOrg" />
+                <ScalarProperty Name="ReqTitle" ColumnName="ReqTitle" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RecurInit" ColumnName="RecurInit" />
+                <ScalarProperty Name="Recorded" ColumnName="Recorded" />
+                <ScalarProperty Name="ResNotes" ColumnName="ResNotes" />
+                <ScalarProperty Name="ReqUPD" ColumnName="ReqUPD" />
+                <ScalarProperty Name="ReqGuests" ColumnName="ReqGuests" />
+                <ScalarProperty Name="ReqPhone" ColumnName="ReqPhone" />
+                <ScalarProperty Name="ReqEmail" ColumnName="ReqEmail" />
+                <ScalarProperty Name="ReqName" ColumnName="ReqName" />
+                <ScalarProperty Name="SponsOrgAdv" ColumnName="SponsOrgAdv" />
+                <ScalarProperty Name="SponsOrg" ColumnName="SponsOrg" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="ResId" ColumnName="ResId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReservableSpaces">
+            <EntityTypeMapping TypeName="RoomResModel.ReservableSpace">
+              <MappingFragment StoreEntitySet="ReservableSpaces">
+                <ScalarProperty Name="Restrictions" ColumnName="Restrictions" />
+                <ScalarProperty Name="CapExhibStyle" ColumnName="CapExhibStyle" />
+                <ScalarProperty Name="CapDiningTables" ColumnName="CapDiningTables" />
+                <ScalarProperty Name="CapConfTables" ColumnName="CapConfTables" />
+                <ScalarProperty Name="CapTheatreStyle" ColumnName="CapTheatreStyle" />
+                <ScalarProperty Name="FoodService" ColumnName="FoodService" />
+                <ScalarProperty Name="NotifyList" ColumnName="NotifyList" />
+                <ScalarProperty Name="NFrom" ColumnName="NFrom" />
+                <ScalarProperty Name="RmNotes" ColumnName="RmNotes" />
+                <ScalarProperty Name="RmAV" ColumnName="RmAV" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactOffc" ColumnName="ContactOffc" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="RoomNum" ColumnName="RoomNum" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="Online" ColumnName="Online" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExtendedReservations">
+            <EntityTypeMapping TypeName="RoomResModel.ExtendedReservation">
+              <MappingFragment StoreEntitySet="ExtendedReservation">
+                <ScalarProperty Name="PTPodium" ColumnName="PTPodium" />
+                <ScalarProperty Name="PTStage" ColumnName="PTStage" />
+                <ScalarProperty Name="KitchenReq" ColumnName="KitchenReq" />
+                <ScalarProperty Name="PTWMic" ColumnName="PTWMic" />
+                <ScalarProperty Name="AddlNotes" ColumnName="AddlNotes" />
+                <ScalarProperty Name="PTWeb" ColumnName="PTWeb" />
+                <ScalarProperty Name="PTPhone" ColumnName="PTPhone" />
+                <ScalarProperty Name="PTMic" ColumnName="PTMic" />
+                <ScalarProperty Name="PTProj" ColumnName="PTProj" />
+                <ScalarProperty Name="ParkingReq" ColumnName="ParkingReq" />
+                <ScalarProperty Name="EvEnd" ColumnName="EvEnd" />
+                <ScalarProperty Name="EvStart" ColumnName="EvStart" />
+                <ScalarProperty Name="EvDate" ColumnName="EvDate" />
+                <ScalarProperty Name="RoomConfig" ColumnName="RoomConfig" />
+                <ScalarProperty Name="CateringInfo" ColumnName="CateringInfo" />
+                <ScalarProperty Name="Catering" ColumnName="Catering" />
+                <ScalarProperty Name="AdmFee" ColumnName="AdmFee" />
+                <ScalarProperty Name="FacilityReqs" ColumnName="FacilityReqs" />
+                <ScalarProperty Name="AlcoholServed" ColumnName="AlcoholServed" />
+                <ScalarProperty Name="FoodServed" ColumnName="FoodServed" />
+                <ScalarProperty Name="EventAdm" ColumnName="EventAdm" />
+                <ScalarProperty Name="ResID" ColumnName="ResID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spFetchSpaceByRmCode" FunctionName="RoomResModel.Store.spFetchSpaceByRmCode">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchSpaceByRmCode_Result">
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="Online" ColumnName="Online" />
+                <ScalarProperty Name="RmName" ColumnName="RmName" />
+                <ScalarProperty Name="Building" ColumnName="Building" />
+                <ScalarProperty Name="RoomNum" ColumnName="RoomNum" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="ContactOffc" ColumnName="ContactOffc" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="ContactEmail" ColumnName="ContactEmail" />
+                <ScalarProperty Name="ContactPhone" ColumnName="ContactPhone" />
+                <ScalarProperty Name="RmAV" ColumnName="RmAV" />
+                <ScalarProperty Name="RmNotes" ColumnName="RmNotes" />
+                <ScalarProperty Name="NFrom" ColumnName="NFrom" />
+                <ScalarProperty Name="NotifyList" ColumnName="NotifyList" />
+                <ScalarProperty Name="FoodService" ColumnName="FoodService" />
+                <ScalarProperty Name="CapTheatreStyle" ColumnName="CapTheatreStyle" />
+                <ScalarProperty Name="CapConfTables" ColumnName="CapConfTables" />
+                <ScalarProperty Name="CapDiningTables" ColumnName="CapDiningTables" />
+                <ScalarProperty Name="CapExhibStyle" ColumnName="CapExhibStyle" />
+                <ScalarProperty Name="Restrictions" ColumnName="Restrictions" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchBaseReservation" FunctionName="RoomResModel.Store.spFetchBaseReservation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchBaseReservation_Result">
+                <ScalarProperty Name="ResId" ColumnName="ResId" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="SponsOrg" ColumnName="SponsOrg" />
+                <ScalarProperty Name="SponsOrgAdv" ColumnName="SponsOrgAdv" />
+                <ScalarProperty Name="ReqName" ColumnName="ReqName" />
+                <ScalarProperty Name="ReqEmail" ColumnName="ReqEmail" />
+                <ScalarProperty Name="ReqPhone" ColumnName="ReqPhone" />
+                <ScalarProperty Name="ReqGuests" ColumnName="ReqGuests" />
+                <ScalarProperty Name="ReqUPD" ColumnName="ReqUPD" />
+                <ScalarProperty Name="ResNotes" ColumnName="ResNotes" />
+                <ScalarProperty Name="Recorded" ColumnName="Recorded" />
+                <ScalarProperty Name="RecurInit" ColumnName="RecurInit" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FindBasicReservation" FunctionName="RoomResModel.Store.spFetchBaseReservation" />
+          <FunctionImportMapping FunctionImportName="spFetchExtendedReservation" FunctionName="RoomResModel.Store.spFetchExtendedReservation">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchExtendedReservation_Result">
+                <ScalarProperty Name="ResID" ColumnName="ResID" />
+                <ScalarProperty Name="EventAdm" ColumnName="EventAdm" />
+                <ScalarProperty Name="FoodServed" ColumnName="FoodServed" />
+                <ScalarProperty Name="AlcoholServed" ColumnName="AlcoholServed" />
+                <ScalarProperty Name="GatewayA" ColumnName="GatewayA" />
+                <ScalarProperty Name="GatewayB" ColumnName="GatewayB" />
+                <ScalarProperty Name="GatewayC" ColumnName="GatewayC" />
+                <ScalarProperty Name="FacilityReqs" ColumnName="FacilityReqs" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FindExtendedReservation" FunctionName="RoomResModel.Store.spFetchExtendedReservation" />
+          <FunctionImportMapping FunctionImportName="spFetchPending" FunctionName="RoomResModel.Store.spFetchPending">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RoomResModel.spFetchPending_Result">
+                <ScalarProperty Name="ResId" ColumnName="ResId" />
+                <ScalarProperty Name="RmCode" ColumnName="RmCode" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDesc" ColumnName="EventDesc" />
+                <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="SponsOrg" ColumnName="SponsOrg" />
+                <ScalarProperty Name="SponsOrgAdv" ColumnName="SponsOrgAdv" />
+                <ScalarProperty Name="ReqName" ColumnName="ReqName" />
+                <ScalarProperty Name="ReqEmail" ColumnName="ReqEmail" />
+                <ScalarProperty Name="ReqPhone" ColumnName="ReqPhone" />
+                <ScalarProperty Name="ReqGuests" ColumnName="ReqGuests" />
+                <ScalarProperty Name="ReqUPD" ColumnName="ReqUPD" />
+                <ScalarProperty Name="ResNotes" ColumnName="ResNotes" />
+                <ScalarProperty Name="Recorded" ColumnName="Recorded" />
+                <ScalarProperty Name="RecurInit" ColumnName="RecurInit" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ApprovedBy" ColumnName="ApprovedBy" />
+                <ScalarProperty Name="ApprovedOn" ColumnName="ApprovedOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchConflicts" FunctionName="RoomResModel.Store.spFetchConflicts">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchReservations" FunctionName="RoomResModel.Store.spFetchReservations">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchSpacesByBuilding" FunctionName="RoomResModel.Store.spFetchSpacesByBuilding">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spFetchSpacesByRmCodes" FunctionName="RoomResModel.Store.spFetchSpacesByRmCodes">
+          </FunctionImportMapping>
+          <EntitySetMapping Name="RmGroups">
+            <EntityTypeMapping TypeName="RoomResModel.RmGroup">
+              <MappingFragment StoreEntitySet="RmGroups">
+                <ScalarProperty Name="RmList" ColumnName="RmList" />
+                <ScalarProperty Name="RmGroup1" ColumnName="RmGroup" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams />
+  </Designer>
+</edmx:Edmx>

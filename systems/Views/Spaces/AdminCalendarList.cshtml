@@ -1,0 +1,34 @@
+﻿@using systems.Models
+@{
+    ViewBag.Title = "AdminCalendarList";
+}
+
+<h3>View Reservation Calendars</h3>
+<ul>
+    <li>@Html.ActionLink("Overview Calendar","OverviewCalendar")</li>
+    <li>@Html.ActionLink("Return to Administration Menu","Admin")</li>
+</ul>
+<p>Click on a room name to view its reservation calendar.</p>
+@{
+    List<ReservableSpace> roomlist = systems.Helpers.fns.SpaceGroups(@ViewBag.RmGroup);
+    string prevbldg = "";
+    
+    string contents = "";
+    foreach (ReservableSpace rm in roomlist) {
+        
+        if (prevbldg != rm.Building)
+        {
+            contents = contents + "</ul>";
+            HtmlString buildingstuff = new HtmlString(contents);
+            @buildingstuff
+            <h3>@rm.Building</h3>
+            contents = "<ul>" + "<li><a href='/systems/Spaces/AdminBldgCalendar/" + rm.Building + "?monthStart=" + @DateTime.Now.ToShortDateString() + "'>Building Calendar</a></li>";
+        }
+        contents = contents + "<li><a href='/systems/Spaces/AdminCalendar/" + rm.RmCode + "?monthStart=" + @DateTime.Now.ToShortDateString() + "'>" + rm.RmName + "</a></li>";
+        prevbldg = rm.Building;
+    }
+}
+<ul>
+    <li>@Html.ActionLink("Overview Calendar","OverviewCalendar")</li>
+    <li>@Html.ActionLink("Return to Administration Menu","Admin")</li>
+</ul>
