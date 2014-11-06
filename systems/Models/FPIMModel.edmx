@@ -4,10 +4,10 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="PeopleModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="PeopleModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="PeopleModelStoreContainer">
-          <EntitySet Name="CodesAOS" EntityType="PeopleModel.Store.CodesAOS" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="CommEmpDegrees" EntityType="PeopleModel.Store.CommEmpDegrees" store:Type="Tables" store:Schema="dbo" store:Name="CommEmpDegrees" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+          <EntitySet Name="CodesAOS" EntityType="PeopleModel.Store.CodesAOS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CommEmpDegrees" EntityType="PeopleModel.Store.CommEmpDegrees" store:Type="Tables" store:Schema="dbo" store:Name="CommEmpDegrees">
             <DefiningQuery>SELECT 
       [CommEmpDegrees].[RecId] AS [RecId], 
       [CommEmpDegrees].[DgrYr] AS [DgrYr], 
@@ -15,7 +15,7 @@
       [CommEmpDegrees].[DgrSchNam] AS [DgrSchNam]
       FROM [dbo].[CommEmpDegrees] AS [CommEmpDegrees]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="CommEmployees" EntityType="PeopleModel.Store.CommEmployees" store:Type="Tables" store:Schema="dbo" store:Name="CommEmployees" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator">
+          <EntitySet Name="CommEmployees" EntityType="PeopleModel.Store.CommEmployees" store:Type="Tables" store:Schema="dbo" store:Name="CommEmployees">
             <DefiningQuery>SELECT 
       [CommEmployees].[RecId] AS [RecId], 
       [CommEmployees].[UserId] AS [UserId], 
@@ -40,20 +40,13 @@
       [CommEmployees].[TitleCatCd] AS [TitleCatCd]
       FROM [dbo].[CommEmployees] AS [CommEmployees]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="DeptHeading" EntityType="PeopleModel.Store.DeptHeading" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="FacultyAOSAssoc" EntityType="PeopleModel.Store.FacultyAOSAssoc" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="FacultyDeptAssoc" EntityType="PeopleModel.Store.FacultyDeptAssoc" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="FacultyPage" EntityType="PeopleModel.Store.FacultyPage" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="FacultyProfile" EntityType="PeopleModel.Store.FacultyProfile" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <EntitySet Name="FacultyProfileModule" EntityType="PeopleModel.Store.FacultyProfileModule" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
-          <AssociationSet Name="fk_assocaos_pid" Association="PeopleModel.Store.fk_assocaos_pid">
-            <End Role="FacultyProfile" EntitySet="FacultyProfile" />
-            <End Role="FacultyAOSAssoc" EntitySet="FacultyAOSAssoc" />
-          </AssociationSet>
-          <AssociationSet Name="fk_facultydeptAssoc_pid" Association="PeopleModel.Store.fk_facultydeptAssoc_pid">
-            <End Role="FacultyProfile" EntitySet="FacultyProfile" />
-            <End Role="FacultyDeptAssoc" EntitySet="FacultyDeptAssoc" />
-          </AssociationSet>
+          <EntitySet Name="DeptHeading" EntityType="PeopleModel.Store.DeptHeading" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FacultyAOSAssoc" EntityType="PeopleModel.Store.FacultyAOSAssoc" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FacultyAreasXRef" EntityType="PeopleModel.Store.FacultyAreasXRef" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FacultyDepts" EntityType="PeopleModel.Store.FacultyDepts" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FacultyPage" EntityType="PeopleModel.Store.FacultyPage" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FacultyProfile" EntityType="PeopleModel.Store.FacultyProfile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="FacultyProfileModule" EntityType="PeopleModel.Store.FacultyProfileModule" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_FacultyPage_FacultyProfile" Association="PeopleModel.Store.FK_FacultyPage_FacultyProfile">
             <End Role="FacultyProfile" EntitySet="FacultyProfile" />
             <End Role="FacultyPage" EntitySet="FacultyPage" />
@@ -155,13 +148,28 @@
           <Property Name="ParticipatingAreas" Type="varchar" MaxLength="600" />
           <Property Name="Dept" Type="varchar" MaxLength="40" />
         </EntityType>
-        <EntityType Name="FacultyDeptAssoc">
+        <EntityType Name="FacultyAreasXRef">
           <Key>
-            <PropertyRef Name="DeptAssocId" />
+            <PropertyRef Name="AssocId" />
           </Key>
-          <Property Name="DeptAssocId" Type="int" Nullable="false" />
-          <Property Name="ProfileId" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="Dept" Type="varchar" MaxLength="50" />
+          <Property Name="AssocId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="varchar" MaxLength="15" />
+          <Property Name="ESFAD" Type="varchar" MaxLength="15" />
+          <Property Name="SUAD" Type="varchar" MaxLength="15" />
+          <Property Name="AOSCode" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="InterestAreas" Type="varchar" MaxLength="600" />
+        </EntityType>
+        <EntityType Name="FacultyDepts">
+          <Key>
+            <PropertyRef Name="DeptId" />
+          </Key>
+          <Property Name="DeptId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="ESFAD" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="SUAD" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="Dept" Type="varchar" Nullable="false" MaxLength="40" />
+          <Property Name="ForceTop" Type="bit" Nullable="false" />
+          <Property Name="AOSCode" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="FacultyPage">
           <Key>
@@ -178,7 +186,7 @@
           </Key>
           <Property Name="ProfileId" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="RecId" Type="int" />
-          <Property Name="UserId" Type="varchar" MaxLength="20" />
+          <Property Name="UserId" Type="varchar" Nullable="false" MaxLength="20" />
           <Property Name="SUAD" Type="varchar" MaxLength="20" />
           <Property Name="ESFAD" Type="varchar" MaxLength="20" />
           <Property Name="PhoneExtn" Type="int" />
@@ -198,30 +206,6 @@
           <Property Name="ModuleData" Type="varchar(max)" />
           <Property Name="DisplayOrder" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="fk_assocaos_pid">
-          <End Role="FacultyProfile" Type="PeopleModel.Store.FacultyProfile" Multiplicity="1" />
-          <End Role="FacultyAOSAssoc" Type="PeopleModel.Store.FacultyAOSAssoc" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FacultyProfile">
-              <PropertyRef Name="ProfileId" />
-            </Principal>
-            <Dependent Role="FacultyAOSAssoc">
-              <PropertyRef Name="ProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_facultydeptAssoc_pid">
-          <End Role="FacultyProfile" Type="PeopleModel.Store.FacultyProfile" Multiplicity="1" />
-          <End Role="FacultyDeptAssoc" Type="PeopleModel.Store.FacultyDeptAssoc" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FacultyProfile">
-              <PropertyRef Name="ProfileId" />
-            </Principal>
-            <Dependent Role="FacultyDeptAssoc">
-              <PropertyRef Name="ProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_FacultyPage_FacultyProfile">
           <End Role="FacultyProfile" Type="PeopleModel.Store.FacultyProfile" Multiplicity="1" />
           <End Role="FacultyPage" Type="PeopleModel.Store.FacultyPage" Multiplicity="*" />
@@ -249,11 +233,12 @@
         <Function Name="spAdviseesPublic" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Prof" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="spAssocFac" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="spCreateFacultyProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="varchar" Mode="In" />
-          <Parameter Name="ESFAD" Type="varchar" Mode="In" />
           <Parameter Name="SUAD" Type="varchar" Mode="In" />
-          <Parameter Name="Dept" Type="varchar" Mode="In" />
+          <Parameter Name="ESFAD" Type="varchar" Mode="In" />
+          <Parameter Name="FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="LastName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spCurrViewFields" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="NetID" Type="varchar" Mode="In" />
@@ -266,7 +251,7 @@
         <Function Name="spFacultyList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Dept" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="spFetchFacultyAOSList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="spFetchFacultyAOSAssocList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserID" Type="varchar" Mode="In" />
           <Parameter Name="ESFAD" Type="varchar" Mode="In" />
           <Parameter Name="SUAD" Type="varchar" Mode="In" />
@@ -317,16 +302,6 @@
           <FunctionImport Name="spFacultyList" ReturnType="Collection(systems.spFacultyList_Result)">
           <Parameter Name="Dept" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spFetchFacultyAssocList" ReturnType="Collection(systems.spFetchFacultyAssocList_Result)">
-            <Parameter Name="UserID" Mode="In" Type="String" />
-            <Parameter Name="ESFAD" Mode="In" Type="String" />
-            <Parameter Name="SUAD" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="spFetchFacultyAOSAssocList" ReturnType="Collection(systems.spFetchFacultyAOSAssocList_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="ESFAD" Mode="In" Type="Int32" />
-            <Parameter Name="SUAD" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="spRemoveFDs">
             <Parameter Name="UserId" Mode="In" Type="String" />
             <Parameter Name="ESFAD" Mode="In" Type="String" />
@@ -338,23 +313,37 @@
             <Parameter Name="SUAD" Mode="In" Type="String" />
             <Parameter Name="Dept" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="spFetchFacultyAOSList" ReturnType="Collection(systems.spFetchFacultyAOSList_Result)">
+          <FunctionImport Name="spFetchFacultyAOSList">
             <Parameter Name="UserID" Mode="In" Type="String" />
             <Parameter Name="ESFAD" Mode="In" Type="String" />
             <Parameter Name="SUAD" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="FacultyAOSAssocs" EntityType="systems.FacultyAOSAssoc" />
-          <EntitySet Name="FacultyDeptAssocs" EntityType="systems.FacultyDeptAssoc" />
           <AssociationSet Name="fk_assocaos_pid1" Association="systems.fk_assocaos_pid1">
             <End Role="FacultyProfile" EntitySet="FacultyProfiles" />
             <End Role="FacultyAOSAssoc" EntitySet="FacultyAOSAssocs" />
           </AssociationSet>
-          <AssociationSet Name="fk_facultydeptAssoc_pid" Association="systems.fk_facultydeptAssoc_pid">
-            <End Role="FacultyProfile" EntitySet="FacultyProfiles" />
-            <End Role="FacultyDeptAssoc" EntitySet="FacultyDeptAssocs" />
-          </AssociationSet>
           <EntitySet Name="CodesAOSs" EntityType="systems.CodesAOS" />
           <EntitySet Name="DeptHeadings" EntityType="systems.DeptHeading" />
+          <FunctionImport Name="spCreateFacultyProfile">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+            <Parameter Name="SUAD" Mode="In" Type="String" />
+            <Parameter Name="ESFAD" Mode="In" Type="String" />
+            <Parameter Name="FirstName" Mode="In" Type="String" />
+            <Parameter Name="LastName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="spFetchFacultyAssocList" ReturnType="Collection(systems.spFetchFacultyAssocList_Result)">
+            <Parameter Name="UserID" Mode="In" Type="String" />
+            <Parameter Name="ESFAD" Mode="In" Type="String" />
+            <Parameter Name="SUAD" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="FacultyAreasXRefs" EntityType="systems.FacultyAreasXRef" />
+          <EntitySet Name="FacultyDepts" EntityType="systems.FacultyDept" />
+          <FunctionImport Name="spFetchFacultyAOSAssocList" ReturnType="Collection(systems.spFetchFacultyAOSAssocList_Result)">
+            <Parameter Name="UserID" Mode="In" Type="String" />
+            <Parameter Name="ESFAD" Mode="In" Type="String" />
+            <Parameter Name="SUAD" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="CommEmpDegree">
           <Key>
@@ -419,17 +408,15 @@
           </Key>
           <Property Type="String" Name="ProfileId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="RecId" />
-          <Property Type="String" Name="UserId" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="UserId" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Type="String" Name="SUAD" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="ESFAD" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FacultyPages" Relationship="systems.FK_FacultyPage_FacultyProfile" FromRole="FacultyProfile" ToRole="FacultyPage" />
           <NavigationProperty Name="FacultyProfileModules" Relationship="systems.FK_FacultyProfileModule_FacultyProfile" FromRole="FacultyProfile" ToRole="FacultyProfileModule" />
-          <Property Type="Int32" Name="PhoneExtn" />
           <Property Type="String" Name="PreferredName" MaxLength="60" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Department" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="ReconciledAreas" MaxLength="600" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FacultyAOSAssocs" Relationship="systems.fk_assocaos_pid1" FromRole="FacultyProfile" ToRole="FacultyAOSAssoc" />
-          <NavigationProperty Name="FacultyDeptAssocs" Relationship="systems.fk_facultydeptAssoc_pid" FromRole="FacultyProfile" ToRole="FacultyDeptAssoc" />
         </EntityType>
         <EntityType Name="FacultyPage">
           <Key>
@@ -599,32 +586,6 @@
           <Property Type="String" Name="ProfileId" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="PhoneExtn" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spFetchFacultyAssocList_Result">
-          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
-          <Property Type="Int32" Name="DeptId" Nullable="true" />
-          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="Dept" Nullable="true" MaxLength="40" />
-          <Property Type="Boolean" Name="ForceTop" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="spFetchFacultyAOSAssocList_Result">
-          <Property Type="Int32" Name="AssocId" Nullable="true" />
-          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="AOSCode" Nullable="true" MaxLength="40" />
-          <Property Type="String" Name="InterestAreas" Nullable="true" MaxLength="600" />
-          <Property Type="String" Name="ParticipatingAreas" Nullable="true" MaxLength="600" />
-        </ComplexType>
-        <ComplexType Name="spFetchFacultyAOSList_Result">
-          <Property Type="Int32" Name="AssocId" Nullable="true" />
-          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="AOSCode" Nullable="true" MaxLength="40" />
-          <Property Type="String" Name="InterestAreas" Nullable="true" MaxLength="600" />
-          <Property Type="String" Name="ParticipatingAreas" Nullable="true" MaxLength="600" />
-        </ComplexType>
         <EntityType Name="FacultyAOSAssoc">
           <Key>
             <PropertyRef Name="AssocAOSId" />
@@ -637,15 +598,6 @@
           <Property Type="String" Name="Dept" MaxLength="40" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FacultyProfile" Relationship="systems.fk_assocaos_pid1" FromRole="FacultyAOSAssoc" ToRole="FacultyProfile" />
         </EntityType>
-        <EntityType Name="FacultyDeptAssoc">
-          <Key>
-            <PropertyRef Name="DeptAssocId" />
-          </Key>
-          <Property Type="Int32" Name="DeptAssocId" Nullable="false" />
-          <Property Type="String" Name="ProfileId" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Dept" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="FacultyProfile" Relationship="systems.fk_facultydeptAssoc_pid" FromRole="FacultyDeptAssoc" ToRole="FacultyProfile" />
-        </EntityType>
         <Association Name="fk_assocaos_pid1">
           <End Type="systems.FacultyProfile" Role="FacultyProfile" Multiplicity="1" />
           <End Type="systems.FacultyAOSAssoc" Role="FacultyAOSAssoc" Multiplicity="*" />
@@ -654,18 +606,6 @@
               <PropertyRef Name="ProfileId" />
             </Principal>
             <Dependent Role="FacultyAOSAssoc">
-              <PropertyRef Name="ProfileId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_facultydeptAssoc_pid">
-          <End Type="systems.FacultyProfile" Role="FacultyProfile" Multiplicity="1" />
-          <End Type="systems.FacultyDeptAssoc" Role="FacultyDeptAssoc" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FacultyProfile">
-              <PropertyRef Name="ProfileId" />
-            </Principal>
-            <Dependent Role="FacultyDeptAssoc">
               <PropertyRef Name="ProfileId" />
             </Dependent>
           </ReferentialConstraint>
@@ -688,6 +628,48 @@
           <Property Type="String" Name="DeptHeading1" MaxLength="40" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Short" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
+        <ComplexType Name="spFetchFacultyAssocList_Result">
+          <Property Type="Int32" Name="DeptId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="Dept" Nullable="true" MaxLength="40" />
+          <Property Type="Boolean" Name="ForceTop" Nullable="true" />
+          <Property Type="String" Name="ProfileId" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="FacultyAreasXRef">
+          <Key>
+            <PropertyRef Name="AssocId" />
+          </Key>
+          <Property Type="Int32" Name="AssocId" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="UserId" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ESFAD" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SUAD" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="AOSCode" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="InterestAreas" MaxLength="600" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FacultyDept">
+          <Key>
+            <PropertyRef Name="DeptId" />
+          </Key>
+          <Property Type="Int32" Name="DeptId" Nullable="false" a:StoreGeneratedPattern="Identity" xmlns:a="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Type="String" Name="UserId" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ESFAD" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SUAD" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Dept" Nullable="false" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="ForceTop" Nullable="false" />
+          <Property Type="String" Name="AOSCode" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="spFetchFacultyAOSAssocList_Result">
+          <Property Type="Int32" Name="AssocId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ESFAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="SUAD" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="AOSCode" Nullable="true" MaxLength="40" />
+          <Property Type="String" Name="InterestAreas" Nullable="true" MaxLength="600" />
+          <Property Type="String" Name="AreaOfStudy" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ParticipatingAreas" Nullable="true" MaxLength="600" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -737,7 +719,6 @@
                 <ScalarProperty Name="ReconciledAreas" ColumnName="ReconciledAreas" />
                 <ScalarProperty Name="Department" ColumnName="Department" />
                 <ScalarProperty Name="PreferredName" ColumnName="PreferredName" />
-                <ScalarProperty Name="PhoneExtn" ColumnName="PhoneExtn" />
                 <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
                 <ScalarProperty Name="SUAD" ColumnName="SUAD" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -891,33 +872,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spFetchFacultyAssocList" FunctionName="PeopleModel.Store.spFetchFacultyAssocList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="systems.spFetchFacultyAssocList_Result">
-                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
-                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
-                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Dept" ColumnName="Dept" />
-                <ScalarProperty Name="ForceTop" ColumnName="ForceTop" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spRemoveFDs" FunctionName="PeopleModel.Store.spRemoveFDs" />
-          <FunctionImportMapping FunctionImportName="spAssocFac" FunctionName="PeopleModel.Store.spAssocFac" />
-          <FunctionImportMapping FunctionImportName="spFetchFacultyAOSList" FunctionName="PeopleModel.Store.spFetchFacultyAOSList">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="systems.spFetchFacultyAOSList_Result">
-                <ScalarProperty Name="AssocId" ColumnName="AssocId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
-                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
-                <ScalarProperty Name="AOSCode" ColumnName="AOSCode" />
-                <ScalarProperty Name="InterestAreas" ColumnName="InterestAreas" />
-                <ScalarProperty Name="ParticipatingAreas" ColumnName="ParticipatingAreas" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="FacultyAOSAssocs">
             <EntityTypeMapping TypeName="systems.FacultyAOSAssoc">
               <MappingFragment StoreEntitySet="FacultyAOSAssoc">
@@ -927,15 +882,6 @@
                 <ScalarProperty Name="AOSCode" ColumnName="AOSCode" />
                 <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
                 <ScalarProperty Name="AssocAOSId" ColumnName="AssocAOSId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FacultyDeptAssocs">
-            <EntityTypeMapping TypeName="systems.FacultyDeptAssoc">
-              <MappingFragment StoreEntitySet="FacultyDeptAssoc">
-                <ScalarProperty Name="Dept" ColumnName="Dept" />
-                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
-                <ScalarProperty Name="DeptAssocId" ColumnName="DeptAssocId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -959,6 +905,59 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spCreateFacultyProfile" FunctionName="PeopleModel.Store.spCreateFacultyProfile" />
+          <FunctionImportMapping FunctionImportName="spFetchFacultyAssocList" FunctionName="PeopleModel.Store.spFetchFacultyAssocList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="systems.spFetchFacultyAssocList_Result">
+                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="ForceTop" ColumnName="ForceTop" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="FacultyAreasXRefs">
+            <EntityTypeMapping TypeName="systems.FacultyAreasXRef">
+              <MappingFragment StoreEntitySet="FacultyAreasXRef">
+                <ScalarProperty Name="InterestAreas" ColumnName="InterestAreas" />
+                <ScalarProperty Name="AOSCode" ColumnName="AOSCode" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AssocId" ColumnName="AssocId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacultyDepts">
+            <EntityTypeMapping TypeName="systems.FacultyDept">
+              <MappingFragment StoreEntitySet="FacultyDepts">
+                <ScalarProperty Name="AOSCode" ColumnName="AOSCode" />
+                <ScalarProperty Name="ForceTop" ColumnName="ForceTop" />
+                <ScalarProperty Name="Dept" ColumnName="Dept" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="spFetchFacultyAOSAssocList" FunctionName="PeopleModel.Store.spFetchFacultyAOSAssocList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="systems.spFetchFacultyAOSAssocList_Result">
+                <ScalarProperty Name="AssocId" ColumnName="AssocId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ESFAD" ColumnName="ESFAD" />
+                <ScalarProperty Name="SUAD" ColumnName="SUAD" />
+                <ScalarProperty Name="AOSCode" ColumnName="AOSCode" />
+                <ScalarProperty Name="InterestAreas" ColumnName="InterestAreas" />
+                <ScalarProperty Name="AreaOfStudy" ColumnName="AreaOfStudy" />
+                <ScalarProperty Name="ParticipatingAreas" ColumnName="ParticipatingAreas" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

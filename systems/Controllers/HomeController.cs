@@ -54,7 +54,8 @@ namespace systems.Controllers
             user.username = id;
             user.authtype = atype;
             FormsAuthentication.SetAuthCookie(user.username, true);
-            return RedirectToAction("Index", target, user);
+            //return RedirectToAction("Index", target, user);
+            return RedirectToAction("Index", target, id);
             //return RedirectToAction("Faculty");
 
            // return RedirectToAction("Index", target, new { id = user.username });

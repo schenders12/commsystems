@@ -19,7 +19,8 @@
   <h4>@Html.ActionLink("Manage Modules", "ManageModules", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
   <h4>@Html.ActionLink("Manage Pages", "ManagePages", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
   <h4>@Html.ActionLink("Submit a new profile photo", "SubmitPhoto", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
-  <h4>@Html.ActionLink("Manage Department Associations and Areas of Study", "EditDeptAOS", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+  <h4>@Html.ActionLink("Manage Department Associations and Areas of Study", "ManageDeptAssocAOS", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4>
+  <!--<h4>@Html.ActionLink("Manage Department Associations and Areas of Study", "EditDeptAOS", "FPIM", new { profileId = @Model.ProfileId}, new { profileId = @Model.ProfileId})</h4> -->
   <h4>@Html.ActionLink("Preview Your Pages", "ViewFacultyPage", "FPIM", new { profileId = @Model.ProfileId, pageId = ViewBag.MainPageID}, new { profileId = @Model.ProfileId })</h4>
   <p></p>
   @if (Model.UserId == "schender") {

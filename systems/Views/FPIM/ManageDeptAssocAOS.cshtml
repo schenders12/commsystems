@@ -1,0 +1,30 @@
+﻿@model systems.Models.FacultyProfile
+
+@{
+    ViewBag.Title = "ManageDeptAssocAOS";
+}
+
+
+@Html.Partial("WelcomeBox", Model) 
+<h2>Manage Departmental Associations and Areas of Study</h2>
+        <strong>@ViewBag.FirstName @ViewBag.LastName is associated with the following Departments:  </strong>
+        @{
+                HtmlString deptList = new HtmlString(systems.Helpers.fns.GetMyDepts(@Model.UserId, @Model.ESFAD, @Model.SUAD));
+                @deptList
+        }
+
+        <strong>@ViewBag.FirstName @ViewBag.LastName is associated with the following Areas of Study:  </strong>
+        @{
+                HtmlString aosList = new HtmlString(systems.Helpers.fns.GetMyAOSs(@Model.UserId, @Model.ESFAD, @Model.SUAD));
+                @aosList
+        }
+
+        @Html.ActionLink("Click to Edit","EditDeptAOS", "FPIM", new { profileId = @Model.ProfileId}, new {@class="ui-widget-header ui-corner-all"})
+
+<p></p>
+
+<p></p>
+<p></p>
+  <p>
+  @Html.ActionLink("Done","Index", "FPIM", new { profileId = @Model.ProfileId}, new {@class="ui-widget-header ui-corner-all"})
+  </p>

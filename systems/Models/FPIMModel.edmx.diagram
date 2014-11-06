@@ -11,12 +11,12 @@
         <edmx:AssociationConnector Association="systems.FK_FacultyPage_FacultyProfile" ManuallyRouted="false" />
         <edmx:AssociationConnector Association="systems.FK_FacultyProfileModule_FacultyPage" ManuallyRouted="false" />
         <edmx:AssociationConnector Association="systems.FK_FacultyProfileModule_FacultyProfile" ManuallyRouted="false" />
-        <edmx:EntityTypeShape EntityType="systems.FacultyAOSAssoc" Width="1.5" PointX="1.625" PointY="5" />
-        <edmx:EntityTypeShape EntityType="systems.FacultyDeptAssoc" Width="1.5" PointX="3.875" PointY="5" />
+        <edmx:EntityTypeShape EntityType="systems.FacultyAOSAssoc" Width="1.5" PointX="5" PointY="4.125" />
         <edmx:AssociationConnector Association="systems.fk_assocaos_pid1" />
-        <edmx:AssociationConnector Association="systems.fk_facultydeptAssoc_pid" />
         <edmx:EntityTypeShape EntityType="systems.CodesAOS" Width="1.5" PointX="9.625" PointY="6.25" />
-        <edmx:EntityTypeShape EntityType="systems.DeptHeading" Width="1.5" PointX="6.5" PointY="6.25" />
+        <edmx:EntityTypeShape EntityType="systems.DeptHeading" Width="1.5" PointX="7.5" PointY="6.125" />
+        <edmx:EntityTypeShape EntityType="systems.FacultyAreasXRef" Width="1.5" PointX="1.5822177592582154" PointY="23.270662005651118" />
+        <edmx:EntityTypeShape EntityType="systems.FacultyDept" Width="1.5" PointX="7.1280866894536121" PointY="17.718620695974035" />
       </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

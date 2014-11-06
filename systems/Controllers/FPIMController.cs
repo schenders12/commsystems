@@ -22,25 +22,30 @@ namespace systems.Controllers
         private CatalogEntities catalogDB = new CatalogEntities();
 
         // Default page
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, string suad, string esfad, string firstname, string lastname)
         {
             if (id == null || id == "")
             {
                 // Viewing your own
                 id = User.Identity.Name;
             }
+
+            // Get Employee record
+            CommEmployee employee = fns.GetEmployee(id, suad, esfad, firstname, lastname);
+            if (employee == null) {
+                return null;
+            }
+
             FacultyProfile profile = db.FacultyProfiles.SingleOrDefault(m => m.UserId == id);
-            CommEmployee employee;
-            
             if (profile == null)
             {
-                profile = new FacultyProfile();
-                employee = db.CommEmployees.SingleOrDefault(m => m.UserId == User.Identity.Name);
+                // User does not have a profile, create one
+                // Create profile
+                int result = db.spCreateFacultyProfile(id, suad, esfad, firstname, lastname);
+                profile = db.FacultyProfiles.SingleOrDefault(m => m.UserId == id);
+
             }
-            else
-            {
-                employee = db.CommEmployees.Single(m => m.UserId == profile.UserId || m.EmailId == profile.ESFAD + "@esf.edu%" || m.EmailId == profile.ESFAD + "@syr.edu%");
-            }
+
             if (id != User.Identity.Name)
             {
                 ViewBag.WelcomeMsg = "Editing for " + employee.FirstName + " " + employee.LastName;
@@ -67,36 +72,7 @@ namespace systems.Controllers
             ViewBag.MainPageID = page.FacultyPageId;
             return View(profile);
         }
-        [Authorize]
-        public ActionResult EditFacultyProfile(string profileId)
-        {
-            string PageTitle="Edit Profile";
 
-            FacultyProfile myProfile = db.FacultyProfiles.SingleOrDefault(m => m.ProfileId == profileId);
-            CommEmployee employee;
-            employee = db.CommEmployees.Single(m => m.UserId == myProfile.UserId || m.EmailId == myProfile.ESFAD + "@esf.edu%" || m.EmailId == myProfile.ESFAD + "@syr.edu%");
-            if (profileId != User.Identity.Name)
-            {
-                ViewBag.WelcomeMsg = "Editing for " + employee.FirstName + " " + employee.LastName;
-            }
-            else
-            {
-                ViewBag.WelcomeMsg = "Welcome, " + employee.FirstName + " " + employee.LastName + "!";
-            }
-
-            ViewBag.fname = employee.FirstName;
-            ViewBag.lname = employee.LastName;
-            ViewBag.userid = employee.UserId;
-            if (employee.MiddleName != "")
-                ViewBag.PTitle = "SUNY-ESF: " + employee.FirstName + " " + employee.MiddleName + " " + employee.LastName + " - " + PageTitle;
-            else
-                ViewBag.PTitle = "SUNY-ESF: " + employee.FirstName + " " + employee.LastName + " - " + PageTitle;
-            ViewBag.PageTitle = PageTitle;
-
-            ViewBag.profileId = myProfile.ProfileId;
-
-            return View(myProfile);
-        }
         // *** Manage Modules ***
         [HttpGet]
         public ActionResult ManageModules(string profileId)
@@ -678,14 +654,15 @@ namespace systems.Controllers
         public ActionResult EditAssoc(string id)
         {
             FacultyProfile myProfile = db.FacultyProfiles.SingleOrDefault(m => m.UserId == id);
-            List<spFetchFacultyAssocList_Result> depts = db.spFetchFacultyAssocList(myProfile.UserId,myProfile.ESFAD,myProfile.SUAD).ToList();
-            List<spFetchFacultyAOSList_Result> aos = db.spFetchFacultyAOSList(myProfile.UserId, myProfile.ESFAD, myProfile.SUAD).ToList();
-            ViewBag.profileId = myProfile.ProfileId;
-            ViewBag.userID = myProfile.UserId;
-            return View(depts);
+          //  List<spFetchFacultyAOSAssocList_Result> depts = db.spFetchFacultyAOSAssocList(myProfile.UserId,myProfile.ESFAD,myProfile.SUAD).ToList();
+            //List<spFetchFacultyAOSList_Result> aos = db.spFetchFacultyAOSList(myProfile.UserId, myProfile.ESFAD, myProfile.SUAD).ToList();
+           // ViewBag.profileId = myProfile.ProfileId;
+           // ViewBag.userID = myProfile.UserId;
+            //return View(depts);
+            return null;
         }
         [HttpPost]
-        public ActionResult EditAssoc(spFetchFacultyAssocList_Result updatedAssoc)
+        public ActionResult EditAssoc(spFetchFacultyAOSAssocList_Result updatedAssoc)
         {
             string assoc = Request.Form["assoc"];
             string id = Request.Form["userID"];
@@ -704,13 +681,14 @@ namespace systems.Controllers
         public ActionResult EditAOS(string id)
         {
             FacultyProfile myProfile = db.FacultyProfiles.SingleOrDefault(m => m.UserId == id);
-            List<spFetchFacultyAOSList_Result> depts = db.spFetchFacultyAOSList(myProfile.UserId, myProfile.ESFAD, myProfile.SUAD).ToList();
+           // List<spFetchFacultyAOSAssocList_Result> depts = db.spFetchFacultyAOSAssocList(myProfile.UserId, myProfile.ESFAD, myProfile.SUAD).ToList();
             ViewBag.profileId = myProfile.ProfileId;
             ViewBag.userID = myProfile.UserId;
-            return View(depts);
+          //  return View(depts);
+            return null;
         }
         [HttpPost]
-        public ActionResult EditAOS(spFetchFacultyAOSList_Result updatedAssoc)
+        public ActionResult EditAOS(spFetchFacultyAOSAssocList_Result updatedAssoc)
         {
             string assoc = Request.Form["assoc"];
             string id = Request.Form["userID"];
@@ -721,6 +699,38 @@ namespace systems.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
+        }
+
+        // Faculty/Staff Dept Associations/Areas of Study (AOS)
+        [HttpGet]
+        public ActionResult ManageDeptAssocAOS(string profileId)
+        {
+            FacultyProfile myProfile = db.FacultyProfiles.SingleOrDefault(m => m.ProfileId == profileId);
+            //ViewBag.profileId = myProfile.ProfileId;
+            //ViewBag.userID = myProfile.UserId;
+            //ViewBag.dept = myProfile.Department;
+            //ViewBag.reconciledAreas = myProfile.ReconciledAreas;
+
+           // List<FacultyAOSAssoc> myAssocAOS = db.FacultyAOSAssocs.Where(m => m.ProfileId == myProfile.ProfileId).ToList();
+            // Get Employee record
+            CommEmployee employee = fns.GetEmployee(myProfile.UserId, myProfile.SUAD, myProfile.ESFAD);
+            if (employee != null)
+            {
+                ViewBag.FirstName = employee.FirstName;
+                ViewBag.LastName = employee.LastName;
+            }
+            else
+            {
+                ViewBag.FirstName = myProfile.UserId;
+                ViewBag.LastName = "  ";
+            }
+            List<FacultyDept> myDepts = db.FacultyDepts.Where(m => m.UserId == myProfile.UserId).ToList();
+            List<spFetchFacultyAOSAssocList_Result> myAOSs = db.spFetchFacultyAOSAssocList(myProfile.UserId, myProfile.ESFAD, myProfile.SUAD).ToList();
+
+            ViewBag.myDepts = myDepts;
+            ViewBag.myAOSs = myAOSs;
+
+            return View(myProfile);
         }
 
         // Faculty/Staff Dept Associations/Areas of Study (AOS)
@@ -941,13 +951,18 @@ namespace systems.Controllers
 
         }
         // Admin zone
-        public ActionResult AdminIndex()
+        [HttpGet]
+        public ActionResult AdministerContent()
         {
-
             List<spFacultyList_Result> MyList = db.spFacultyList("").ToList();
             ViewBag.MyList = MyList;
             return View(MyList);
 
+        }
+        [HttpPost]
+        public ActionResult AdministerContent(FacultyProfile modifiedProfile)
+        {
+            return null;
         }
 
         public ActionResult AdminEdit(string userId, string SUAD, string ESFAD)

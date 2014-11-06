@@ -388,7 +388,6 @@
     <Content Include="Views\Spaces\OutsideRequestPartOne.cshtml" />
     <Content Include="Views\Spaces\PublicSuccess.cshtml" />
     <Content Include="Views\FPIM\ViewFacultyPage.cshtml" />
-    <Content Include="Views\FPIM\AdminIndex.cshtml" />
     <Content Include="Views\FPIM\ViewFacultyModule.cshtml" />
     <Content Include="Views\FPIM\EditFacultyPage.cshtml" />
     <Content Include="Views\FPIM\AddFacultyPage.cshtml" />
@@ -414,6 +413,8 @@
     <Content Include="Views\FPIM\SubmitPhoto.cshtml" />
     <Content Include="Views\FPIM\LinkToFile.cshtml" />
     <Content Include="Views\FPIM\WelcomeBox.cshtml" />
+    <Content Include="Views\FPIM\AdministerContent.cshtml" />
+    <Content Include="Views\FPIM\ManageDeptAssocAOS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

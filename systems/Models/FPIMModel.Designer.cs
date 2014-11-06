@@ -23,7 +23,6 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("systems", "FK_FacultyProfileModule_FacultyPage", "FacultyPage", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(systems.Models.FacultyPage), "FacultyProfileModule", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(systems.Models.FacultyProfileModule), true)]
 [assembly: EdmRelationshipAttribute("systems", "FK_FacultyProfileModule_FacultyProfile", "FacultyProfile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(systems.Models.FacultyProfile), "FacultyProfileModule", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(systems.Models.FacultyProfileModule), true)]
 [assembly: EdmRelationshipAttribute("systems", "fk_assocaos_pid1", "FacultyProfile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(systems.Models.FacultyProfile), "FacultyAOSAssoc", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(systems.Models.FacultyAOSAssoc), true)]
-[assembly: EdmRelationshipAttribute("systems", "fk_facultydeptAssoc_pid", "FacultyProfile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(systems.Models.FacultyProfile), "FacultyDeptAssoc", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(systems.Models.FacultyDeptAssoc), true)]
 
 #endregion
 
@@ -174,22 +173,6 @@ namespace systems.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<FacultyDeptAssoc> FacultyDeptAssocs
-        {
-            get
-            {
-                if ((_FacultyDeptAssocs == null))
-                {
-                    _FacultyDeptAssocs = base.CreateObjectSet<FacultyDeptAssoc>("FacultyDeptAssocs");
-                }
-                return _FacultyDeptAssocs;
-            }
-        }
-        private ObjectSet<FacultyDeptAssoc> _FacultyDeptAssocs;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<CodesAOS> CodesAOSs
         {
             get
@@ -218,6 +201,38 @@ namespace systems.Models
             }
         }
         private ObjectSet<DeptHeading> _DeptHeadings;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<FacultyAreasXRef> FacultyAreasXRefs
+        {
+            get
+            {
+                if ((_FacultyAreasXRefs == null))
+                {
+                    _FacultyAreasXRefs = base.CreateObjectSet<FacultyAreasXRef>("FacultyAreasXRefs");
+                }
+                return _FacultyAreasXRefs;
+            }
+        }
+        private ObjectSet<FacultyAreasXRef> _FacultyAreasXRefs;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<FacultyDept> FacultyDepts
+        {
+            get
+            {
+                if ((_FacultyDepts == null))
+                {
+                    _FacultyDepts = base.CreateObjectSet<FacultyDept>("FacultyDepts");
+                }
+                return _FacultyDepts;
+            }
+        }
+        private ObjectSet<FacultyDept> _FacultyDepts;
 
         #endregion
 
@@ -272,14 +287,6 @@ namespace systems.Models
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the FacultyDeptAssocs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToFacultyDeptAssocs(FacultyDeptAssoc facultyDeptAssoc)
-        {
-            base.AddObject("FacultyDeptAssocs", facultyDeptAssoc);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the CodesAOSs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToCodesAOSs(CodesAOS codesAOS)
@@ -293,6 +300,22 @@ namespace systems.Models
         public void AddToDeptHeadings(DeptHeading deptHeading)
         {
             base.AddObject("DeptHeadings", deptHeading);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the FacultyAreasXRefs EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToFacultyAreasXRefs(FacultyAreasXRef facultyAreasXRef)
+        {
+            base.AddObject("FacultyAreasXRefs", facultyAreasXRef);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the FacultyDepts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToFacultyDepts(FacultyDept facultyDept)
+        {
+            base.AddObject("FacultyDepts", facultyDept);
         }
 
         #endregion
@@ -400,88 +423,6 @@ namespace systems.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        /// <param name="userID">No Metadata Documentation available.</param>
-        /// <param name="eSFAD">No Metadata Documentation available.</param>
-        /// <param name="sUAD">No Metadata Documentation available.</param>
-        public ObjectResult<spFetchFacultyAssocList_Result> spFetchFacultyAssocList(global::System.String userID, global::System.String eSFAD, global::System.String sUAD)
-        {
-            ObjectParameter userIDParameter;
-            if (userID != null)
-            {
-                userIDParameter = new ObjectParameter("UserID", userID);
-            }
-            else
-            {
-                userIDParameter = new ObjectParameter("UserID", typeof(global::System.String));
-            }
-    
-            ObjectParameter eSFADParameter;
-            if (eSFAD != null)
-            {
-                eSFADParameter = new ObjectParameter("ESFAD", eSFAD);
-            }
-            else
-            {
-                eSFADParameter = new ObjectParameter("ESFAD", typeof(global::System.String));
-            }
-    
-            ObjectParameter sUADParameter;
-            if (sUAD != null)
-            {
-                sUADParameter = new ObjectParameter("SUAD", sUAD);
-            }
-            else
-            {
-                sUADParameter = new ObjectParameter("SUAD", typeof(global::System.String));
-            }
-    
-            return base.ExecuteFunction<spFetchFacultyAssocList_Result>("spFetchFacultyAssocList", userIDParameter, eSFADParameter, sUADParameter);
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        /// <param name="userId">No Metadata Documentation available.</param>
-        /// <param name="eSFAD">No Metadata Documentation available.</param>
-        /// <param name="sUAD">No Metadata Documentation available.</param>
-        public ObjectResult<spFetchFacultyAOSAssocList_Result> spFetchFacultyAOSAssocList(Nullable<global::System.Int32> userId, Nullable<global::System.Int32> eSFAD, Nullable<global::System.Int32> sUAD)
-        {
-            ObjectParameter userIdParameter;
-            if (userId.HasValue)
-            {
-                userIdParameter = new ObjectParameter("UserId", userId);
-            }
-            else
-            {
-                userIdParameter = new ObjectParameter("UserId", typeof(global::System.Int32));
-            }
-    
-            ObjectParameter eSFADParameter;
-            if (eSFAD.HasValue)
-            {
-                eSFADParameter = new ObjectParameter("ESFAD", eSFAD);
-            }
-            else
-            {
-                eSFADParameter = new ObjectParameter("ESFAD", typeof(global::System.Int32));
-            }
-    
-            ObjectParameter sUADParameter;
-            if (sUAD.HasValue)
-            {
-                sUADParameter = new ObjectParameter("SUAD", sUAD);
-            }
-            else
-            {
-                sUADParameter = new ObjectParameter("SUAD", typeof(global::System.Int32));
-            }
-    
-            return base.ExecuteFunction<spFetchFacultyAOSAssocList_Result>("spFetchFacultyAOSAssocList", userIdParameter, eSFADParameter, sUADParameter);
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         /// <param name="userId">No Metadata Documentation available.</param>
         /// <param name="eSFAD">No Metadata Documentation available.</param>
         /// <param name="sUAD">No Metadata Documentation available.</param>
@@ -578,7 +519,7 @@ namespace systems.Models
         /// <param name="userID">No Metadata Documentation available.</param>
         /// <param name="eSFAD">No Metadata Documentation available.</param>
         /// <param name="sUAD">No Metadata Documentation available.</param>
-        public ObjectResult<spFetchFacultyAOSList_Result> spFetchFacultyAOSList(global::System.String userID, global::System.String eSFAD, global::System.String sUAD)
+        public int spFetchFacultyAOSList(global::System.String userID, global::System.String eSFAD, global::System.String sUAD)
         {
             ObjectParameter userIDParameter;
             if (userID != null)
@@ -610,7 +551,152 @@ namespace systems.Models
                 sUADParameter = new ObjectParameter("SUAD", typeof(global::System.String));
             }
     
-            return base.ExecuteFunction<spFetchFacultyAOSList_Result>("spFetchFacultyAOSList", userIDParameter, eSFADParameter, sUADParameter);
+            return base.ExecuteFunction("spFetchFacultyAOSList", userIDParameter, eSFADParameter, sUADParameter);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="userId">No Metadata Documentation available.</param>
+        /// <param name="sUAD">No Metadata Documentation available.</param>
+        /// <param name="eSFAD">No Metadata Documentation available.</param>
+        /// <param name="firstName">No Metadata Documentation available.</param>
+        /// <param name="lastName">No Metadata Documentation available.</param>
+        public int spCreateFacultyProfile(global::System.String userId, global::System.String sUAD, global::System.String eSFAD, global::System.String firstName, global::System.String lastName)
+        {
+            ObjectParameter userIdParameter;
+            if (userId != null)
+            {
+                userIdParameter = new ObjectParameter("UserId", userId);
+            }
+            else
+            {
+                userIdParameter = new ObjectParameter("UserId", typeof(global::System.String));
+            }
+    
+            ObjectParameter sUADParameter;
+            if (sUAD != null)
+            {
+                sUADParameter = new ObjectParameter("SUAD", sUAD);
+            }
+            else
+            {
+                sUADParameter = new ObjectParameter("SUAD", typeof(global::System.String));
+            }
+    
+            ObjectParameter eSFADParameter;
+            if (eSFAD != null)
+            {
+                eSFADParameter = new ObjectParameter("ESFAD", eSFAD);
+            }
+            else
+            {
+                eSFADParameter = new ObjectParameter("ESFAD", typeof(global::System.String));
+            }
+    
+            ObjectParameter firstNameParameter;
+            if (firstName != null)
+            {
+                firstNameParameter = new ObjectParameter("FirstName", firstName);
+            }
+            else
+            {
+                firstNameParameter = new ObjectParameter("FirstName", typeof(global::System.String));
+            }
+    
+            ObjectParameter lastNameParameter;
+            if (lastName != null)
+            {
+                lastNameParameter = new ObjectParameter("LastName", lastName);
+            }
+            else
+            {
+                lastNameParameter = new ObjectParameter("LastName", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction("spCreateFacultyProfile", userIdParameter, sUADParameter, eSFADParameter, firstNameParameter, lastNameParameter);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="userID">No Metadata Documentation available.</param>
+        /// <param name="eSFAD">No Metadata Documentation available.</param>
+        /// <param name="sUAD">No Metadata Documentation available.</param>
+        public ObjectResult<spFetchFacultyAssocList_Result> spFetchFacultyAssocList(global::System.String userID, global::System.String eSFAD, global::System.String sUAD)
+        {
+            ObjectParameter userIDParameter;
+            if (userID != null)
+            {
+                userIDParameter = new ObjectParameter("UserID", userID);
+            }
+            else
+            {
+                userIDParameter = new ObjectParameter("UserID", typeof(global::System.String));
+            }
+    
+            ObjectParameter eSFADParameter;
+            if (eSFAD != null)
+            {
+                eSFADParameter = new ObjectParameter("ESFAD", eSFAD);
+            }
+            else
+            {
+                eSFADParameter = new ObjectParameter("ESFAD", typeof(global::System.String));
+            }
+    
+            ObjectParameter sUADParameter;
+            if (sUAD != null)
+            {
+                sUADParameter = new ObjectParameter("SUAD", sUAD);
+            }
+            else
+            {
+                sUADParameter = new ObjectParameter("SUAD", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<spFetchFacultyAssocList_Result>("spFetchFacultyAssocList", userIDParameter, eSFADParameter, sUADParameter);
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        /// <param name="userID">No Metadata Documentation available.</param>
+        /// <param name="eSFAD">No Metadata Documentation available.</param>
+        /// <param name="sUAD">No Metadata Documentation available.</param>
+        public ObjectResult<spFetchFacultyAOSAssocList_Result> spFetchFacultyAOSAssocList(global::System.String userID, global::System.String eSFAD, global::System.String sUAD)
+        {
+            ObjectParameter userIDParameter;
+            if (userID != null)
+            {
+                userIDParameter = new ObjectParameter("UserID", userID);
+            }
+            else
+            {
+                userIDParameter = new ObjectParameter("UserID", typeof(global::System.String));
+            }
+    
+            ObjectParameter eSFADParameter;
+            if (eSFAD != null)
+            {
+                eSFADParameter = new ObjectParameter("ESFAD", eSFAD);
+            }
+            else
+            {
+                eSFADParameter = new ObjectParameter("ESFAD", typeof(global::System.String));
+            }
+    
+            ObjectParameter sUADParameter;
+            if (sUAD != null)
+            {
+                sUADParameter = new ObjectParameter("SUAD", sUAD);
+            }
+            else
+            {
+                sUADParameter = new ObjectParameter("SUAD", typeof(global::System.String));
+            }
+    
+            return base.ExecuteFunction<spFetchFacultyAOSAssocList_Result>("spFetchFacultyAOSAssocList", userIDParameter, eSFADParameter, sUADParameter);
         }
 
         #endregion
@@ -1881,24 +1967,24 @@ namespace systems.Models
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="systems", Name="FacultyDeptAssoc")]
+    [EdmEntityTypeAttribute(NamespaceName="systems", Name="FacultyAreasXRef")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class FacultyDeptAssoc : EntityObject
+    public partial class FacultyAreasXRef : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new FacultyDeptAssoc object.
+        /// Create a new FacultyAreasXRef object.
         /// </summary>
-        /// <param name="deptAssocId">Initial value of the DeptAssocId property.</param>
-        /// <param name="profileId">Initial value of the ProfileId property.</param>
-        public static FacultyDeptAssoc CreateFacultyDeptAssoc(global::System.Int32 deptAssocId, global::System.String profileId)
+        /// <param name="assocId">Initial value of the AssocId property.</param>
+        /// <param name="aOSCode">Initial value of the AOSCode property.</param>
+        public static FacultyAreasXRef CreateFacultyAreasXRef(global::System.Int32 assocId, global::System.String aOSCode)
         {
-            FacultyDeptAssoc facultyDeptAssoc = new FacultyDeptAssoc();
-            facultyDeptAssoc.DeptAssocId = deptAssocId;
-            facultyDeptAssoc.ProfileId = profileId;
-            return facultyDeptAssoc;
+            FacultyAreasXRef facultyAreasXRef = new FacultyAreasXRef();
+            facultyAreasXRef.AssocId = assocId;
+            facultyAreasXRef.AOSCode = aOSCode;
+            return facultyAreasXRef;
         }
 
         #endregion
@@ -1910,56 +1996,291 @@ namespace systems.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 DeptAssocId
+        public global::System.Int32 AssocId
         {
             get
             {
-                return _DeptAssocId;
+                return _AssocId;
             }
             set
             {
-                if (_DeptAssocId != value)
+                if (_AssocId != value)
                 {
-                    OnDeptAssocIdChanging(value);
-                    ReportPropertyChanging("DeptAssocId");
-                    _DeptAssocId = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("DeptAssocId");
-                    OnDeptAssocIdChanged();
+                    OnAssocIdChanging(value);
+                    ReportPropertyChanging("AssocId");
+                    _AssocId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("AssocId");
+                    OnAssocIdChanged();
                 }
             }
         }
-        private global::System.Int32 _DeptAssocId;
-        partial void OnDeptAssocIdChanging(global::System.Int32 value);
-        partial void OnDeptAssocIdChanged();
+        private global::System.Int32 _AssocId;
+        partial void OnAssocIdChanging(global::System.Int32 value);
+        partial void OnAssocIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private global::System.String _UserId;
+        partial void OnUserIdChanging(global::System.String value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ESFAD
+        {
+            get
+            {
+                return _ESFAD;
+            }
+            set
+            {
+                OnESFADChanging(value);
+                ReportPropertyChanging("ESFAD");
+                _ESFAD = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ESFAD");
+                OnESFADChanged();
+            }
+        }
+        private global::System.String _ESFAD;
+        partial void OnESFADChanging(global::System.String value);
+        partial void OnESFADChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SUAD
+        {
+            get
+            {
+                return _SUAD;
+            }
+            set
+            {
+                OnSUADChanging(value);
+                ReportPropertyChanging("SUAD");
+                _SUAD = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SUAD");
+                OnSUADChanged();
+            }
+        }
+        private global::System.String _SUAD;
+        partial void OnSUADChanging(global::System.String value);
+        partial void OnSUADChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String ProfileId
+        public global::System.String AOSCode
         {
             get
             {
-                return _ProfileId;
+                return _AOSCode;
             }
             set
             {
-                OnProfileIdChanging(value);
-                ReportPropertyChanging("ProfileId");
-                _ProfileId = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("ProfileId");
-                OnProfileIdChanged();
+                OnAOSCodeChanging(value);
+                ReportPropertyChanging("AOSCode");
+                _AOSCode = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("AOSCode");
+                OnAOSCodeChanged();
             }
         }
-        private global::System.String _ProfileId;
-        partial void OnProfileIdChanging(global::System.String value);
-        partial void OnProfileIdChanged();
+        private global::System.String _AOSCode;
+        partial void OnAOSCodeChanging(global::System.String value);
+        partial void OnAOSCodeChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String InterestAreas
+        {
+            get
+            {
+                return _InterestAreas;
+            }
+            set
+            {
+                OnInterestAreasChanging(value);
+                ReportPropertyChanging("InterestAreas");
+                _InterestAreas = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("InterestAreas");
+                OnInterestAreasChanged();
+            }
+        }
+        private global::System.String _InterestAreas;
+        partial void OnInterestAreasChanging(global::System.String value);
+        partial void OnInterestAreasChanged();
+
+        #endregion
+
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="systems", Name="FacultyDept")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class FacultyDept : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new FacultyDept object.
+        /// </summary>
+        /// <param name="deptId">Initial value of the DeptId property.</param>
+        /// <param name="userId">Initial value of the UserId property.</param>
+        /// <param name="eSFAD">Initial value of the ESFAD property.</param>
+        /// <param name="sUAD">Initial value of the SUAD property.</param>
+        /// <param name="dept">Initial value of the Dept property.</param>
+        /// <param name="forceTop">Initial value of the ForceTop property.</param>
+        public static FacultyDept CreateFacultyDept(global::System.Int32 deptId, global::System.String userId, global::System.String eSFAD, global::System.String sUAD, global::System.String dept, global::System.Boolean forceTop)
+        {
+            FacultyDept facultyDept = new FacultyDept();
+            facultyDept.DeptId = deptId;
+            facultyDept.UserId = userId;
+            facultyDept.ESFAD = eSFAD;
+            facultyDept.SUAD = sUAD;
+            facultyDept.Dept = dept;
+            facultyDept.ForceTop = forceTop;
+            return facultyDept;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 DeptId
+        {
+            get
+            {
+                return _DeptId;
+            }
+            set
+            {
+                if (_DeptId != value)
+                {
+                    OnDeptIdChanging(value);
+                    ReportPropertyChanging("DeptId");
+                    _DeptId = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("DeptId");
+                    OnDeptIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _DeptId;
+        partial void OnDeptIdChanging(global::System.Int32 value);
+        partial void OnDeptIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String UserId
+        {
+            get
+            {
+                return _UserId;
+            }
+            set
+            {
+                OnUserIdChanging(value);
+                ReportPropertyChanging("UserId");
+                _UserId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("UserId");
+                OnUserIdChanged();
+            }
+        }
+        private global::System.String _UserId;
+        partial void OnUserIdChanging(global::System.String value);
+        partial void OnUserIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ESFAD
+        {
+            get
+            {
+                return _ESFAD;
+            }
+            set
+            {
+                OnESFADChanging(value);
+                ReportPropertyChanging("ESFAD");
+                _ESFAD = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ESFAD");
+                OnESFADChanged();
+            }
+        }
+        private global::System.String _ESFAD;
+        partial void OnESFADChanging(global::System.String value);
+        partial void OnESFADChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String SUAD
+        {
+            get
+            {
+                return _SUAD;
+            }
+            set
+            {
+                OnSUADChanging(value);
+                ReportPropertyChanging("SUAD");
+                _SUAD = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("SUAD");
+                OnSUADChanged();
+            }
+        }
+        private global::System.String _SUAD;
+        partial void OnSUADChanging(global::System.String value);
+        partial void OnSUADChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String Dept
         {
@@ -1971,7 +2292,7 @@ namespace systems.Models
             {
                 OnDeptChanging(value);
                 ReportPropertyChanging("Dept");
-                _Dept = StructuralObject.SetValidValue(value, true);
+                _Dept = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("Dept");
                 OnDeptChanged();
             }
@@ -1979,52 +2300,58 @@ namespace systems.Models
         private global::System.String _Dept;
         partial void OnDeptChanging(global::System.String value);
         partial void OnDeptChanged();
-
-        #endregion
-
-    
-        #region Navigation Properties
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("systems", "fk_facultydeptAssoc_pid", "FacultyProfile")]
-        public FacultyProfile FacultyProfile
+        public global::System.Boolean ForceTop
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FacultyProfile>("systems.fk_facultydeptAssoc_pid", "FacultyProfile").Value;
+                return _ForceTop;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FacultyProfile>("systems.fk_facultydeptAssoc_pid", "FacultyProfile").Value = value;
+                OnForceTopChanging(value);
+                ReportPropertyChanging("ForceTop");
+                _ForceTop = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ForceTop");
+                OnForceTopChanged();
             }
         }
+        private global::System.Boolean _ForceTop;
+        partial void OnForceTopChanging(global::System.Boolean value);
+        partial void OnForceTopChanged();
+    
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [BrowsableAttribute(false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public EntityReference<FacultyProfile> FacultyProfileReference
+        public global::System.String AOSCode
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<FacultyProfile>("systems.fk_facultydeptAssoc_pid", "FacultyProfile");
+                return _AOSCode;
             }
             set
             {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<FacultyProfile>("systems.fk_facultydeptAssoc_pid", "FacultyProfile", value);
-                }
+                OnAOSCodeChanging(value);
+                ReportPropertyChanging("AOSCode");
+                _AOSCode = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("AOSCode");
+                OnAOSCodeChanged();
             }
         }
+        private global::System.String _AOSCode;
+        partial void OnAOSCodeChanging(global::System.String value);
+        partial void OnAOSCodeChanged();
 
         #endregion
 
+    
     }
     
     /// <summary>
@@ -2238,10 +2565,12 @@ namespace systems.Models
         /// Create a new FacultyProfile object.
         /// </summary>
         /// <param name="profileId">Initial value of the ProfileId property.</param>
-        public static FacultyProfile CreateFacultyProfile(global::System.String profileId)
+        /// <param name="userId">Initial value of the UserId property.</param>
+        public static FacultyProfile CreateFacultyProfile(global::System.String profileId, global::System.String userId)
         {
             FacultyProfile facultyProfile = new FacultyProfile();
             facultyProfile.ProfileId = profileId;
+            facultyProfile.UserId = userId;
             return facultyProfile;
         }
 
@@ -2303,7 +2632,7 @@ namespace systems.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String UserId
         {
@@ -2315,7 +2644,7 @@ namespace systems.Models
             {
                 OnUserIdChanging(value);
                 ReportPropertyChanging("UserId");
-                _UserId = StructuralObject.SetValidValue(value, true);
+                _UserId = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("UserId");
                 OnUserIdChanged();
             }
@@ -2371,30 +2700,6 @@ namespace systems.Models
         private global::System.String _ESFAD;
         partial void OnESFADChanging(global::System.String value);
         partial void OnESFADChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> PhoneExtn
-        {
-            get
-            {
-                return _PhoneExtn;
-            }
-            set
-            {
-                OnPhoneExtnChanging(value);
-                ReportPropertyChanging("PhoneExtn");
-                _PhoneExtn = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("PhoneExtn");
-                OnPhoneExtnChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _PhoneExtn;
-        partial void OnPhoneExtnChanging(Nullable<global::System.Int32> value);
-        partial void OnPhoneExtnChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2535,28 +2840,6 @@ namespace systems.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FacultyAOSAssoc>("systems.fk_assocaos_pid1", "FacultyAOSAssoc", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("systems", "fk_facultydeptAssoc_pid", "FacultyDeptAssoc")]
-        public EntityCollection<FacultyDeptAssoc> FacultyDeptAssocs
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<FacultyDeptAssoc>("systems.fk_facultydeptAssoc_pid", "FacultyDeptAssoc");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<FacultyDeptAssoc>("systems.fk_facultydeptAssoc_pid", "FacultyDeptAssoc", value);
                 }
             }
         }
@@ -5515,182 +5798,24 @@ namespace systems.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String ParticipatingAreas
+        public global::System.String AreaOfStudy
         {
             get
             {
-                return _ParticipatingAreas;
+                return _AreaOfStudy;
             }
             set
             {
-                OnParticipatingAreasChanging(value);
-                ReportPropertyChanging("ParticipatingAreas");
-                _ParticipatingAreas = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("ParticipatingAreas");
-                OnParticipatingAreasChanged();
+                OnAreaOfStudyChanging(value);
+                ReportPropertyChanging("AreaOfStudy");
+                _AreaOfStudy = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("AreaOfStudy");
+                OnAreaOfStudyChanged();
             }
         }
-        private global::System.String _ParticipatingAreas;
-        partial void OnParticipatingAreasChanging(global::System.String value);
-        partial void OnParticipatingAreasChanged();
-
-        #endregion
-
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmComplexTypeAttribute(NamespaceName="systems", Name="spFetchFacultyAOSList_Result")]
-    [DataContractAttribute(IsReference=true)]
-    [Serializable()]
-    public partial class spFetchFacultyAOSList_Result : ComplexObject
-    {
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int32> AssocId
-        {
-            get
-            {
-                return _AssocId;
-            }
-            set
-            {
-                OnAssocIdChanging(value);
-                ReportPropertyChanging("AssocId");
-                _AssocId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("AssocId");
-                OnAssocIdChanged();
-            }
-        }
-        private Nullable<global::System.Int32> _AssocId;
-        partial void OnAssocIdChanging(Nullable<global::System.Int32> value);
-        partial void OnAssocIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String UserId
-        {
-            get
-            {
-                return _UserId;
-            }
-            set
-            {
-                OnUserIdChanging(value);
-                ReportPropertyChanging("UserId");
-                _UserId = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("UserId");
-                OnUserIdChanged();
-            }
-        }
-        private global::System.String _UserId;
-        partial void OnUserIdChanging(global::System.String value);
-        partial void OnUserIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String ESFAD
-        {
-            get
-            {
-                return _ESFAD;
-            }
-            set
-            {
-                OnESFADChanging(value);
-                ReportPropertyChanging("ESFAD");
-                _ESFAD = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("ESFAD");
-                OnESFADChanged();
-            }
-        }
-        private global::System.String _ESFAD;
-        partial void OnESFADChanging(global::System.String value);
-        partial void OnESFADChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String SUAD
-        {
-            get
-            {
-                return _SUAD;
-            }
-            set
-            {
-                OnSUADChanging(value);
-                ReportPropertyChanging("SUAD");
-                _SUAD = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("SUAD");
-                OnSUADChanged();
-            }
-        }
-        private global::System.String _SUAD;
-        partial void OnSUADChanging(global::System.String value);
-        partial void OnSUADChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String AOSCode
-        {
-            get
-            {
-                return _AOSCode;
-            }
-            set
-            {
-                OnAOSCodeChanging(value);
-                ReportPropertyChanging("AOSCode");
-                _AOSCode = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("AOSCode");
-                OnAOSCodeChanged();
-            }
-        }
-        private global::System.String _AOSCode;
-        partial void OnAOSCodeChanging(global::System.String value);
-        partial void OnAOSCodeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String InterestAreas
-        {
-            get
-            {
-                return _InterestAreas;
-            }
-            set
-            {
-                OnInterestAreasChanging(value);
-                ReportPropertyChanging("InterestAreas");
-                _InterestAreas = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("InterestAreas");
-                OnInterestAreasChanged();
-            }
-        }
-        private global::System.String _InterestAreas;
-        partial void OnInterestAreasChanging(global::System.String value);
-        partial void OnInterestAreasChanged();
+        private global::System.String _AreaOfStudy;
+        partial void OnAreaOfStudyChanging(global::System.String value);
+        partial void OnAreaOfStudyChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5729,54 +5854,6 @@ namespace systems.Models
     public partial class spFetchFacultyAssocList_Result : ComplexObject
     {
         #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String ESFAD
-        {
-            get
-            {
-                return _ESFAD;
-            }
-            set
-            {
-                OnESFADChanging(value);
-                ReportPropertyChanging("ESFAD");
-                _ESFAD = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("ESFAD");
-                OnESFADChanged();
-            }
-        }
-        private global::System.String _ESFAD;
-        partial void OnESFADChanging(global::System.String value);
-        partial void OnESFADChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String SUAD
-        {
-            get
-            {
-                return _SUAD;
-            }
-            set
-            {
-                OnSUADChanging(value);
-                ReportPropertyChanging("SUAD");
-                _SUAD = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("SUAD");
-                OnSUADChanged();
-            }
-        }
-        private global::System.String _SUAD;
-        partial void OnSUADChanging(global::System.String value);
-        partial void OnSUADChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -5831,6 +5908,54 @@ namespace systems.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
+        public global::System.String ESFAD
+        {
+            get
+            {
+                return _ESFAD;
+            }
+            set
+            {
+                OnESFADChanging(value);
+                ReportPropertyChanging("ESFAD");
+                _ESFAD = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ESFAD");
+                OnESFADChanged();
+            }
+        }
+        private global::System.String _ESFAD;
+        partial void OnESFADChanging(global::System.String value);
+        partial void OnESFADChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String SUAD
+        {
+            get
+            {
+                return _SUAD;
+            }
+            set
+            {
+                OnSUADChanging(value);
+                ReportPropertyChanging("SUAD");
+                _SUAD = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("SUAD");
+                OnSUADChanged();
+            }
+        }
+        private global::System.String _SUAD;
+        partial void OnSUADChanging(global::System.String value);
+        partial void OnSUADChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
         public global::System.String Dept
         {
             get
@@ -5873,6 +5998,30 @@ namespace systems.Models
         private Nullable<global::System.Boolean> _ForceTop;
         partial void OnForceTopChanging(Nullable<global::System.Boolean> value);
         partial void OnForceTopChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String ProfileId
+        {
+            get
+            {
+                return _ProfileId;
+            }
+            set
+            {
+                OnProfileIdChanging(value);
+                ReportPropertyChanging("ProfileId");
+                _ProfileId = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("ProfileId");
+                OnProfileIdChanged();
+            }
+        }
+        private global::System.String _ProfileId;
+        partial void OnProfileIdChanging(global::System.String value);
+        partial void OnProfileIdChanged();
 
         #endregion
 

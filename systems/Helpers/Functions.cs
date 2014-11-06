@@ -1112,6 +1112,10 @@ namespace systems.Helpers
         // Phone number filter
         public static string FixPhone(string phoneno, string altphoneno)
         {
+            if ((phoneno == "") || (altphoneno == ""))
+            {
+                return "";
+            }
             string fixedno = "";
             if (phoneno == altphoneno || altphoneno == "" || altphoneno == null) // same, or alternate empty
             {
@@ -1341,11 +1345,16 @@ namespace systems.Helpers
                     {
                         if (entry.FieldDisplay)
                         {
-                            if ((entry.FieldContents.Substring(0, 3) != "<a ") && (entry.FieldContents.Substring(0, 7) == "http://"))
+                           // if ((entry.FieldContents.Substring(0, 3) != "<a ") && (entry.FieldContents.Substring(0, 7) == "http://"))
+                            string fieldContents = entry.FieldContents;
+                            string link = "<a ";
+                            string http = "http://";
+                            string www = "www";
+                            if ((entry.FieldContents.Contains(link)) && (entry.FieldContents.Contains(http)))
                             {
                                 entries = entries + "<p><strong>" + entry.FieldName + "</strong><br /><a href='" + entry.FieldContents + "'>Web Link</a></p>";
                             }
-                            else if (entry.FieldContents.Substring(0, 3) == "www")
+                            else if (entry.FieldContents.Contains(www))
                             {
                                 entries = entries + "<p><strong>" + entry.FieldName + "</strong><br /><a href='http://" + entry.FieldContents + "'>Web Link</a></p>";
                             }
@@ -1489,7 +1498,6 @@ namespace systems.Helpers
             return "";
         }
 
-        // 
         // Submit a profile photo
         public static bool SubmitPhoto(string to, string from, string cc, string subject, string body, string photoFile)
         {
@@ -1526,6 +1534,81 @@ namespace systems.Helpers
             {
                 return false;
             }
+        }
+
+        // Get an employee record from the DB
+        public static CommEmployee GetEmployee(string userId, string suad, string esfad, string firstname = null, string lastname = null)
+        {
+            PeopleEntities db = new PeopleEntities();
+            CommEmployee employee;
+            try
+            {
+                // Get the employee record by user id
+                // User has a profile, look up Employee record
+                employee = db.CommEmployees.SingleOrDefault(m => m.UserId == userId || m.EmailId == esfad + "@esf.edu%" || m.EmailId == suad + "@syr.edu%");
+                //employee = db.CommEmployees.SingleOrDefault(m => m.UserId == userId);
+                if (employee == null)
+                {
+                    // User does not have a user id, find the employee by first name/last name
+                    employee = db.CommEmployees.Single(m => m.FirstName == firstname || m.LastName == lastname);
+                }
+                return employee;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        // 
+        // GetMyAOSs
+        //  List of AOS Codes for a profile
+        // 
+        public static string GetMyAOSs(string userid, string ESFAD, string SUAD)
+        {
+            PeopleEntities db = new PeopleEntities();
+
+            List<spFetchFacultyAOSAssocList_Result> myAOSs = db.spFetchFacultyAOSAssocList(userid, ESFAD, SUAD).ToList();
+            string thelist = "<ul>";
+            foreach (spFetchFacultyAOSAssocList_Result aos in myAOSs)
+            {
+                // thelist = thelist + "<li><a href='/systems/Spaces/ViewPending/" + pend.ResId + "/'>" + pend.EventName + "</a> (" + pend.EventDate.ToShortDateString() + " " + pend.StartTime.ToShortTimeString() + ")";
+                 thelist = thelist + "<li>" + aos.AreaOfStudy + "</li>";
+            }
+            if (thelist == "<ul>")
+            {
+                thelist = thelist + "<li>No Areas of Study at this time.</li></ul>";
+            }
+            else
+            {
+                thelist = thelist + "</ul>";
+            }
+            return thelist;
+        }
+        // 
+        // GetMyDepts
+        //  List of Department Associations for a profile
+        // 
+        public static string GetMyDepts(string userid, string ESFAD, string SUAD)
+        {
+            PeopleEntities db = new PeopleEntities();
+
+            List<FacultyDept> myDepts = db.FacultyDepts.Where(m => m.UserId == userid).ToList();
+            string thelist = "<ul>";
+            foreach (FacultyDept dept in myDepts)
+            {
+                // thelist = thelist + "<li><a href='/systems/Spaces/ViewPending/" + pend.ResId + "/'>" + pend.EventName + "</a> (" + pend.EventDate.ToShortDateString() + " " + pend.StartTime.ToShortTimeString() + ")";
+                thelist = thelist + "<li>" + dept.Dept + "</li>";
+            }
+            if (thelist == "<ul>")
+            {
+                thelist = thelist + "<li>No Departmental associations at this time.</li></ul>";
+            }
+            else
+            {
+                thelist = thelist + "</ul>";
+            }
+            return thelist;
         }
         #endregion
 
@@ -1680,28 +1763,39 @@ namespace systems.Helpers
         {
             switch (dept)
             {
+                case "Environmental Resources Engineering":
                 case "ere":
                     return "http://www.esf.edu/ere/images/banners/960pumpkin.jpg";
+                case "Environ & Forest Bio":
                 case "efb":
                     return "http://www.esf.edu/efb/images/banners/960butterfly.jpg";
                 case "envsci":
                     return "http://www.esf.edu/environmentalscience/images/960solarguys.jpg";
+                case "Environ Studies":
                 case "es":
                     return "http://www.esf.edu/es/images/banners/960windturbines.jpg";
+                case "Forest & Natural Resources Management":
                 case "fnrm":
                     return "http://www.esf.edu/fnrm/images/banners/960happyfaces.jpg";
+                case "Landscape Architecture":
                 case "la":
                     return "http://www.esf.edu/la/images/banners/960postergroup.jpg";
+                case "Moon Library":
                 case "lib":
                     return "http://www.esf.edu/moonlib/images/banner.jpg";
+                case "Paper and Bioprocess Engineering":
                 case "pbe":
                     return "http://www.esf.edu/pbe/images/banners/960bluelab.jpg";
+                case "Forest Tech Prog - Wanakena":
                 case "rs":
                     return "http://www.esf.edu/rangerschool/images/banner.jpg";
+                case "Sustainable Construction Mgmt and Engineering":
                 case "scme":
                     return "http://www.esf.edu/scme/images/banners/960bakerwalk.jpg";
+                case "Chemistry":
                 case "chem":
                     return "http://www.esf.edu/chemistry/images/banners/960tweezers.jpg";
+                case "Env Studies -Writing Ctr":
                 case "writing":
                     return "http://www.esf.edu/writingprogram/images/banner.jpg";
                 default:
