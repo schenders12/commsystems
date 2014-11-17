@@ -21,7 +21,7 @@ namespace systems
             routes.MapRoute(
                 name: "Faculty",
                 url: "faculty/{profileId}/{pageId}",
-                defaults: new { controller = "FPIM", action = "ViewFacultyPage", dept = "" });
+                defaults: new { controller = "FPIM", action = "ViewFacultyPage", dept = ""});
 
             routes.MapRoute(
                   name: "FacultyAdmin",

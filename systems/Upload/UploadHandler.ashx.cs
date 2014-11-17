@@ -17,7 +17,7 @@ namespace systems.Upload
         {
             //get { return Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Files/")); } //Path should! always end with '/'
             get { 
-                return Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/faculty/"));
+                return Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/faculty/documents/"));
             }
 
         }
@@ -110,6 +110,11 @@ namespace systems.Upload
             if (context.Request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
             var inputStream = context.Request.Files[0].InputStream;
             string myProfileId = context.Request["profileId"];
+            var directoryPath = StorageRoot + myProfileId + "\\documents\\";
+            if (!System.IO.Directory.Exists(directoryPath))//if path does not exist
+            {
+                System.IO.Directory.CreateDirectory(directoryPath);
+            }
             var fullName = StorageRoot + myProfileId + "\\documents\\" + Path.GetFileName(fileName);
 
             using (var fs = new FileStream(fullName, FileMode.Append, FileAccess.Write))
@@ -135,8 +140,13 @@ namespace systems.Upload
             {
                 var file = context.Request.Files[i];
                 string myProfileId = context.Request["profileId"];
-                var fullPath = StorageRoot + myProfileId + "\\documents\\" + Path.GetFileName(file.FileName);
 
+                var directoryPath = StorageRoot + myProfileId + "\\documents\\";
+                if (!System.IO.Directory.Exists(directoryPath))//if path does not exist
+                {
+                    System.IO.Directory.CreateDirectory(directoryPath);
+                }
+                var fullPath = StorageRoot + myProfileId + "\\documents\\" + Path.GetFileName(file.FileName);
                 file.SaveAs(fullPath);
 
                 string fullName = Path.GetFileName(file.FileName);
@@ -188,6 +198,12 @@ namespace systems.Upload
         private void ListCurrentFiles(HttpContext context)
         {
             string myProfileId = context.Request["profileId"];
+            // Create the directory
+            var directoryPath = StorageRoot + myProfileId + "\\documents\\";
+            if (!System.IO.Directory.Exists(directoryPath))//if path does not exist
+            {
+                System.IO.Directory.CreateDirectory(directoryPath);
+            }
             var files =
                 new DirectoryInfo(StorageRoot + myProfileId + "\\documents\\")
                     .GetFiles("*", SearchOption.TopDirectoryOnly)

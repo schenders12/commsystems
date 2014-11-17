@@ -77,7 +77,11 @@
 	</div>
 	<div id="newtab">
 		<div> 
-			<!-- # INCLUDE virtual="/web/includes/bar.html" --> 
+			<!-- # INCLUDE virtual="/web/includes/bar.html" -->
+            @{
+                HtmlString menubar = fns.BannerMenu(@ViewContext.RouteData.Values["controller"].ToString(), @ViewContext.RouteData.Values["dept"].ToString());
+                @menubar
+            }
 		</div>
 	</div>
 	<div id="container960">
@@ -92,10 +96,13 @@
 	</div>
 </div>
 <!-- # include virtual="/includes/footer.html" --> 
-<div id="footer">
+<!--<div id="footer">
 	<div><img alt="Improve Your World" src="http://www.esf.edu/images/footerIYW.jpg" /></div>
-</div>
-
+</div> -->
+@{
+  HtmlString footer = fns.HTMLFile("includes/footer.html");
+  @footer
+}
 <!-- # include virtual="/includes/pagetail.html" -->
 @{
   HtmlString pagetail = fns.HTMLFile("includes/pagetail.html");

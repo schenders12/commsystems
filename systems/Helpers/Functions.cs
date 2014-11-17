@@ -1045,7 +1045,7 @@ namespace systems.Helpers
             }
         }
 
-        public static string FacultyPageHeading(string UserId, string fname, string lname)
+        public static string FacultyPageHeading(string UserId, string fname, string lname, string dept=null)
         {
             string output = "";
             // Open database context
@@ -1088,7 +1088,14 @@ namespace systems.Helpers
                // }
                 title = fns.FixTitle(item.CampusTitle.Trim(), item.CivilServiceTitle.Trim(), item.LastName);
                 phone = fns.FixPhone(item.OffcPhone, item.AltOffcPhone);
-                output = fns.ProfilePhoto(item.LastName) + "<h1>" + name + "<br /><span class='twelve'><strong>" + title + "</strong></span></h1>" + "<p>" + item.OffcRoom + " " + fns.BldgName(item.OffcBldg.Trim()) + "<br />1 Forestry Dr.<br />Syracuse, New York 13210</p>" + "<p>Phone: " + phone + "<br />Email: <a href='mailto:" + item.EmailId + "'>" + item.EmailId + "</a>";
+                if ((dept == "Env Studies -Writing Ctr") || (dept == "writing"))
+                {
+                    output = "<div id='content' class='navcol'>" + fns.ProfilePhoto(item.UserId, item.FirstName, item.LastName) + "<h1>" + name + "<br /><span class='twelve'><strong>" + title + "</strong></span></h1>" + "<p>" + item.OffcRoom + " " + fns.BldgName(item.OffcBldg.Trim()) + "<br />1 Forestry Dr.<br />Syracuse, New York 13210</p>" + "<p>Phone: " + phone + "<br />Email: <a href='mailto:" + item.EmailId + "'>" + item.EmailId + "</a>";
+                }
+                else
+                {
+                    output = fns.ProfilePhoto(item.UserId, item.FirstName, item.LastName) + "<h1>" + name + "<br /><span class='twelve'><strong>" + title + "</strong></span></h1>" + "<p>" + item.OffcRoom + " " + fns.BldgName(item.OffcBldg.Trim()) + "<br />1 Forestry Dr.<br />Syracuse, New York 13210</p>" + "<p>Phone: " + phone + "<br />Email: <a href='mailto:" + item.EmailId + "'>" + item.EmailId + "</a>";
+                }
             }
             return output;
         }
@@ -1174,22 +1181,26 @@ namespace systems.Helpers
             }
         }
         // Faculty Profile Photo
-        public static string ProfilePhoto(string profileId)
+        public static string ProfilePhoto(string userId, string fname, string lname)
         {
-            //var filepath = "E:\\Servers\\WWW\\faculty\\profiles\\" + file;
-            FileInfo photoFile = new FileInfo(System.Web.HttpContext.Current.Server.MapPath(@"~\faculty\profiles\" + profileId + ".jpg"));
+             FileInfo photoFile = new FileInfo(Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/faculty/profiles/"), userId + ".jpg"));
+            // Virtual directory esfserver is mapped back to www.esf.edu/faculty
+            //var path = System.Web.HttpContext.Current.Server.MapPath(@"~/faculty/esfserver/profiles/");
+           // var file = userId + ".jpg";
+            //var fullPath = Path.Combine(path, file);
+
+           // FileInfo photoFile = new FileInfo(fullPath);
             if (!photoFile.Exists)
             {
-                return "";
+                return "<img class='right mobhide' src='/images/clear.gif' alt='" + fname + " " + lname + "' />";
             }
             else
             {
-               //string photoURL = "@Url.Action(\"GetImage\", \"FPIM\", new { profileId = \"" + profileId + "\"})";
-                return "<img class='right' src='http://www.esf.edu/faculty/profiles/" + profileId + ".jpg'" + " alt=" + profileId + "\" />";
-                //return "<img class='right' src='" + photoFile + " ' alt='" + profileId + "' />";
-               //return "<img class='right' src='" + photoURL + "' alt='" + profileId + "' />";
-                //return "<img class='right' src='/FPIM/GetImage?profileId=henderson' alt='" + profileId + "' />";
-               // return "<img class='right' src='/FPIM/GetImage?profileId=" + profileId + "' alt='" + profileId + "' />";
+                //return "<img class='right mobhide' src='http://www.esf.edu/faculty/profiles/" + userId + ".jpg'" + " alt='" + fname + " " + lname + "' />";
+               // return "<img class='right mobhide' src='/faculty/esfserver/profiles/" + userId + ".jpg'" + " alt='" + fname + " " + lname + "' />";
+                return "<img class='right mobhide' src='/faculty/profiles/" + userId + ".jpg'" + " alt='" + fname + " " + lname + "' />";
+                //return "<img class='right mobhide' src='" + photoFile + " '  alt='" + fname + " " + lname + "' />";
+
             }
         }
         // Reads in HTML Include Files from the server
@@ -1295,8 +1306,11 @@ namespace systems.Helpers
                         }
                         else
                         {
-                            var fix = item.AreaOfStudy.Substring(4); // Trim prefix 
-                            degree = degree + "<li><strong>Area of Study</strong>: " + fns.FixProgramOfStudy(fix) + "</li>";
+                            if (item.AreaOfStudy.Length > 0)
+                            {
+                                var fix = item.AreaOfStudy.Substring(4); // Trim prefix 
+                                degree = degree + "<li><strong>Area of Study</strong>: " + fns.FixProgramOfStudy(fix) + "</li>";
+                            }
                         }
                     }
                     // Undergraduate information
@@ -1550,7 +1564,7 @@ namespace systems.Helpers
                 if (employee == null)
                 {
                     // User does not have a user id, find the employee by first name/last name
-                    employee = db.CommEmployees.Single(m => m.FirstName == firstname || m.LastName == lastname);
+                    employee = db.CommEmployees.Single(m => m.FirstName == firstname && m.LastName == lastname);
                 }
                 return employee;
             }
@@ -1761,7 +1775,7 @@ namespace systems.Helpers
 
         public static string GetDeptBannerImage(string dept)
         {
-            switch (dept)
+            switch (dept.Trim())
             {
                 case "Environmental Resources Engineering":
                 case "ere":
@@ -1802,6 +1816,81 @@ namespace systems.Helpers
                     return "http://www.esf.edu/web/images/banner.jpg";
             }
         }
+
+        public static HtmlString BannerMenu(string controller, string dept)
+        {
+            switch (controller)
+            {
+                case "Spaces":
+                    return null;
+                case "Home":
+                    return null;
+                case "FPIM":
+                    if (dept != "")
+                    {
+                        return GetDeptBannerMenu(dept);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                default:
+                    return null;
+            }
+        }
+
+        public static HtmlString GetDeptBannerMenu(string dept)
+        {
+            switch (dept.Trim())
+            {
+                case "Environmental Resources Engineering":
+                case "ere":
+                    return (fns.HTMLFile("ere/includes/tabbar.html"));
+                case "Environ & Forest Bio":
+                case "efb":
+                    var ulHtml = "<ul id='droptab'>";
+                    var ulEndHtml = "</ul>";
+                    var menu = fns.HTMLFile("efb/includes/menu.html");
+                    HtmlString menuHtml = new HtmlString(ulHtml + menu + ulEndHtml);
+                    return (menuHtml);
+                case "envsci":
+                    return(fns.HTMLFile("environmentalscience/includes/tabbar.html"));
+                case "Environ Studies":
+                case "es":
+                    return(fns.HTMLFile("es/includes/tabbar.html"));
+                case "Forest & Natural Resources Management":
+                case "fnrm":
+                    return(fns.HTMLFile("fnrm/includes/tabbar.html"));
+                case "Landscape Architecture":
+                case "la":
+                    return(fns.HTMLFile("la/includes/tabbar.html"));
+                case "Moon Library":
+                case "lib":
+                    return(fns.HTMLFile("moonlib/includes/tabbar.html"));
+                case "Paper and Bioprocess Engineering":
+                case "pbe":
+                    return(fns.HTMLFile("pbe/includes/tabbar.html"));
+                case "Forest Tech Prog - Wanakena":
+                case "rs":
+                    var ulRSHtml = "<ul id='droptab'>";
+                    var ulRSEndHtml = "</ul>";
+                    var rsMenu = fns.HTMLFile("rangerschool/includes/menu.html");
+                    HtmlString rsMenuHtml = new HtmlString(ulRSHtml + rsMenu + ulRSEndHtml);
+                    return (rsMenuHtml);
+                case "Sustainable Construction Mgmt and Engineering":
+                case "scme":
+                    return(fns.HTMLFile("scme/includes/tabbar.html"));
+                case "Chemistry":
+                case "chem":
+                    return(fns.HTMLFile("chemistry/includes/tabbar.html"));
+                case "Env Studies -Writing Ctr":
+                case "writing":
+                    return (null);
+                default:
+                    return(null);
+            }
+        }
+
         #endregion
 
     }

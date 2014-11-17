@@ -234,6 +234,7 @@
           <Parameter Name="Prof" Type="varchar" Mode="In" />
         </Function>
         <Function Name="spCreateFacultyProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProfileId" Type="varchar" Mode="In" />
           <Parameter Name="UserId" Type="varchar" Mode="In" />
           <Parameter Name="SUAD" Type="varchar" Mode="In" />
           <Parameter Name="ESFAD" Type="varchar" Mode="In" />
@@ -326,6 +327,7 @@
           <EntitySet Name="CodesAOSs" EntityType="systems.CodesAOS" />
           <EntitySet Name="DeptHeadings" EntityType="systems.DeptHeading" />
           <FunctionImport Name="spCreateFacultyProfile">
+            <Parameter Name="ProfileId" Mode="In" Type="String" />
             <Parameter Name="UserId" Mode="In" Type="String" />
             <Parameter Name="SUAD" Mode="In" Type="String" />
             <Parameter Name="ESFAD" Mode="In" Type="String" />

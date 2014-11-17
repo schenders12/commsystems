@@ -36,7 +36,7 @@
           <td>
               @if (!(string.IsNullOrEmpty(page.PageTitle)))
               {
-                  @Html.ActionLink(@page.PageTitle,"ViewFacultyPage", new { profileId = @Model.ProfileId, pageID = @page.FacultyPageId}, new { profileId = @page.FacultyPageId, data_pageid=@page.FacultyPageId})
+                  @Html.ActionLink(@page.PageTitle,"ViewFacultyPage", new { profileId = @Model.ProfileId, pageID = @page.FacultyPageId, @ViewBag.fname, @ViewBag.lname}, new { profileId = @page.FacultyPageId, data_pageid=@page.FacultyPageId})
               }
           </td>
           <td>

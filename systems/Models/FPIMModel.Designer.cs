@@ -557,13 +557,24 @@ namespace systems.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        /// <param name="profileId">No Metadata Documentation available.</param>
         /// <param name="userId">No Metadata Documentation available.</param>
         /// <param name="sUAD">No Metadata Documentation available.</param>
         /// <param name="eSFAD">No Metadata Documentation available.</param>
         /// <param name="firstName">No Metadata Documentation available.</param>
         /// <param name="lastName">No Metadata Documentation available.</param>
-        public int spCreateFacultyProfile(global::System.String userId, global::System.String sUAD, global::System.String eSFAD, global::System.String firstName, global::System.String lastName)
+        public int spCreateFacultyProfile(global::System.String profileId, global::System.String userId, global::System.String sUAD, global::System.String eSFAD, global::System.String firstName, global::System.String lastName)
         {
+            ObjectParameter profileIdParameter;
+            if (profileId != null)
+            {
+                profileIdParameter = new ObjectParameter("ProfileId", profileId);
+            }
+            else
+            {
+                profileIdParameter = new ObjectParameter("ProfileId", typeof(global::System.String));
+            }
+    
             ObjectParameter userIdParameter;
             if (userId != null)
             {
@@ -614,7 +625,7 @@ namespace systems.Models
                 lastNameParameter = new ObjectParameter("LastName", typeof(global::System.String));
             }
     
-            return base.ExecuteFunction("spCreateFacultyProfile", userIdParameter, sUADParameter, eSFADParameter, firstNameParameter, lastNameParameter);
+            return base.ExecuteFunction("spCreateFacultyProfile", profileIdParameter, userIdParameter, sUADParameter, eSFADParameter, firstNameParameter, lastNameParameter);
         }
     
         /// <summary>

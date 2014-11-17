@@ -3,23 +3,40 @@
 @{
     ViewBag.Title = "FacultyPage";
 }
-
 @{
-  HtmlString header = new HtmlString(fns.FacultyPageHeading(ViewBag.userid,ViewBag.fname,ViewBag.lname));
+  if ((ViewBag.Dept == "Env Studies -Writing Ctr") || (ViewBag.Dept == "writing"))
+  {
+      var wcHtml = "<div id='nav'>";
+      var wcEndHtml = "</div>";
+      var wcMenu = fns.HTMLFile("writingprogram/includes/col.html");
+      HtmlString wcMenuHtml = new HtmlString(wcHtml + wcMenu + wcEndHtml);
+      @wcMenuHtml;
+  }
+}
+@{
+  HtmlString header = new HtmlString(fns.FacultyPageHeading(ViewBag.userid,ViewBag.fname,ViewBag.lname,ViewBag.dept));
   @header
 }
 <!--  Nav Bar -->
 <div id="faculty-pages-div">
-  @foreach (var page in Model.FacultyPages)
+@{
+  if (Model.FacultyPages.Count > 1)
   {
+    foreach (var page in Model.FacultyPages)
+    {
       @Html.ActionLink(@page.PageTitle,"ViewFacultyPage", "FPIM", new { profileId = @Model.ProfileId, pageID = @page.FacultyPageId}, new { @class = "pageLink", profileId = @page.FacultyPageId, data_pageid=@page.FacultyPageId, data_pagetitle=@page.PageTitle})
       @Html.Raw(" | ")
+    }
   }
+}
 </div>
 
   @foreach (var page in Model.FacultyPages.Where(m => m.FacultyPageId == ViewBag.PageId))
   {
-       <h2>@page.PageTitle</h2>
+      if (page.PageTitle != "Main")
+      {
+         <h2>@page.PageTitle</h2>
+      }
   }
     <table id="tblModule" class="tblStyle">
         <!-- Get the page-->
@@ -63,7 +80,13 @@
 
   }
   </table>
-
+@{
+  if ((ViewBag.Dept == "Env Studies -Writing Ctr") || (ViewBag.Dept == "writing"))
+  {
+      HtmlString wcEndDivHtml = new HtmlString("</div>");
+      @wcEndDivHtml;
+  }
+}
 @section Style {
 <style>
 #pagelist li {
@@ -73,20 +96,12 @@
 #faculty-pages-div {
     overflow: auto;
 }
-.nav-pills>li>a {
-padding-top: 4px;
-padding-bottom: 4px;
-margin-top: 1px;
-margin-bottom: 1px;
--webkit-border-radius: 2px;
--moz-border-radius: 2px;
-border-radius: 2px;
-}
+
 #pagelink a {
     font-weight: bold;
 }
-
 </style>
+<link rel="stylesheet" href="http://www.esf.edu/css/main/core.css" type="text/css"/>
 }
 @section Scripts {
 }

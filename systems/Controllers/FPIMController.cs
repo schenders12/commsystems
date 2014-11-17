@@ -40,8 +40,19 @@ namespace systems.Controllers
             if (profile == null)
             {
                 // User does not have a profile, create one
+                // If a profile already exists with this last name, create firstname.lastname profile
+                FacultyProfile p = db.FacultyProfiles.SingleOrDefault(m => m.ProfileId == lastname);
+                string profileID = null;
+                if (p != null)
+                {
+                    profileID = firstname + '.' + lastname;
+                }
+                else
+                {
+                    profileID = lastname;
+                }
                 // Create profile
-                int result = db.spCreateFacultyProfile(id, suad, esfad, firstname, lastname);
+                int result = db.spCreateFacultyProfile(profileID, id, suad, esfad, firstname, lastname);
                 profile = db.FacultyProfiles.SingleOrDefault(m => m.UserId == id);
 
             }
@@ -298,20 +309,15 @@ namespace systems.Controllers
 
         // *** View a Page ***
         [HttpGet]
-        public ActionResult ViewFacultyPage(string profileID, int pageID)
+        public ActionResult ViewFacultyPage(string profileId, int pageId, string fname, string lname)
         {
             // Redirect to viewer 
-            FacultyProfile profile = db.FacultyProfiles.SingleOrDefault(m => m.ProfileId == profileID);
-            CommEmployee employee;
-
-            if (profile == null)
+            FacultyProfile profile = db.FacultyProfiles.SingleOrDefault(m => m.ProfileId == profileId);
+            // Get Employee record
+            CommEmployee employee = fns.GetEmployee(profile.UserId, profile.SUAD, profile.ESFAD, fname, lname);
+            if (employee == null)
             {
-                profile = new FacultyProfile();
-                employee = db.CommEmployees.SingleOrDefault(m => m.UserId == User.Identity.Name);
-            }
-            else
-            {
-                employee = db.CommEmployees.Single(m => m.UserId == profile.UserId || m.EmailId == profile.ESFAD + "@esf.edu%" || m.EmailId == profile.ESFAD + "@syr.edu%");
+                return null;
             }
 
             ViewBag.fname = employee.FirstName;
@@ -325,11 +331,12 @@ namespace systems.Controllers
 
             ViewBag.profileId = profile.ProfileId;
 
-            List<FacultyPage> pages = db.FacultyPages.Where(m => m.ProfileId == profileID).ToList();
-            FacultyPage page = pages.Find(m => m.FacultyPageId == pageID);
+            List<FacultyPage> pages = db.FacultyPages.Where(m => m.ProfileId == profileId).ToList();
+            FacultyPage page = pages.Find(m => m.FacultyPageId == pageId);
             // Set the department to display the correct banner
             ControllerContext.RouteData.Values["dept"] = profile.Department;
-            ViewBag.PageId = pageID;
+            ViewBag.PageId = pageId;
+            ViewBag.dept = profile.Department;
             return View(profile);
         }
 
@@ -944,7 +951,6 @@ namespace systems.Controllers
                 // and block requests outside like "../web.config"
             //    throw new HttpException(403, "Forbidden");
             //}
-            //FileInfo photoFile = new FileInfo(System.Web.HttpContext.Current.Server.MapPath(@"~\faculty\profiles\" + profileId + ".jpg"));
             System.Diagnostics.Debug.WriteLine("Getting file from " + photoFile.FullName);
             ViewBag.Message = ("Getting file from " + photoFile.FullName);
             return File(photoFile.FullName, "image/jpeg");
