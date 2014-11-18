@@ -1184,43 +1184,41 @@ namespace systems.Helpers
         public static string ProfilePhoto(string userId, string fname, string lname)
         {
              FileInfo photoFile = new FileInfo(Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/faculty/profiles/"), userId + ".jpg"));
-            // Virtual directory esfserver is mapped back to www.esf.edu/faculty
-            //var path = System.Web.HttpContext.Current.Server.MapPath(@"~/faculty/esfserver/profiles/");
-           // var file = userId + ".jpg";
-            //var fullPath = Path.Combine(path, file);
-
-           // FileInfo photoFile = new FileInfo(fullPath);
             if (!photoFile.Exists)
             {
                 return "<img class='right mobhide' src='/images/clear.gif' alt='" + fname + " " + lname + "' />";
             }
             else
             {
-                //return "<img class='right mobhide' src='http://www.esf.edu/faculty/profiles/" + userId + ".jpg'" + " alt='" + fname + " " + lname + "' />";
-               // return "<img class='right mobhide' src='/faculty/esfserver/profiles/" + userId + ".jpg'" + " alt='" + fname + " " + lname + "' />";
                 return "<img class='right mobhide' src='/faculty/profiles/" + userId + ".jpg'" + " alt='" + fname + " " + lname + "' />";
-                //return "<img class='right mobhide' src='" + photoFile + " '  alt='" + fname + " " + lname + "' />";
-
             }
         }
         // Reads in HTML Include Files from the server
         public static HtmlString HTMLFile(string fileName)
         {
-            FileInfo fileInfo = new FileInfo(System.Web.HttpContext.Current.Server.MapPath(@"~\" + fileName));
-            if (!fileInfo.Exists)
-            {
-                return null;
-            }
-            else
-            {
+           // FileInfo fileInfo = new FileInfo(System.Web.HttpContext.Current.Server.MapPath(@"~\" + fileName));
+            //FileInfo fileInfo = new FileInfo(Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/"), fileName));
+            //FileInfo fileInfo = new FileInfo(Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/"), fileName));
+            FileInfo fileInfo = new FileInfo(System.Web.HttpContext.Current.Server.MapPath(fileName));
+
+           // if (!fileInfo.Exists)
+           // {
+           //     return null;
+          //  }
+          //  else
+           // {
                 // load from file
-                var filePath = HttpContext.Current.Server.MapPath(@"~\" + fileName);
+                //var filePath = HttpContext.Current.Server.MapPath(@"~\" + fileName);
+                //var filePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(@"~/"), fileName);
+                var filePath = System.Web.HttpContext.Current.Server.MapPath(fileName);
                 using (var streamReader = File.OpenText(filePath))
                 {
                     var markup = streamReader.ReadToEnd();
                     return new HtmlString(markup);
                 }
-            }
+
+
+          //  }
         }
         // Graduate student Advisees module
         public static string AdviseesModule(string prof, string type)
@@ -1845,44 +1843,44 @@ namespace systems.Helpers
             {
                 case "Environmental Resources Engineering":
                 case "ere":
-                    return (fns.HTMLFile("ere/includes/tabbar.html"));
+                    return (fns.HTMLFile("/ere/includes/tabbar.html"));
                 case "Environ & Forest Bio":
                 case "efb":
                     var ulHtml = "<ul id='droptab'>";
                     var ulEndHtml = "</ul>";
-                    var menu = fns.HTMLFile("efb/includes/menu.html");
+                    var menu = fns.HTMLFile("/efb/includes/menu.html");
                     HtmlString menuHtml = new HtmlString(ulHtml + menu + ulEndHtml);
                     return (menuHtml);
                 case "envsci":
-                    return(fns.HTMLFile("environmentalscience/includes/tabbar.html"));
+                    return(fns.HTMLFile("/environmentalscience/includes/tabbar.html"));
                 case "Environ Studies":
                 case "es":
-                    return(fns.HTMLFile("es/includes/tabbar.html"));
+                    return(fns.HTMLFile("/es/includes/tabbar.html"));
                 case "Forest & Natural Resources Management":
                 case "fnrm":
-                    return(fns.HTMLFile("fnrm/includes/tabbar.html"));
+                    return(fns.HTMLFile("/fnrm/includes/tabbar.html"));
                 case "Landscape Architecture":
                 case "la":
-                    return(fns.HTMLFile("la/includes/tabbar.html"));
+                    return(fns.HTMLFile("/la/includes/tabbar.html"));
                 case "Moon Library":
                 case "lib":
-                    return(fns.HTMLFile("moonlib/includes/tabbar.html"));
+                    return(fns.HTMLFile("/moonlib/includes/tabbar.html"));
                 case "Paper and Bioprocess Engineering":
                 case "pbe":
-                    return(fns.HTMLFile("pbe/includes/tabbar.html"));
+                    return(fns.HTMLFile("/pbe/includes/tabbar.html"));
                 case "Forest Tech Prog - Wanakena":
                 case "rs":
                     var ulRSHtml = "<ul id='droptab'>";
                     var ulRSEndHtml = "</ul>";
-                    var rsMenu = fns.HTMLFile("rangerschool/includes/menu.html");
+                    var rsMenu = fns.HTMLFile("/rangerschool/includes/menu.html");
                     HtmlString rsMenuHtml = new HtmlString(ulRSHtml + rsMenu + ulRSEndHtml);
                     return (rsMenuHtml);
                 case "Sustainable Construction Mgmt and Engineering":
                 case "scme":
-                    return(fns.HTMLFile("scme/includes/tabbar.html"));
+                    return(fns.HTMLFile("/scme/includes/tabbar.html"));
                 case "Chemistry":
                 case "chem":
-                    return(fns.HTMLFile("chemistry/includes/tabbar.html"));
+                    return(fns.HTMLFile("/chemistry/includes/tabbar.html"));
                 case "Env Studies -Writing Ctr":
                 case "writing":
                     return (null);

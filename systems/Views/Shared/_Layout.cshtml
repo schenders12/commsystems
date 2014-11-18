@@ -99,15 +99,11 @@
 <!--<div id="footer">
 	<div><img alt="Improve Your World" src="http://www.esf.edu/images/footerIYW.jpg" /></div>
 </div> -->
-@{
-  HtmlString footer = fns.HTMLFile("includes/footer.html");
-  @footer
-}
-<!-- # include virtual="/includes/pagetail.html" -->
-@{
-  HtmlString pagetail = fns.HTMLFile("includes/pagetail.html");
-  @pagetail
-}
+
+
+@Html.ServerSideInclude("/includes/footer.html")
+@Html.ServerSideInclude("/includes/pagetail.html")
+
     @Styles.Render("~/bundles/themes/base/css")
     @RenderSection("style", required: false)
     @Scripts.Render("~/bundles/jquery")
