@@ -1,0 +1,122 @@
+@charset "ISO-8859-1";
+/* CSS Document */
+
+body { -webkit-text-size-adjust: 120% }
+#pagetail { -webkit-text-size-adjust: none }
+
+/* HIDE */
+
+li.flysub, li.menuimg, #homenews img, #homewelcome, #homesearch, #tophomenews h1 { display: none }
+#header, #topbar, #topbar2, #topbarhome, #headerajax, #newtab, #tabbar, #graybar, #bluebar, #admstatic { display: none }
+#footer, #footerhome, #footerblack, #nav, #cclpbar { display: none }
+h1.mobhide, #mobhide, .mobhide, span.mobhide, ul.mobhide, li.mobhide, li a.mobhide, #box.mobhide, img.mobhide, div.mobhide, strong.mobhide, #webplayer.mobhide, table.mobhide, tr.mobhide, td.mobhide, p.mobhide { display: none }
+.ipad { display: none }
+#topbarhome, #homeslide, #admslide, #footerhome, #pagetail, #footbar960black { display: none }
+
+/* SHOW */
+
+.mobshow, #mobshow, h1.mobshow, span.mobshow, ul.mobshow, li.mobshow, li a.mobshow, #box.mobshow, #navfly.mobshow, div.mobshow, ul.mobshow, table.mobshow, tr.mobshow, td.mobshow, p.mobshow { display: block }
+#mobbanner, #mobsocial { display: block					 }
+#navfly ul li span.shownoa, #homemobwelcome { display: inline }
+.mobile { display: block }
+
+/* CONTAIN */
+
+#container, #container.navline { width: 96%; padding: 0 2%; min-width: 96%; max-width: 96%; background-image: none; background-color: #fff }
+#container.containnfi, #container.containaec { background-image: none; padding-bottom: 0 }
+
+#inner { max-width: 100%; min-width: 100%; margin: 0; padding: 0; background-color: #fff;  }
+
+/* CONTENT */
+
+#homeleft { width: 100%; position: relative; height: auto; float: none; text-align: center; padding-top: 26px }
+
+#content { width: auto; float: none; }
+
+#content.navcol, #content.cclpcon { width: auto; float: none; border: none; margin-left: 0; padding: 0 }
+
+#content.contenthome { margin-top: 0; width: 100% }
+#content.contenthome h4 { background-image: none; padding: 6px 0; font-size: 15px }
+#content.contenthome img { margin-top: 0 }
+
+#tophomenews { margin-top: -60px }
+#homenews p { margin-bottom: 10px }
+
+#contentland { margin: -8px 0 0; min-height: auto; padding: 0;  }
+#contentland ul { margin-left: 4% } 
+#contentland.acadland, #contentland.admland, #contentland.gateland, #contentland.deptland, #contentland.computingland, #contentland.regland { background-image: URL("/images/sealmobbg.jpg"); background-position: top right; background-repeat: no-repeat }
+
+p.mobtight  { padding: 0; margin: 0 }
+
+#navfly, #navfly.homeadm { margin: 0 10px 20px; float: none; text-align: center; -webkit-text-size-adjust: none; width: 100%; clear: both }
+#navfly.homeadm { margin-top: -26px }
+#navfly ul, #navfly.homeadm ul { width: 44% }
+#navfly ul li { padding: .3em 7px .4em 0; margin: 0; text-align: right; font-size: 1.4em; line-height: 1.3em }
+#navfly ul li ul, #navfly.homeadm ul li ul { margin: 0; padding: 0; background-image: none; width: 120%; margin-top: 3px }
+#navfly ul li ul li {  text-align: left;  margin: 0; padding: .3em 0 .3em 7px; }
+#navfly ul li ul li a { font-size: 1.1em; line-height: 1.3em }
+#navfly ul li.hover {  background-color: #fff; background-image: none; color: #000 }
+#navfly ul li.hover ul {  background-color: #fff; }
+#navfly ul li.subitem, #navfly ul li.subitem a { font-weight: normal }
+
+#navfly img { display: none }
+
+#navfly div.flyspace { margin: 0 0 0 10px; padding: 0 0 10px 0; border-right: none; width: auto; height: 6px;  }
+#navfly.homeadm div.flyspace { margin: 0; padding: 0; border-right: none; width: auto; height: 6px; }
+
+#navfly li span strong { display: none }
+
+#mobsocial a img { width: 15%; max-width: 60px; margin: -10px 1% 10px 0 }
+
+#homepanels { width: 100%; margin-top: -10px; padding-top: 0; clear: both;  margin-bottom: 80px }
+#homepanels #borderbox.you { font-size: 1em }
+
+/* FLOATS */
+
+#box.border { border-left: none; border-right: none; -moz-border-radius: 0; -webkit-border-radius: 0; box-shadow: 0; box-shadow: none; background-color: #f5f5f5;  }
+
+#box #box.border { margin-left: -8px; margin-right: -8px }
+
+#box, #box.right, #box.left, #box.w15, #box.w20, #box.w25, #box.w30, #box.w35, #box.w40, #box.w45, #box.w50, #box.w55, #box.w60, #box.w65, #box.w70, #box.w75, #box.w80, #box.w100 { float: none; margin-left: 0; margin-top: 2em; margin-bottom: 2em; width: auto; }
+
+#box.newsphoto img { max-width: 100% }
+
+#box.maxw130, #box.maxw140, #box.maxw150, #box.maxw160, #box.maxw170, #box.maxw180, #box.maxw190, #box.maxw200, #box.maxw210, #box.maxw220, #box.maxw230, #box.maxw240, #box.maxw250, #box.maxw260, #box.maxw270, #box.maxw280, #box.maxw290, #box.maxw300, #box.maxw310, #box.maxw320,  #box.maxw330, #box.maxw340, #box.maxw350, #box.maxw360, #box.maxw365, #box.maxw370, #box.maxw375, #box.maxw380, #box.maxw390, #box.maxw400, #box.maxw410, #box.maxw420,  #box.maxw430, #box.maxw440, #box.maxw450, #box.maxw460, #box.maxw470, #box.maxw480, #box.maxw490, #box.maxw500, #box.maxw510, #box.maxw520,  #box.maxw530, #box.maxw540, #box.maxw550, #box.maxw560, #box.maxw570, #box.maxw580, #box.maxw590, #box.maxw600, #box.maxw610, #box.maxw620,  #box.maxw630, #box.maxw640, #box.maxw650, #box.maxw660, #box.maxw670, #box.maxw680, #box.maxw690, #box.maxw700, #box.maxw710, #box.maxw720 { max-width: 100% }
+
+#container.tail #box.footlist { float: none; width: 100%; padding-top: 20px; border: none }
+#container.tail #box.footlist ul { border: none }
+
+.padleft, box.padleft { padding-left: 0 }
+.borleft, box.borleft { border-left: none }
+
+#box.upright, img.upright { margin-top: 10px } /* removes negative top margin from top right boxes */
+
+/* LA inspired design */
+
+#box.nowraptrio img { margin: 0 ; width: 100%; white-space: wrap; max-width: 330px }
+#box.nowraptrio img.left, #box.nowraptrio img.right { float: none }
+
+/* FORMS */
+
+#labels  { float: none; min-width: 767px; width: 100% }
+/* ---------------------------------------------------------------------- 
+FACEBOOK LIKE BOX*/
+
+/*
+Make the Facebook Like box responsive (fluid width)
+https://developers.facebook.com/docs/reference/plugins/like-box/
+*/
+ 
+/* This element holds injected scripts inside iframes that in some cases may stretch layouts. So, we're just hiding it. */
+#fb-root {
+  display: none;
+}
+ 
+/* To fill the container and nothing else */
+
+.fb-like-box, .fb-like-box span, .fb-like-box img, .fb-like-box span iframe[style] {
+width: 100% !important;
+}
+
+* { margin: 0; padding: 0 }
+

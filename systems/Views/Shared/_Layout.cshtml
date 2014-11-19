@@ -2,104 +2,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<meta name="description" content="SUNY-ESF is the oldest and most distinguished institution in the United States that focuses on the study of the environment." />
-<meta name="keywords" content="SUNY, ESF, SUNY-ESF, State University of New York College of Environmental Science and Forestry, SUNY College of Environmental Science and Forestry, College of Forestry, chemistry, construction management, wood products engineering, environmental biology, forest biology, environmental resources, forest engineering, environmental studies, forestry, landscape architecture, paper science, environmental interpretation, nature interpretation, interpretation" />
-<meta name="author" content="SUNY-ESF Office of Communications" />
-<link rel="Shortcut Icon" href="http://www.esf.edu/favicon.ico"  type="image/x-icon" />
+	@Html.ServerSideInclude("/includes/common/basic.html")
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
-<link rel="stylesheet" type="text/css" media="all" href="http://www.esf.edu/css/main/core.css" />
-<link rel="stylesheet" type="text/css" media="all" href="http://www.esf.edu/css/def.css" />
-<link rel="stylesheet" type="text/css" media="only screen and (min-device-width: 320px) and (max-device-width: 767px)" href="http://www.esf.edu/css/main/mobile.css" />
-<link rel="stylesheet" type="text/css" media="only screen and (device-width: 768px)" href="http://www.esf.edu/css/main/ipad.css" />
-<link rel="stylesheet" type="text/css" media="print" href="http://www.esf.edu/css/main/print.css" />
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-<script src="http://www.esf.edu/js/crumb.js"></script>
 <script  src="http://www.esf.edu/js/ckeditor/ckeditor.js"></script>
 <script>
    var ROOT = '@Url.Content("~/")';
 </script>
-<!--[if IE 7 | IE 8]>
-<link rel="stylesheet" type="text/css" href="http://www.esf.edu/css/main/ie78.css"  />
-<![endif]-->
-<!--<![endif]-->
-
-<!--[if IE 6]>
-<link rel="stylesheet" type="text/css" href="http://www.esf.edu/css/main/ie6.css"  />
-<![endif]-->
-
 
 </head>
 <body>
-    <div id="total" class="tot960">
+    <div id="total">
     <div id="mobbanner"> 
-        @*Html.ServerSideInclude("/includes/mobbanner.html")*@
-        <img src="http://www.esf.edu/images/bannermobile.png" usemap="#Map" style="position: relative; z-index: 1;" />
-        <map name="Map" id="Map">
-           <area shape="rect" coords="1,1,100,30" href="/" alt="" />
-        </map>
-        <div style="position: absolute; top: 14px; left: 10px; z-index: 2; width: 94%; text-align:right;">
-           <form id="googleSearchForm" action="/search/results.asp" method="post">
-              <span style="color: #fff;">SEARCH:&nbsp;&nbsp;</span>
-              <input id="search" style="width: 40%; font-size: 12px; height: 16px; background-color: white; " type="text" size="12" name="search" />
-           </form>
-        </div>
-
-        <!-- # include virtual="/includes/mobbanner.html" --> 
+        @Html.ServerSideInclude("/includes/mobbanner.html")
 	</div>
-	<div id="topbar960">
+	<div id="topbar">
 		<div> 
-            @*Html.ServerSideInclude("/includes/topbar.html")*@
-            <a href="http://www.esf.edu/" style="border: none"><img style="float: left" src="http://www.esf.edu/images/clear.gif" width="70px" height="50px" /></a>
-
-<table>
-	<tr class="headsearch">
-		<td style="width: 100%;" >&nbsp;</td>
-		<td style="width: 140px; background-color: #363f69; ">SEARCH:</td>
-		<td style="width: 140px; background-color: #363f69;"><form id="googleSearchForm" action="/search/results.asp" method="post">
-				<input id="search" style="width: 125px; margin: 0; padding: 0; height: 12px; vertical-align: top; color: #fff; font-weight: normal; font-size: 10px; background-color: #363f69; border: none; position: relative; z-index: 210" type="text" name="search" />
-			</form></td>
-	</tr>
-	<tr>
-		<td colspan="3" style=" padding: 4px 0 0"><a href="http://www.esf.edu/">HOME</a> | <a href="/gateways.htm">GATEWAYS</a> | <a href="/academics/">ACADEMICS</a> | <a href="/admission.htm">ADMISSION</a> | <a href="/help/">DIRECTORIES</a> | <a href="/welcome/visits.htm">VISIT</a> | <a href="/computing/">LOG IN</a> | <a href="/siteindex.htm">SITE INDEX</a></td>
-	</tr>
-</table>
-
-
-			<!-- # include virtual="/includes/topbar.html" --> 
+            @Html.ServerSideInclude("/includes/topbar.html")
 		</div>
 	</div>
 	<div id="header">
 		<div>
-			<div> <img class="b85" src="@systems.Helpers.fns.BannerImage(@ViewContext.RouteData.Values["controller"].ToString(), @ViewContext.RouteData.Values["dept"].ToString())" alt="ESF Web" /> </div>
+			<div> <img src="@systems.Helpers.fns.BannerImage(@ViewContext.RouteData.Values["controller"].ToString(), @ViewContext.RouteData.Values["dept"].ToString())" alt="ESF Web" /> </div>
 		</div>
 	</div>
 	<div id="newtab">
 		<div> 
-			<!-- # INCLUDE virtual="/web/includes/bar.html" -->
+			@Html.ServerSideInclude("/web/includes/bar.html")
             @{
                 HtmlString menubar = fns.BannerMenu(@ViewContext.RouteData.Values["controller"].ToString(), @ViewContext.RouteData.Values["dept"].ToString());
                 @menubar
             }
 		</div>
 	</div>
-	<div id="container960">
-			<div id="content960"> 
-				<!--# include virtual="/includes/crumb.html" -->
-				<div id="navfly" class="mobshow"> 
-					<!-- # include virtual="/web/includes/flyout.html" --> 
-				</div>
+	<div id="container">
+		<div id="inner">
+			<div id="content"> 
+				@Html.ServerSideInclude("/includes/crumb.html")
                 @RenderBody()
+			</div>
 			</div>
 		<hr class="clearer" />
 	</div>
 </div>
-<!-- # include virtual="/includes/footer.html" --> 
-<!--<div id="footer">
-	<div><img alt="Improve Your World" src="http://www.esf.edu/images/footerIYW.jpg" /></div>
-</div> -->
-
 
 @Html.ServerSideInclude("/includes/footer.html")
 @Html.ServerSideInclude("/includes/pagetail.html")

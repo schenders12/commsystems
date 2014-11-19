@@ -1,0 +1,28 @@
+@charset "ISO-8859-1";
+/* CSS Document */
+
+body {
+	text-align: center;
+	background-color: #fff;
+	width: 8.5in
+}
+#total {
+	width: 8.5in;
+	background-color: #fff
+}
+#topbar, #newtab, #tabbar, #nav, #menu, #navfly, #crumb, #footbar, #footer, #pagetail { display: none; visibility: hidden }
+
+#header, #headerajax960, #header div, #headerajax960 div, #header div div, #headerajax960 div div, #header div div img, #headerajax960 div div img { width: 100% 
+}
+#container { min-width: auto; margin: 0 ; padding: 0; position: relative; width: 100%   }
+
+#inner { min-width: auto; margin: 0; padding: 0; width: 100%   }
+
+#content, #content.navcol { float: none; width: 100%; margin: 0; padding: 0; overflow: visible;
+}
+
+#content.contenthome {
+	width: none;
+	overflow: visible
+}
+
