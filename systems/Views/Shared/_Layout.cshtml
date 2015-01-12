@@ -28,7 +28,7 @@
 	</div>
 	<div id="newtab">
 		<div> 
-			@Html.ServerSideInclude("/web/includes/bar.html")
+			@*Html.ServerSideInclude("/web/includes/bar.html")*@
             @{
                 HtmlString menubar = fns.BannerMenu(@ViewContext.RouteData.Values["controller"].ToString(), @ViewContext.RouteData.Values["dept"].ToString());
                 @menubar
@@ -38,7 +38,9 @@
 	<div id="container">
 		<div id="inner">
 			<div id="content"> 
-				@Html.ServerSideInclude("/includes/crumb.html")
+				@*Html.ServerSideInclude("/includes/crumb.html")*@
+                @*Html.MvcSiteMap().Menu(false, true, true)*@
+                @Html.MvcSiteMap().SiteMapPath()
                 @RenderBody()
 			</div>
 			</div>

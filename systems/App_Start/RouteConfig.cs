@@ -19,6 +19,11 @@ namespace systems
             //routes.RouteExistingFiles = true;
 
             routes.MapRoute(
+                name: "FacultyMain",
+                url: "faculty/{profileId}",
+                defaults: new { controller = "FPIM", action = "ViewMainFacultyPage", pageId = UrlParameter.Optional, dept = ""});
+
+            routes.MapRoute(
                 name: "Faculty",
                 url: "faculty/{profileId}/{pageId}",
                 defaults: new { controller = "FPIM", action = "ViewFacultyPage", dept = ""});

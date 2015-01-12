@@ -1,0 +1,9 @@
+@{
+  HtmlString footer = fns.HTMLFile("/includes/footer.html");
+  @footer
+}
+<!-- # include virtual="/includes/pagetail.html" -->
+@{
+  HtmlString pagetail = fns.HTMLFile("/includes/pagetail.html");
+  @pagetail
+} 

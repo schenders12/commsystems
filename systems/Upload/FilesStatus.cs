@@ -43,7 +43,7 @@ namespace systems.Upload
             var fileSize = ConvertBytesToMegabytes(new FileInfo(fullPath).Length);
             if (fileSize > 3 || !IsImage(ext))
             {
-                thumbnail_url = "/Content/generalFile.png";
+                thumbnail_url = "/Images/generalFile.png";
             }
             else
             {

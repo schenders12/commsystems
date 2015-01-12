@@ -1622,6 +1622,22 @@ namespace systems.Helpers
             }
             return thelist;
         }
+        public static int GetMainPage(string profileId, string pageTitle)
+        {
+            int mypage = 0;
+
+            // Get all distinct modules based on title
+            PeopleEntities db = new PeopleEntities();
+
+            List<FacultyPage> myPages = db.FacultyPages.Where(m => m.ProfileId == profileId).Where(m => m.PageTitle == pageTitle).ToList();
+            //Should return only one but search through anyway
+            foreach (FacultyPage page in myPages)
+            {
+                // Return page number
+                mypage = page.FacultyPageId;
+            }
+            return mypage;
+        }
         #endregion
 
         // Menu functions
@@ -1820,9 +1836,9 @@ namespace systems.Helpers
             switch (controller)
             {
                 case "Spaces":
-                    return null;
+                    return (fns.HTMLFile("/includes/systems_fpim.html"));
                 case "Home":
-                    return null;
+                    return (fns.HTMLFile("/includes/systems_fpim.html"));
                 case "FPIM":
                     if (dept != "")
                     {
@@ -1830,10 +1846,14 @@ namespace systems.Helpers
                     }
                     else
                     {
-                        return null;
+                        var ulHtml = "<ul id='droptab'>";
+                        var ulEndHtml = "</ul>";
+                        var menu = fns.HTMLFile("/includes/systems_fpim.html");
+                        HtmlString menuHtml = new HtmlString(ulHtml + menu + ulEndHtml);
+                        return (menuHtml);
                     }
                 default:
-                    return null;
+                    return (fns.HTMLFile("/includes/systems_fpim.html"));
             }
         }
 

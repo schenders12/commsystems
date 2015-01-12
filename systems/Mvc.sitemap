@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvcSiteMap xmlns="http://mvcsitemap.codeplex.com/schemas/MvcSiteMap-File-3.0" enableLocalization="true">
+  <mvcSiteMapNode title="Home" controller="Home" action="Index">
+    <mvcSiteMapNode title="FPIM" controller="FPIM" action="Index" key="News" >
+      <mvcSiteMapNode title="Manage Files" controller="FPIM" action="ManageFiles" preservedRouteParameters="profileId"/>
+      <mvcSiteMapNode title="Manage Modules" controller="FPIM" action="ManageModules" preservedRouteParameters="profileId"/>
+      <mvcSiteMapNode title="Manage Pages" controller="FPIM" action="ManagePages" preservedRouteParameters="profileId"/>
+      <mvcSiteMapNode title="Preview Pages" controller="FPIM" action="ViewFacultyPage" preservedRouteParameters="profileId, pageId"/>
+      <mvcSiteMapNode title="Main Page" controller="FPIM" action="ViewMainFacultyPage" preservedRouteParameters="profileId"/>
+    </mvcSiteMapNode>
+  </mvcSiteMapNode>
+</mvcSiteMap>

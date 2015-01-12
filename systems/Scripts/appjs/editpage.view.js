@@ -40,10 +40,11 @@ $(document).ready(function () {
         placeholder: "ui-state-highlight",
         connectWith: '.gallery',
         revert: 150,
+        helper: "clone",
         receive: function (event, ui) {
             // ui.item.fadein();
         }
-    }).disableSelection(); 
+    }).disableSelection();
 
     // Get the available modules and add them to the available module list
     var url = ROOT + 'FPIM/GetModules/';
@@ -65,6 +66,9 @@ $(document).ready(function () {
 
         } // success
     }); // ajax
+
+
+
 
     // Get the modules for this page and add them to the sortable module list
    // var url = ROOT + 'FPIM/GetPageModules/';

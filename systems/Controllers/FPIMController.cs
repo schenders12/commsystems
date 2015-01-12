@@ -199,9 +199,10 @@ namespace systems.Controllers
             myPage.FacultyPageId = -1;
             myPage.PageTitle = "";
 
-            DirectoryInfo directory = new DirectoryInfo(Server.MapPath(@"~\faculty\" + myPage.ProfileId));
-            string fullPath = Server.MapPath("~/faculty/" + myPage.ProfileId + "/");
-            ViewBag.LinkURL = fullPath;
+           // DirectoryInfo directory = new DirectoryInfo(Server.MapPath(@"~\faculty\" + myPage.ProfileId));
+           // string fullPath = Server.MapPath("~/faculty/" + myPage.ProfileId + "/");
+           // ViewBag.LinkURL = fullPath;
+            ViewBag.LinkURL = "";
             Console.Write("Adding New Page");
             return View(myPage);
         }
@@ -212,7 +213,7 @@ namespace systems.Controllers
             myPage.ProfileId = id;
             myPage.FacultyPageId = -1;
             myPage.PageTitle = "";
-            Console.Write("Adding New Page");
+            Console.Write("Adding New External Page");
             return View(myPage);
         }
 
@@ -273,7 +274,7 @@ namespace systems.Controllers
                 db.FacultyPages.AddObject(myPage);
                 db.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { profileId = myPage.ProfileId });
         }
 
         // *** Edit a Page ***
@@ -309,6 +310,50 @@ namespace systems.Controllers
 
         // *** View a Page ***
         [HttpGet]
+        public ActionResult ViewMainFacultyPage(string profileId, string fname, string lname)
+        {
+            // Redirect to viewer 
+            FacultyProfile profile = db.FacultyProfiles.SingleOrDefault(m => m.ProfileId == profileId);
+            // Get Employee record
+            CommEmployee employee = fns.GetEmployee(profile.UserId, profile.SUAD, profile.ESFAD, fname, lname);
+            if (employee == null)
+            {
+                return null;
+            }
+            else
+            {
+                int pageId = fns.GetMainPage(profileId, "Main");
+                ViewBag.fname = employee.FirstName;
+                ViewBag.lname = employee.LastName;
+                ViewBag.userid = employee.UserId;
+                if (employee.MiddleName != "")
+                    ViewBag.PTitle = "SUNY-ESF: " + employee.FirstName + " " + employee.MiddleName + " " + employee.LastName + " - " + "Profile";
+                else
+                    ViewBag.PTitle = "SUNY-ESF: " + employee.FirstName + " " + employee.LastName + " - " + "Profile";
+                ViewBag.PageTitle = "Main";
+
+                ViewBag.profileId = profile.ProfileId;
+
+                List<FacultyPage> pages = db.FacultyPages.Where(m => m.ProfileId == profileId).ToList();
+                FacultyPage page = pages.Find(m => m.FacultyPageId == pageId);
+                // Set the department to display the correct banner
+                ControllerContext.RouteData.Values["dept"] = profile.Department;
+                ViewBag.PageId = pageId;
+                ViewBag.dept = profile.Department;
+
+                if (page.LinkURL == null || page.LinkURL == "")
+                {
+                    return View("ViewFacultyPage", profile);
+                }
+                else
+                {
+                    return Redirect(page.LinkURL);
+                }
+            }
+
+        }
+        // *** View a Page ***
+        [HttpGet]
         public ActionResult ViewFacultyPage(string profileId, int pageId, string fname, string lname)
         {
             // Redirect to viewer 
@@ -337,7 +382,13 @@ namespace systems.Controllers
             ControllerContext.RouteData.Values["dept"] = profile.Department;
             ViewBag.PageId = pageId;
             ViewBag.dept = profile.Department;
-            return View(profile);
+
+            if (page.LinkURL  == null || page.LinkURL  == "") {
+              return View(profile);
+            }
+            else{
+                return Redirect(page.LinkURL);
+            }
         }
 
         // *** Delete a Page ***
@@ -846,7 +897,7 @@ namespace systems.Controllers
         public JsonResult GetPageModules(string myId, int pageId)
         {
             // Get all modules for a page
-            // Return all modules for this profile ID that have no page assignment
+            // Return all modules for this profile ID that have been added to this page
             var allMyModules = db.FacultyProfileModules.Select(m => new
             {
                 m.FacultyProfileModuleId,
